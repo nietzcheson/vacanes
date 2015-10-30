@@ -42,25 +42,25 @@ class Requests
     private $usersOwners;
 
     /**
-     * @ORM\OneToMany(targetEntity="Responses", mappedBy="requests")
+     * @ORM\OneToMany(targetEntity="Responses", mappedBy="requests", cascade={"persist", "remove"})
      */
 
     private $responses;
 
     /**
-     * @ORM\OneToMany(targetEntity="RequestsDay", mappedBy="requests")
+     * @ORM\OneToMany(targetEntity="RequestsDay", mappedBy="requests", cascade={"persist", "remove"})
      */
 
     private $requestsDay;
 
     /**
-     * @ORM\OneToMany(targetEntity="RequestsNight", mappedBy="requests")
+     * @ORM\OneToMany(targetEntity="RequestsNight", mappedBy="requests", cascade={"persist", "remove"})
      */
 
     private $requestsNight;
 
     /**
-     * @ORM\OneToMany(targetEntity="RequestsPetVale", mappedBy="requests")
+     * @ORM\OneToMany(targetEntity="RequestsPetVale", mappedBy="requests", cascade={"persist", "remove"})
      */
 
     private $requestsPetVale;

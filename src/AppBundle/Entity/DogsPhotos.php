@@ -36,10 +36,9 @@ class DogsPhotos
     private $path;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="dogs", type="integer")
-     */
+    * @ORM\ManyToOne(targetEntity="Dogs", inversedBy="dogsPhotos")
+    * @ORM\JoinColumn(name="dog_id", referencedColumnName="id")
+    */
     private $dogs;
 
 

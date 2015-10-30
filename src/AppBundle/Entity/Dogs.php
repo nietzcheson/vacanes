@@ -46,6 +46,11 @@ class Dogs
     */
     private $usersOwners;
 
+    /**
+     * @ORM\OneToMany(targetEntity="DogsPhotos", mappedBy="dogs", cascade={"persist", "remove"})
+     */
+
+    private $dogsPhotos;
 
     /**
      * Get id

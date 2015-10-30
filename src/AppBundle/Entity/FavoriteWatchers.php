@@ -22,19 +22,16 @@ class FavoriteWatchers
     private $id;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="usersOwners", type="integer")
-     */
+    * @ORM\ManyToOne(targetEntity="UsersOwners", inversedBy="favoriteWatchers")
+    * @ORM\JoinColumn(name="user_owner_id", referencedColumnName="id")
+    */
     private $usersOwners;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="usersWatchers", type="integer")
-     */
+    * @ORM\ManyToOne(targetEntity="UsersWatchers", inversedBy="favoriteWatchers")
+    * @ORM\JoinColumn(name="user_watcher_id", referencedColumnName="id")
+    */
     private $usersWatchers;
-
 
     /**
      * Get id

@@ -42,23 +42,28 @@ class UsersWatchers
     private $users;
 
     /**
-     * @ORM\OneToMany(targetEntity="PlacePhotos", mappedBy="usersWatchers")
+     * @ORM\OneToMany(targetEntity="PlacePhotos", mappedBy="usersWatchers", cascade={"persist", "remove"})
      */
 
     private $placePhotos;
 
     /**
-     * @ORM\OneToMany(targetEntity="WatcherAllowedSizes", mappedBy="usersWatchers")
+     * @ORM\OneToMany(targetEntity="WatcherAllowedSizes", mappedBy="usersWatchers", cascade={"persist", "remove"})
      */
 
     private $watcherAllowedSizes;
 
     /**
-     * @ORM\OneToMany(targetEntity="Responses", mappedBy="usersWatchers")
+     * @ORM\OneToMany(targetEntity="Responses", mappedBy="usersWatchers", cascade={"persist", "remove"})
      */
 
     private $responses;
 
+    /**
+     * @ORM\OneToMany(targetEntity="FavoriteWatchers", mappedBy="usersWatchers", , cascade={"persist", "remove"})
+     */
+
+    private $favoritesWatchers;
 
     /**
      * Get id

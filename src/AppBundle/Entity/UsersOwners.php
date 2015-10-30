@@ -48,6 +48,11 @@ class UsersOwners
     */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity="FavoriteWatchers", mappedBy="usersOwners", , cascade={"persist", "remove"})
+     */
+
+    private $favoritesWatchers;
 
     /**
      * Get id
