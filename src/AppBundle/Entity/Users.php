@@ -9,14 +9,14 @@ use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 /**
  * User
  *
- * @ORM\Table(name="v_user")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\UserRepository")
+ * @ORM\Table(name="v_users")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\UsersRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class User
+class Users
 {
     use ORMBehaviors\Timestampable\Timestampable;
-    
+
     /**
      * @var integer
      *
@@ -25,8 +25,8 @@ class User
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
-    
-    
+
+
     /**
      * @var string
      *
@@ -36,14 +36,14 @@ class User
 
     /**
      * @var string
-     * 
+     *
      * @ORM\Column(name="first_name", type="string", length=255, nullable=false)
      */
     private $first_name;
-    
+
     /**
      * @var string
-     * 
+     *
      * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
      */
     private $last_name;
@@ -54,15 +54,15 @@ class User
      * @ORM\Column(name="email", type="string", length=255, nullable=false)
      */
     private $email;
-    
+
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="last_login", type="datetime", nullable=true)
      */
     private $last_login;
-    
-    
+
+
     /**
      * @var string
      *
@@ -76,6 +76,15 @@ class User
      */
     private $isActive = true;
 
+    /**
+     * @ORM\OneToOne(targetEntity="UsersOwners", mappedBy="users", cascade={"persist", "remove"})
+     */
+    private $usersOwners;
+
+    /**
+     * @ORM\OneToOne(targetEntity="UsersWatchers", mappedBy="users", cascade={"persist", "remove"})
+     */
+    private $usersWatchers;
 
     /**
      * Get id
@@ -253,5 +262,53 @@ class User
     public function getIsActive()
     {
         return $this->isActive;
+    }
+
+    /**
+     * Set usersOwners
+     *
+     * @param \AppBundle\Entity\UsersOwners $usersOwners
+     *
+     * @return Users
+     */
+    public function setUsersOwners(\AppBundle\Entity\UsersOwners $usersOwners = null)
+    {
+        $this->usersOwners = $usersOwners;
+
+        return $this;
+    }
+
+    /**
+     * Get usersOwners
+     *
+     * @return \AppBundle\Entity\UsersOwners
+     */
+    public function getUsersOwners()
+    {
+        return $this->usersOwners;
+    }
+
+    /**
+     * Set usersWatchers
+     *
+     * @param \AppBundle\Entity\UsersWatchers $usersWatchers
+     *
+     * @return Users
+     */
+    public function setUsersWatchers(\AppBundle\Entity\UsersWatchers $usersWatchers = null)
+    {
+        $this->usersWatchers = $usersWatchers;
+
+        return $this;
+    }
+
+    /**
+     * Get usersWatchers
+     *
+     * @return \AppBundle\Entity\UsersWatchers
+     */
+    public function getUsersWatchers()
+    {
+        return $this->usersWatchers;
     }
 }

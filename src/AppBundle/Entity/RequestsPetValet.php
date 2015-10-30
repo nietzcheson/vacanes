@@ -3,52 +3,58 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
 /**
- * DayRequest
+ * RequestsPetValet
  *
- * @ORM\Table(name="v_day_request")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\DayRequestRepository")
- * @ORM\HasLifecycleCallbacks()
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\RequestsPetValetRepository")
  */
-class DayRequest extends ServiceRequest
+class RequestsPetValet
 {
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="Requests", inversedBy="requestsPetValet")
+    * @ORM\JoinColumn(name="request_id", referencedColumnName="id")
+    */
+    private $requests;
+
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="service_date", type="date", nullable=false)
+     * @ORM\Column(name="serviceDate", type="datetime")
      */
     private $serviceDate;
-    
+
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="start_time", type="string", length=32, nullable=false)
+     * @ORM\Column(name="startTime", type="datetime")
      */
     private $startTime;
-    
+
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="end_time", type="string", length=32, nullable=false)
+     * @ORM\Column(name="endTime", type="time")
      */
     private $endTime;
-    
-    /**
-     * @var string
-     *  
-     * @ORM\Column(name="address", type="string", length=255, nullable=true)
-     */
-    private $address;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="comments", type="string", length=512, nullable=true)
+     * @ORM\Column(name="comments", type="text")
      */
     private $comments;
+
 
     /**
      * Get id
@@ -61,11 +67,35 @@ class DayRequest extends ServiceRequest
     }
 
     /**
+     * Set requests
+     *
+     * @param integer $requests
+     *
+     * @return RequestsPetValet
+     */
+    public function setRequests($requests)
+    {
+        $this->requests = $requests;
+
+        return $this;
+    }
+
+    /**
+     * Get requests
+     *
+     * @return integer
+     */
+    public function getRequests()
+    {
+        return $this->requests;
+    }
+
+    /**
      * Set serviceDate
      *
      * @param \DateTime $serviceDate
      *
-     * @return DayRequest
+     * @return RequestsPetValet
      */
     public function setServiceDate($serviceDate)
     {
@@ -87,9 +117,9 @@ class DayRequest extends ServiceRequest
     /**
      * Set startTime
      *
-     * @param string $startTime
+     * @param \DateTime $startTime
      *
-     * @return DayRequest
+     * @return RequestsPetValet
      */
     public function setStartTime($startTime)
     {
@@ -101,7 +131,7 @@ class DayRequest extends ServiceRequest
     /**
      * Get startTime
      *
-     * @return string
+     * @return \DateTime
      */
     public function getStartTime()
     {
@@ -111,9 +141,9 @@ class DayRequest extends ServiceRequest
     /**
      * Set endTime
      *
-     * @param string $endTime
+     * @param \DateTime $endTime
      *
-     * @return DayRequest
+     * @return RequestsPetValet
      */
     public function setEndTime($endTime)
     {
@@ -125,7 +155,7 @@ class DayRequest extends ServiceRequest
     /**
      * Get endTime
      *
-     * @return string
+     * @return \DateTime
      */
     public function getEndTime()
     {
@@ -133,35 +163,11 @@ class DayRequest extends ServiceRequest
     }
 
     /**
-     * Set address
-     *
-     * @param string $address
-     *
-     * @return DayRequest
-     */
-    public function setAddress($address)
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
-    /**
-     * Get address
-     *
-     * @return string
-     */
-    public function getAddress()
-    {
-        return $this->address;
-    }
-
-    /**
      * Set comments
      *
      * @param string $comments
      *
-     * @return DayRequest
+     * @return RequestsPetValet
      */
     public function setComments($comments)
     {
