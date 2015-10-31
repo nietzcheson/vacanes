@@ -34,4 +34,62 @@ class DogPhoto
     private $dogs;
 
 
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set filename
+     *
+     * @param string $filename
+     *
+     * @return DogPhoto
+     */
+    public function setFilename($filename)
+    {
+        $this->filename = $filename;
+
+        return $this;
+    }
+
+    /**
+     * Get filename
+     *
+     * @return string
+     */
+    public function getFilename()
+    {
+        return $this->filename;
+    }
+
+    /**
+     * Set dogs
+     *
+     * @param \AppBundle\Entity\Dog $dogs
+     *
+     * @return DogPhoto
+     */
+    public function setDogs(\AppBundle\Entity\Dog $dogs = null)
+    {
+        $this->dogs = $dogs;
+
+        return $this;
+    }
+
+    /**
+     * Get dogs
+     *
+     * @return \AppBundle\Entity\Dog
+     */
+    public function getDogs()
+    {
+        return $this->dogs;
+    }
 }

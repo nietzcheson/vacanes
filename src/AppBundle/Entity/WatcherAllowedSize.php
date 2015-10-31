@@ -33,4 +33,63 @@ class WatcherAllowedSize
     */
     private $userWatcher;
 
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set dogSize
+     *
+     * @param \AppBundle\Entity\DogSize $dogSize
+     *
+     * @return WatcherAllowedSize
+     */
+    public function setDogSize(\AppBundle\Entity\DogSize $dogSize = null)
+    {
+        $this->dogSize = $dogSize;
+
+        return $this;
+    }
+
+    /**
+     * Get dogSize
+     *
+     * @return \AppBundle\Entity\DogSize
+     */
+    public function getDogSize()
+    {
+        return $this->dogSize;
+    }
+
+    /**
+     * Set userWatcher
+     *
+     * @param \AppBundle\Entity\UserWatcher $userWatcher
+     *
+     * @return WatcherAllowedSize
+     */
+    public function setUserWatcher(\AppBundle\Entity\UserWatcher $userWatcher = null)
+    {
+        $this->userWatcher = $userWatcher;
+
+        return $this;
+    }
+
+    /**
+     * Get userWatcher
+     *
+     * @return \AppBundle\Entity\UserWatcher
+     */
+    public function getUserWatcher()
+    {
+        return $this->userWatcher;
+    }
 }

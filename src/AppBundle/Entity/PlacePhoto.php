@@ -33,4 +33,62 @@ class PlacePhoto
     * @ORM\JoinColumn(name="user_watcher_id", referencedColumnName="id")
     */
     private $usersWatcher;
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set filename
+     *
+     * @param integer $filename
+     *
+     * @return PlacePhoto
+     */
+    public function setFilename($filename)
+    {
+        $this->filename = $filename;
+
+        return $this;
+    }
+
+    /**
+     * Get filename
+     *
+     * @return integer
+     */
+    public function getFilename()
+    {
+        return $this->filename;
+    }
+
+    /**
+     * Set usersWatcher
+     *
+     * @param \AppBundle\Entity\UserWatcher $usersWatcher
+     *
+     * @return PlacePhoto
+     */
+    public function setUsersWatcher(\AppBundle\Entity\UserWatcher $usersWatcher = null)
+    {
+        $this->usersWatcher = $usersWatcher;
+
+        return $this;
+    }
+
+    /**
+     * Get usersWatcher
+     *
+     * @return \AppBundle\Entity\UserWatcher
+     */
+    public function getUsersWatcher()
+    {
+        return $this->usersWatcher;
+    }
 }
