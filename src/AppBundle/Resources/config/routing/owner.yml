@@ -1,0 +1,3 @@
+vacanes_owner_owner:
+    path:     /owner
+    defaults: { _controller: "AppBundle:Owner:owner" }

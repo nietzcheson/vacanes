@@ -1,0 +1,11 @@
+vacanes_auth:
+    resource: "@AppBundle/Resources/config/routing/auth.yml"
+    prefix:   /auth
+
+vacanes_owner:
+    resource: "@AppBundle/Resources/config/routing/owner.yml"
+    prefix:   /owner
+
+vacanes_watcher:
+    resource: "@AppBundle/Resources/config/routing/watcher.yml"
+    prefix:   /watcher
