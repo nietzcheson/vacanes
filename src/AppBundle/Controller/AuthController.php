@@ -32,7 +32,8 @@ class AuthController extends Controller //implements TokenAuthenticatedControlle
                     $response->setStatusCode(204, 'No user found');
                 }
 
-                return $response->setContent($serializer->serialize($user, 'json'));
+                $response->setContent($serializer->serialize($user, 'json'));
+
                 break;
             case 'POST':
 
@@ -51,23 +52,21 @@ class AuthController extends Controller //implements TokenAuthenticatedControlle
                 $errors = $validator->validate($user);
 
                 if (count($errors) > 0) {
-                    /*
-                     * Utiliza el método __toString de la variable $errors, que
-                     * es un objeto de tipo ConstraintViolationList. Así se obtiene
-                     * una cadena de texto lista para poder depurar los errores.
-                     */
+
                     $errorsString = (string) $errors;
 
                     $response->setStatusCode(409, 'Errors');
 
-                    return new Response($this->get('serializer')->serialize($errorsString, 'json'));
+                    $response->setContent($serializer->serialize($errorsString, 'json'));
 
+                } else {
+                    $em->persist($user);
+                    $em->flush();
+
+                    $response->setContent($serializer->serialize($user, 'json'));
                 }
 
-                $em->persist($user);
-                $em->flush();
 
-                return new Response($this->get('serializer')->serialize($user, 'json'));
                 break;
             case 'PUT':
 
@@ -84,7 +83,7 @@ class AuthController extends Controller //implements TokenAuthenticatedControlle
 
                 $em->flush();
 
-                return new Response($this->get('serializer')->serialize(array('PUT: '. $request->getMethod()), 'json'));
+                $response->setContent($serializer->serialize('UPDATED', 'json'));
                 break;
             case 'DELETE':
 
@@ -101,12 +100,14 @@ class AuthController extends Controller //implements TokenAuthenticatedControlle
                 $em->remove($user);
                 $em->flush($user);
 
-                return new Response($this->get('serializer')->serialize('DELETE', 'json'));
+                $response->setContent($serializer->serialize('DELETE', 'json'));
                 break;
             default:
-                return new Response($this->get('serializer')->serialize(array('Method not expected: '. $request->getMethod()), 'json'));
+                $response->setContent($serializer->serialize('Method not expected: '.$request->getMethod(), 'json'));
                 break;
         }
+
+        return $response;
     }
 
 }

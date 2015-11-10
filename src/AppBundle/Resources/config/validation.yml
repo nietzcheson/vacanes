@@ -1,0 +1,10 @@
+AppBundle\Entity\User:
+    properties:
+        facebookId:
+            - NotBlank: ~
+        firstName:
+            - NotBlank: ~
+        lastName:
+            - NotBlank: ~
+        email:
+            - NotBlank: ~
