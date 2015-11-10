@@ -1,7 +1,11 @@
 vacanes_auth_login:
     path:     /login
     defaults: { _controller: "AppBundle:Auth:login" }
+    options:
+        expose: true
 
-vacanes_auth_register:
-    path:     /register
-    defaults: { _controller: "AppBundle:Auth:register" }
+vacanes_auth_users:
+    path:     /users
+    defaults: { _controller: "AppBundle:Auth:users" }
+    options:
+        expose: true

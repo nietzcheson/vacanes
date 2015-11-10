@@ -3,6 +3,7 @@
 namespace AppBundle\EventListener;
 
 use AppBundle\Controller\TokenAuthenticatedController;
+use AppBundle\Model\UserManager;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
@@ -10,10 +11,12 @@ use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 class TokenListener
 {
     private $tokens;
+    private $user;
 
-    public function __construct($tokens)
+    public function __construct($tokens, UserManager $user)
     {
         $this->tokens = $tokens;
+        $this->user = $user;
     }
 
     public function onKernelController(FilterControllerEvent $event)
@@ -29,14 +32,19 @@ class TokenListener
         $token = '';
 
         if ($controller[0] instanceof TokenAuthenticatedController) {
-            $token = $event->getRequest()->request->get('token');
 
-            if (!in_array($token, $this->tokens)) {
-                throw new AccessDeniedHttpException('This action needs a valid token!');
+            $tokenAccess = $event->getRequest()->request->get('tokenAccess');
+            $facebookID  = $event->getRequest()->request->get('facebookID');
+
+            if(null === $tokenAccess){
+
+                $user = $this->user->find(array('facebookId' => $facebookID, "token" => $tokenAccess));
+                $event->getRequest()->attributes->set('user', $user);
             }
-        }
 
-        $event->getRequest()->attributes->set('auth_token', $token);
+            $user = $this->user->find(array("token" => $tokenAccess));
+            $event->getRequest()->attributes->set('user', $user);
+        }
     }
 
     public function onKernelResponse(FilterResponseEvent $event)

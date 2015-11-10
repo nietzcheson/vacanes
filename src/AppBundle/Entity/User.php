@@ -81,10 +81,16 @@ class User
     private $usersOwners;
 
     /**
-     * @ORM\OneToOne(targetEntity="UserWatcher", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="UserWatcher", mappedBy="users", cascade={"persist", "remove"})
      */
     private $usersWatchers;
 
+    public function __construct()
+    {
+        $this->isActive = true;
+        $this->lastLogin = new \Datetime('now');
+        $this->updatedAt = new \Datetime('now');
+    }
 
     /**
      * Get id
