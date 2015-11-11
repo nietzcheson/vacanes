@@ -26,8 +26,6 @@ class OwnerController extends Controller
                  * Call Object
                  */
 
-                $request->query->set('user',4);
-
                 $userOwner = $em->getRepository('AppBundle:UserOwner')->findOneBy(array('user' => $request->query->get('user')));
 
                 if(!$userOwner){

@@ -26,8 +26,6 @@ class AuthController extends Controller //implements TokenAuthenticatedControlle
                  * Call Object
                  */
 
-                $request->query->set('facebookId', 555);
-
                 $user = $em->getRepository('AppBundle:User')->findOneBy(array('facebookId' => $request->query->get('facebookId')));
 
                 if(!$user){
