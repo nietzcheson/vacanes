@@ -1,9 +1,4 @@
 services:
-    # get_set_method_normalizer:
-    #     class: Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer
-    #     tags:
-    #         - { name: serializer.normalizer }
-
     vacanes.auth:
         class: AppBundle\EventListener\TokenListener
         arguments:

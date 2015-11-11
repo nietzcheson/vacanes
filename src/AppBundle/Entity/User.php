@@ -303,16 +303,6 @@ class User
     }
 
     /**
-     * Remove UserOwner
-     *
-     * @param \AppBundle\Entity\UserOwner $user
-     */
-    public function removeUser(\AppBundle\Entity\UserOwner $user)
-    {
-        $this->userOwner->removeElement($user);
-    }
-
-    /**
      * Set usersWatchers
      *
      * @param \AppBundle\Entity\UserWatcher $usersWatchers

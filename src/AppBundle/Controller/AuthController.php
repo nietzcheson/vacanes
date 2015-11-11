@@ -83,6 +83,9 @@ class AuthController extends Controller //implements TokenAuthenticatedControlle
                 $user->setEmail($request->request->get('email'));
                 $user->setToken($request->request->get('token'));
 
+                $validator = $this->get('validator');
+                $errors = $validator->validate($user);
+
                 if (count($errors) > 0) {
 
                     $errorsString = (string) $errors;
@@ -104,7 +107,7 @@ class AuthController extends Controller //implements TokenAuthenticatedControlle
                  * Delete Object
                  */
 
-                $user = $em->getRepository('AppBundle:User')->findOneBy(array('facebookId' => $request->request->get('facebookId')));
+                $user = $em->getRepository('AppBundle:User')->findOneBy(array('id' => $request->request->get('id')));
 
                 if(!$user){
                     $response->setStatusCode(204, 'No user found');
