@@ -1,3 +1,5 @@
 vacanes_owner_owner:
-    path:     /owner
-    defaults: { _controller: "AppBundle:Owner:owner" }
+    path:     /userOwner
+    defaults: { _controller: "AppBundle:Owner:userOwner" }
+    options:
+        expose: true

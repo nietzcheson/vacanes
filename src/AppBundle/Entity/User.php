@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * User
  *
@@ -22,6 +22,7 @@ class User
      * @ORM\Column(name="id", type="bigint")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups({"user"})
      */
     protected $id;
 
@@ -30,6 +31,7 @@ class User
      * @var string
      *
      * @ORM\Column(name="facebook_id", type="string", length=255, unique=true, nullable=false)
+     * @Groups({"user"})
      */
     private $facebookId;
 
@@ -37,6 +39,7 @@ class User
      * @var string
      *
      * @ORM\Column(name="first_name", type="string", length=255, nullable=false)
+     * @Groups({"user"})
      */
     private $firstName;
 
@@ -44,6 +47,7 @@ class User
      * @var string
      *
      * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
+     * @Groups({"user"})
      */
     private $lastName;
 
@@ -51,6 +55,7 @@ class User
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=false)
+     * @Groups({"user"})
      */
     private $email;
 
@@ -58,6 +63,7 @@ class User
      * @var \DateTime
      *
      * @ORM\Column(name="last_login", type="datetime", nullable=true)
+     * @Groups({"user"})
      */
     private $lastLogin;
 
@@ -66,19 +72,21 @@ class User
      * @var string
      *
      * @ORM\Column(name="token", type="string", length=40, nullable=true)
+     * @Groups({"user"})
      */
     private $token;
 
 
     /**
      * @ORM\Column(name="is_active", type="boolean", nullable=false)
+     * @Groups({"user"})
      */
     private $isActive = true;
 
     /**
      * @ORM\OneToOne(targetEntity="UserOwner", mappedBy="user", cascade={"persist", "remove"})
      */
-    private $usersOwners;
+    private $userOwner;
 
     /**
      * @ORM\OneToOne(targetEntity="UserWatcher", mappedBy="users", cascade={"persist", "remove"})
@@ -271,27 +279,37 @@ class User
     }
 
     /**
-     * Set usersOwners
+     * Set userOwner
      *
-     * @param \AppBundle\Entity\UserOwner $usersOwners
+     * @param \AppBundle\Entity\UserOwner $userOwner
      *
      * @return User
      */
-    public function setUsersOwners(\AppBundle\Entity\UserOwner $usersOwners = null)
+    public function setUserOwner(\AppBundle\Entity\UserOwner $userOwner = null)
     {
-        $this->usersOwners = $usersOwners;
+        $this->userOwner = $userOwner;
 
         return $this;
     }
 
     /**
-     * Get usersOwners
+     * Get userOwner
      *
      * @return \AppBundle\Entity\UserOwner
      */
-    public function getUsersOwners()
+    public function getUserOwner()
     {
-        return $this->usersOwners;
+        return $this->userOwner;
+    }
+
+    /**
+     * Remove UserOwner
+     *
+     * @param \AppBundle\Entity\UserOwner $user
+     */
+    public function removeUser(\AppBundle\Entity\UserOwner $user)
+    {
+        $this->userOwner->removeElement($user);
     }
 
     /**

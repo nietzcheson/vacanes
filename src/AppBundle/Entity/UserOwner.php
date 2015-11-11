@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * UserOwner
@@ -18,6 +19,7 @@ class UserOwner
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"userOwner"})
      */
     private $id;
 
@@ -25,6 +27,7 @@ class UserOwner
      * @var string
      *
      * @ORM\Column(name="address", type="string", length=255)
+     * @Groups({"userOwner"})
      */
     private $address;
 
@@ -32,6 +35,7 @@ class UserOwner
      * @var string
      *
      * @ORM\Column(name="latitude", type="string", length=255)
+     * @Groups({"userOwner"})
      */
     private $latitude;
 
@@ -39,6 +43,7 @@ class UserOwner
      * @var string
      *
      * @ORM\Column(name="longitude", type="string", length=255)
+     * @Groups({"userOwner"})
      */
     private $longitude;
 
@@ -50,7 +55,7 @@ class UserOwner
 
     //TODO: ManyToMany Relation
     /**
-     * @ORM\OneToMany(targetEntity="FavoriteWatcher", mappedBy="usersOwners", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="FavoriteWatcher", mappedBy="userOwner", cascade={"persist", "remove"})
      */
     private $favoriteWatchers;
 

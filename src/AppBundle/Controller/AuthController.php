@@ -26,13 +26,15 @@ class AuthController extends Controller //implements TokenAuthenticatedControlle
                  * Call Object
                  */
 
+                $request->query->set('facebookId', 555);
+
                 $user = $em->getRepository('AppBundle:User')->findOneBy(array('facebookId' => $request->query->get('facebookId')));
 
                 if(!$user){
                     $response->setStatusCode(204, 'No user found');
                 }
 
-                $response->setContent($serializer->serialize($user, 'json'));
+                $response->setContent($serializer->serialize($user, 'json', array('groups' => array('user'))));
 
                 break;
             case 'POST':
@@ -63,7 +65,7 @@ class AuthController extends Controller //implements TokenAuthenticatedControlle
                     $em->persist($user);
                     $em->flush();
 
-                    $response->setContent($serializer->serialize($user, 'json'));
+                    $response->setContent($serializer->serialize('CREATED', 'json'));
                 }
 
 
@@ -81,9 +83,20 @@ class AuthController extends Controller //implements TokenAuthenticatedControlle
                 $user->setEmail($request->request->get('email'));
                 $user->setToken($request->request->get('token'));
 
-                $em->flush();
+                if (count($errors) > 0) {
 
-                $response->setContent($serializer->serialize('UPDATED', 'json'));
+                    $errorsString = (string) $errors;
+
+                    $response->setStatusCode(409, 'Errors');
+
+                    $response->setContent($serializer->serialize($errorsString, 'json'));
+
+                } else {
+                    $em->flush();
+
+                    $response->setContent($serializer->serialize('UPDATED', 'json'));
+                }
+
                 break;
             case 'DELETE':
 
