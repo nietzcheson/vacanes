@@ -26,15 +26,17 @@ class OwnerController extends Controller
                  * Call Object
                  */
 
-                $request->query->set('user',7);
+                $request->query->set('user',4);
 
-                $userOwner = $em->getRepository('AppBundle:UserOwner')->findOneBy(array('id' => $request->query->get('user')));
+                $userOwner = $em->getRepository('AppBundle:UserOwner')->findOneBy(array('user' => $request->query->get('user')));
 
                 if(!$userOwner){
-                    $response->setStatusCode(204, 'No user found');
+                    //$response->setStatusCode(204, 'No user found');
                 }
 
-                $response->setContent($serializer->serialize($userOwner, 'json'));
+                $response->setContent($serializer->serialize($userOwner, 'json', array('groups' => array('userOwner'))));
+
+                return $response;
 
                 break;
             case 'POST':
@@ -67,7 +69,7 @@ class OwnerController extends Controller
                     $em->persist($userOwner);
                     $em->flush();
 
-                    $response->setContent($serializer->serialize('CREATE', 'json'));
+                    $response->setContent($serializer->serialize('CREATED', 'json'));
                 }
 
 
