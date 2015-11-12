@@ -4,8 +4,30 @@ vacanes_auth_login:
     options:
         expose: true
 
-vacanes_auth_users:
-    path:     /users
-    defaults: { _controller: "AppBundle:Auth:users" }
+vacanes_auth_user:
+    path:     /user/{id}
+    defaults: { _controller: "AppBundle:Auth:user" }
     options:
         expose: true
+    methods:  [GET]
+
+vacanes_auth_user_create:
+    path:     /user
+    defaults: { _controller: "AppBundle:Auth:userCreate" }
+    options:
+        expose: true
+    methods:  [POST]
+
+vacanes_auth_user_update:
+    path:     /user
+    defaults: { _controller: "AppBundle:Auth:userUpdate" }
+    options:
+        expose: true
+    methods:  [PUT]
+
+vacanes_auth_user_delete:
+    path:     /user
+    defaults: { _controller: "AppBundle:Auth:userDelete" }
+    options:
+        expose: true
+    methods:  [DELETE]
