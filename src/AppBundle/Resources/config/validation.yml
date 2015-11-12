@@ -8,3 +8,14 @@ AppBundle\Entity\User:
             - NotBlank: ~
         email:
             - NotBlank: ~
+
+AppBundle\Entity\UserOwner:
+    properties:
+        address:
+            - NotBlank: ~
+        latitude:
+            - NotBlank: ~
+        longitude:
+            - NotBlank: ~
+        user:
+            - NotBlank: ~

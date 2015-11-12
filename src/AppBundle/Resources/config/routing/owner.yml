@@ -1,5 +1,27 @@
-vacanes_owner_owner:
-    path:     /userOwner
+userOwner:
+    path:     /userOwner/{id}
     defaults: { _controller: "AppBundle:Owner:userOwner" }
     options:
         expose: true
+    methods:  [GET]
+
+userOwner_create:
+    path:     /userOwner
+    defaults: { _controller: "AppBundle:Owner:userOwnerCreate" }
+    options:
+        expose: true
+    methods:  [POST]
+
+userOwner_update:
+    path:     /userOwner
+    defaults: { _controller: "AppBundle:Owner:userOwnerUpdate" }
+    options:
+        expose: true
+    methods:  [PUT]
+
+userOwner_delete:
+    path:     /userOwner
+    defaults: { _controller: "AppBundle:Owner:userOwnerDelete" }
+    options:
+        expose: true
+    methods:  [DELETE]

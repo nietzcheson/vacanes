@@ -11,123 +11,114 @@ use AppBundle\Entity\UserOwner;
 class OwnerController extends Controller
 {
 
-
-    public function userOwnerAction(Request $request)
+    public function userOwnerAction($id, Request $request)
     {
-
-        $em = $this->getDoctrine()->getManager();
         $response = new Response();
         $serializer = $this->get('serializer');
 
-        switch ($request->getMethod()) {
-            case 'GET':
+        $em = $this->getDoctrine()->getManager();
+        $userOwner = $em->getRepository('AppBundle:userOwner')->findOneBy(array('user' => $id));
 
-                /*
-                 * Call Object
-                 */
+        if(!$userOwner){
+            $response->setStatusCode(204, 'No user found');
 
-                $userOwner = $em->getRepository('AppBundle:UserOwner')->findOneBy(array('user' => $request->query->get('user')));
-
-                if(!$userOwner){
-                    //$response->setStatusCode(204, 'No user found');
-                }
-
-                $response->setContent($serializer->serialize($userOwner, 'json', array('groups' => array('userOwner'))));
-
-                return $response;
-
-                break;
-            case 'POST':
-
-                /*
-                 * Create Object
-                 */
-
-                $userOwner = new UserOwner();
-                $userOwner->setAddress($request->request->get('address'));
-                $userOwner->setLatitude($request->request->get('latitude'));
-                $userOwner->setLongitude($request->request->get('longitude'));
-
-                $user = $em->getRepository('AppBundle:User')->findOneBy(array('id' => $request->request->get('user')));
-
-                $userOwner->setUser($user);
-
-                $validator = $this->get('validator');
-                $errors = $validator->validate($userOwner);
-
-                if (count($errors) > 0) {
-
-                    $errorsString = (string) $errors;
-
-                    $response->setStatusCode(409, 'Errors');
-
-                    $response->setContent($serializer->serialize($errorsString, 'json'));
-
-                } else {
-                    $em->persist($userOwner);
-                    $em->flush();
-
-                    $response->setContent($serializer->serialize('CREATED', 'json'));
-                }
-
-
-                break;
-            case 'PUT':
-
-                /*
-                 * Update Object
-                 */
-
-                $userOwner = $em->getRepository('AppBundle:UserOwner')->findOneBy(array('user' => $request->request->get('user')));
-
-                $userOwner->setAddress($request->request->get('address'));
-                $userOwner->setLatitude($request->request->get('latitude'));
-                $userOwner->setLongitude($request->request->get('longitude'));
-
-                $validator = $this->get('validator');
-                $errors = $validator->validate($userOwner);
-
-                if (count($errors) > 0) {
-
-                    $errorsString = (string) $errors;
-
-                    $response->setStatusCode(409, 'Errors');
-
-                    $response->setContent($serializer->serialize('Errores', 'json'));
-
-                } else {
-
-                    $em->flush();
-
-                    $response->setContent($serializer->serialize('UPDATED', 'json'));
-                }
-
-
-                break;
-            case 'DELETE':
-
-                /*
-                 * Delete Object
-                 */
-
-                $userOwner = $em->getRepository('AppBundle:UserOwner')->findOneBy(array('user' => $request->request->get('user')));
-
-                if(!$userOwner){
-                    $response->setStatusCode(204, 'No user found');
-                }
-
-                $em->remove($userOwner);
-                $em->flush();
-
-                $response->setContent($serializer->serialize('DELETE', 'json'));
-                break;
-            default:
-                $response->setContent($serializer->serialize('Method not expected: '.$request->getMethod(), 'json'));
-                break;
+            return $response->setContent($serializer->serialize($userOwner, 'json', array('groups' => array('userOwner'))));
         }
 
-        return $response;
+        return $response->setContent($serializer->serialize($userOwner, 'json', array('groups' => array('userOwner'))));
     }
 
+    public function userOwnerCreateAction(Request $request)
+    {
+        $response = new Response();
+        $serializer = $this->get('serializer');
+        $em = $this->getDoctrine()->getManager();
 
+        $userOwner = $user = new UserOwner();
+
+        $userOwner->setAddress($request->request->get('address'));
+        $userOwner->setLatitude($request->request->get('latitude'));
+        $userOwner->setLongitude($request->request->get('longitude'));
+
+        $user = $em->getRepository('AppBundle:User')->findOneBy(array('id' => $request->request->get('user')));
+
+        if(!$user){
+            $response->setStatusCode(204, 'No user found');
+
+            return $response->setContent($serializer->serialize($user, 'json'));
+        }
+
+        $userOwner->setUser($user);
+
+        $validator = $this->get('validator');
+        $errors = $validator->validate($userOwner);
+
+        if (count($errors) > 0) {
+
+            $errorsString = (string) $errors;
+            $response->setStatusCode(409, 'Errors');
+
+            return $response->setContent($serializer->serialize($errorsString, 'json'));
+        }
+
+        $em->persist($userOwner);
+        $em->flush();
+
+        return $response->setContent($serializer->serialize('CREATED', 'json'));
+    }
+
+    public function userOwnerUpdateAction(Request $request)
+    {
+        $response = new Response();
+        $em = $this->getDoctrine()->getManager();
+        $serializer = $this->get('serializer');
+
+        $userOwner = $em->getRepository('AppBundle:userOwner')->findOneBy(array('id' => $request->request->get('id')));
+
+        if(!$userOwner){
+            $response->setStatusCode(204, 'No user found');
+
+            return $response->setContent($serializer->serialize($userOwner, 'json'));
+        }
+
+        $userOwner->setAddress($request->request->get('address'));
+        $userOwner->setLatitude($request->request->get('latitude'));
+        $userOwner->setLongitude($request->request->get('longitude'));
+
+        $validator = $this->get('validator');
+        $errors = $validator->validate($userOwner);
+
+        if (count($errors) > 0) {
+
+            $errorsString = (string) $errors;
+
+            $response->setStatusCode(409, 'Errors');
+
+            return $response->setContent($serializer->serialize($errorsString, 'json'));
+        }
+
+        $em->flush();
+
+        return $response->setContent($serializer->serialize('UPDATED', 'json'));
+    }
+
+    public function userOwnerDeleteAction(Request $request)
+    {
+        $response = new Response();
+        $serializer = $this->get('serializer');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $userOwner = $em->getRepository('AppBundle:userOwner')->findOneBy(array('id' => $request->request->get('id')));
+
+        if(!$userOwner){
+            $response->setStatusCode(204, 'No user found');
+            return $response->setContent($serializer->serialize($userOwner, 'json'));
+        }
+
+        $em->remove($userOwner);
+        $em->flush();
+
+        return $response->setContent($serializer->serialize('DELETE', 'json'));
+    }
 }

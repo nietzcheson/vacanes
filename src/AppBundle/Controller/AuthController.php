@@ -22,9 +22,12 @@ class AuthController extends Controller //implements TokenAuthenticatedControlle
 
         if(!$user){
             $response->setStatusCode(204, 'No user found');
+
+            return $response->setContent($serializer->serialize($user, 'json', array('groups' => array('user'))));
+
         }
 
-        return new Response($this->get('serializer')->serialize($user, 'json', array('groups' => array('user'))));
+        return $response->setContent($serializer->serialize($user, 'json', array('groups' => array('user'))));
     }
 
     public function userCreateAction(Request $request)
@@ -68,6 +71,8 @@ class AuthController extends Controller //implements TokenAuthenticatedControlle
 
         if(!$user){
             $response->setStatusCode(204, 'No user found');
+
+            return $response->setContent($serializer->serialize($user, 'json'));
         }
 
         $user->setFirstName($request->request->get('firstName'));
@@ -107,7 +112,7 @@ class AuthController extends Controller //implements TokenAuthenticatedControlle
         }
 
         $em->remove($user);
-        $em->flush($user);
+        $em->flush();
 
         return $response->setContent($serializer->serialize('DELETE', 'json'));
     }
