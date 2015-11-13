@@ -10,7 +10,6 @@ use AppBundle\Entity\UserOwner;
 
 class OwnerController extends Controller
 {
-
     public function userOwnerAction($id, Request $request)
     {
         $response = new Response();
@@ -34,7 +33,7 @@ class OwnerController extends Controller
         $serializer = $this->get('serializer');
         $em = $this->getDoctrine()->getManager();
 
-        $userOwner = $user = new UserOwner();
+        $userOwner = new UserOwner();
 
         $userOwner->setAddress($request->request->get('address'));
         $userOwner->setLatitude($request->request->get('latitude'));
@@ -64,7 +63,7 @@ class OwnerController extends Controller
         $em->persist($userOwner);
         $em->flush();
 
-        return $response->setContent($serializer->serialize('CREATED', 'json'));
+        return $response->setContent($serializer->serialize($userOwner, 'json', array('groups' => array('userOwner'))));
     }
 
     public function userOwnerUpdateAction(Request $request)
@@ -78,7 +77,7 @@ class OwnerController extends Controller
         if(!$userOwner){
             $response->setStatusCode(204, 'No user found');
 
-            return $response->setContent($serializer->serialize($userOwner, 'json'));
+            return $response->setContent($serializer->serialize($userOwner, 'json', array('groups' => array('userOwner'))));
         }
 
         $userOwner->setAddress($request->request->get('address'));
@@ -99,7 +98,7 @@ class OwnerController extends Controller
 
         $em->flush();
 
-        return $response->setContent($serializer->serialize('UPDATED', 'json'));
+        return $response->setContent($serializer->serialize($userOwner, 'json', array('groups' => array('userOwner'))));
     }
 
     public function userOwnerDeleteAction(Request $request)

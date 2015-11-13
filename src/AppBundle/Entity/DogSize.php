@@ -22,29 +22,29 @@ class DogSize
     private $id;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="name", type="integer")
+     * @ORM\Column(name="name", type="string")
      */
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="WatcherAllowedSize", mappedBy="sizeType")
+     * @ORM\OneToMany(targetEntity="WatcherAllowedSize", mappedBy="dogSize")
      */
-    private $watcherAllowedSizes;
+    private $watcherAllowedSize;
 
     /**
-     * @ORM\OneToMany(targetEntity="Dog", mappedBy="sizesTypes")
+     * @ORM\OneToMany(targetEntity="Dog", mappedBy="dogSize")
      */
 
-    private $dogs;
-    
+    private $dog;
+
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->watcherAllowedSizes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->watcherAllowedSize = new \Doctrine\Common\Collections\ArrayCollection();
         $this->dogs = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -61,7 +61,7 @@ class DogSize
     /**
      * Set name
      *
-     * @param integer $name
+     * @param string $name
      *
      * @return DogSize
      */
@@ -75,7 +75,7 @@ class DogSize
     /**
      * Get name
      *
-     * @return integer
+     * @return string
      */
     public function getName()
     {
@@ -91,7 +91,7 @@ class DogSize
      */
     public function addWatcherAllowedSize(\AppBundle\Entity\WatcherAllowedSize $watcherAllowedSize)
     {
-        $this->watcherAllowedSizes[] = $watcherAllowedSize;
+        $this->watcherAllowedSize[] = $watcherAllowedSize;
 
         return $this;
     }
@@ -103,17 +103,17 @@ class DogSize
      */
     public function removeWatcherAllowedSize(\AppBundle\Entity\WatcherAllowedSize $watcherAllowedSize)
     {
-        $this->watcherAllowedSizes->removeElement($watcherAllowedSize);
+        $this->watcherAllowedSize->removeElement($watcherAllowedSize);
     }
 
     /**
-     * Get watcherAllowedSizes
+     * Get watcherAllowedSize
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getWatcherAllowedSizes()
+    public function getWatcherAllowedSize()
     {
-        return $this->watcherAllowedSizes;
+        return $this->watcherAllowedSize;
     }
 
     /**
@@ -125,7 +125,7 @@ class DogSize
      */
     public function addDog(\AppBundle\Entity\Dog $dog)
     {
-        $this->dogs[] = $dog;
+        $this->dog[] = $dog;
 
         return $this;
     }
@@ -137,16 +137,16 @@ class DogSize
      */
     public function removeDog(\AppBundle\Entity\Dog $dog)
     {
-        $this->dogs->removeElement($dog);
+        $this->dog->removeElement($dog);
     }
 
     /**
-     * Get dogs
+     * Get dog
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getDogs()
+    public function getDog()
     {
-        return $this->dogs;
+        return $this->dog;
     }
 }

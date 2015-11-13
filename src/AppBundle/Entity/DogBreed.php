@@ -30,7 +30,7 @@ class DogBreed
     /**
      * @ORM\OneToMany(targetEntity="Dog", mappedBy="dogBreed")
      */
-    private $dogs;
+    private $dog;
     /**
      * Constructor
      */
@@ -82,7 +82,7 @@ class DogBreed
      */
     public function addDog(\AppBundle\Entity\Dog $dog)
     {
-        $this->dogs[] = $dog;
+        $this->dog[] = $dog;
 
         return $this;
     }
@@ -94,16 +94,16 @@ class DogBreed
      */
     public function removeDog(\AppBundle\Entity\Dog $dog)
     {
-        $this->dogs->removeElement($dog);
+        $this->dog->removeElement($dog);
     }
 
     /**
-     * Get dogs
+     * Get dog
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getDogs()
+    public function getDog()
     {
-        return $this->dogs;
+        return $this->dog;
     }
 }

@@ -22,13 +22,13 @@ class WatcherAllowedSize
     private $id;
 
     /**
-    * @ORM\ManyToOne(targetEntity="DogSize", inversedBy="watcherAllowedSizes")
+    * @ORM\ManyToOne(targetEntity="DogSize", inversedBy="watcherAllowedSize")
     * @ORM\JoinColumn(name="dog_size_id", referencedColumnName="id")
     */
     private $dogSize;
 
     /**
-    * @ORM\ManyToOne(targetEntity="UserWatcher", inversedBy="watcherAllowedSizes")
+    * @ORM\ManyToOne(targetEntity="UserWatcher", inversedBy="watcherAllowedSize")
     * @ORM\JoinColumn(name="user_watcher_id", referencedColumnName="id")
     */
     private $userWatcher;

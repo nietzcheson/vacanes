@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Dog
@@ -17,6 +18,7 @@ class Dog
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"dog"})
      */
     private $id;
 
@@ -24,20 +26,23 @@ class Dog
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Groups({"dog"})
      */
     private $name;
 
     /**
-    * @ORM\ManyToOne(targetEntity="DogSize", inversedBy="dogs")
+    * @ORM\ManyToOne(targetEntity="DogSize", inversedBy="dog")
     * @ORM\JoinColumn(name="size_type_id", referencedColumnName="id")
+    * @Groups({"dog"})
     */
-    private $size;
+    private $dogSize;
 
     /**
-    * @ORM\ManyToOne(targetEntity="DogBreed", inversedBy="dogs")
+    * @ORM\ManyToOne(targetEntity="DogBreed", inversedBy="dog")
     * @ORM\JoinColumn(name="dog_breed_id", referencedColumnName="id")
+    * @Groups({"dog"})
     */
-    private $breed;
+    private $dogBreed;
 
     /**
     * @ORM\ManyToOne(targetEntity="UserOwner", inversedBy="dogs")
@@ -92,51 +97,51 @@ class Dog
     }
 
     /**
-     * Set size
+     * Set dogSize
      *
-     * @param \AppBundle\Entity\DogSize $size
+     * @param \AppBundle\Entity\DogSize $dogSize
      *
      * @return Dog
      */
-    public function setSize(\AppBundle\Entity\DogSize $size = null)
+    public function setDogSize(\AppBundle\Entity\DogSize $dogSize = null)
     {
-        $this->size = $size;
+        $this->dogSize = $dogSize;
 
         return $this;
     }
 
     /**
-     * Get size
+     * Get dogSize
      *
      * @return \AppBundle\Entity\DogSize
      */
-    public function getSize()
+    public function getDogSize()
     {
-        return $this->size;
+        return $this->dogSize;
     }
 
     /**
-     * Set breed
+     * Set dogBreed
      *
-     * @param \AppBundle\Entity\DogBreed $breed
+     * @param \AppBundle\Entity\DogBreed $dogBreed
      *
      * @return Dog
      */
-    public function setBreed(\AppBundle\Entity\DogBreed $breed = null)
+    public function setDogBreed(\AppBundle\Entity\DogBreed $dogBreed = null)
     {
-        $this->breed = $breed;
+        $this->dogBreed = $dogBreed;
 
         return $this;
     }
 
     /**
-     * Get breed
+     * Get dogBreed
      *
      * @return \AppBundle\Entity\DogBreed
      */
-    public function getBreed()
+    public function getDogBreed()
     {
-        return $this->breed;
+        return $this->dogBreed;
     }
 
     /**

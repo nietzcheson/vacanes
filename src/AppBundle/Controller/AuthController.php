@@ -58,7 +58,7 @@ class AuthController extends Controller //implements TokenAuthenticatedControlle
         $em->persist($user);
         $em->flush();
 
-        return $response->setContent($serializer->serialize('CREATED', 'json'));
+        return $response->setContent($serializer->serialize($user, 'json', array('groups' => array('user'))));
     }
 
     public function userUpdateAction(Request $request)
@@ -94,7 +94,7 @@ class AuthController extends Controller //implements TokenAuthenticatedControlle
 
         $em->flush();
 
-        return $response->setContent($serializer->serialize('UPDATED', 'json'));
+        return $response->setContent($serializer->serialize($user, 'json', array('groups' => array('user'))));
     }
 
     public function userDeleteAction(Request $request)

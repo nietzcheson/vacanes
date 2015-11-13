@@ -25,3 +25,31 @@ userOwner_delete:
     options:
         expose: true
     methods:  [DELETE]
+
+dog:
+    path:     /dog/{id}
+    defaults: { _controller: "AppBundle:Dog:dog" }
+    options:
+        expose: true
+    methods:  [GET]
+
+dog_create:
+    path:     /dog
+    defaults: { _controller: "AppBundle:Dog:dogCreate" }
+    options:
+        expose: true
+    methods:  [POST]
+
+dog_update:
+    path:     /dog
+    defaults: { _controller: "AppBundle:Dog:dogUpdate" }
+    options:
+        expose: true
+    methods:  [PUT]
+
+dog_delete:
+    path:     /dog
+    defaults: { _controller: "AppBundle:Dog:dogDelete" }
+    options:
+        expose: true
+    methods:  [DELETE]
