@@ -32,6 +32,8 @@ dog:
     options:
         expose: true
     methods:  [GET]
+    requirements:
+        id:  \d+
 
 dog_create:
     path:     /dog
@@ -50,6 +52,29 @@ dog_update:
 dog_delete:
     path:     /dog
     defaults: { _controller: "AppBundle:Dog:dogDelete" }
+    options:
+        expose: true
+    methods:  [DELETE]
+
+dog_photo:
+    path:     /dog/{id}/photo
+    defaults: { _controller: "AppBundle:Dog:dogPhoto" }
+    options:
+        expose: true
+    methods:  [GET]
+    requirements:
+        id:  \d+
+
+dog_photo_create:
+    path:     /dog/photo
+    defaults: { _controller: "AppBundle:Dog:dogPhotoCreate"}
+    options:
+        expose: true
+    methods:  [POST]
+
+dog_photo_delete:
+    path:     /dog/photo
+    defaults: { _controller: "AppBundle:Dog:dogPhotoDelete" }
     options:
         expose: true
     methods:  [DELETE]

@@ -8,6 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Dog;
 use AppBundle\Entity\UserOwner;
 
+use AppBundle\Entity\DogPhoto;
+use AppBundle\Form\DogPhotoType;
+
 class DogController extends Controller
 {
     public function dogAction($id, Request $request)
@@ -109,6 +112,75 @@ class DogController extends Controller
         }
 
         $em->remove($dog);
+        $em->flush();
+
+        return $response->setContent($serializer->serialize('DELETE', 'json'));
+    }
+
+    public function dogPhotoAction($id, Request $request)
+    {
+        $response = new Response();
+        $serializer = $this->get('serializer');
+
+        $em = $this->getDoctrine()->getManager();
+        $dogPhoto = $em->getRepository('AppBundle:DogPhoto')->findDogPhotos($id);
+
+        if(!$dogPhoto){
+            $response->setStatusCode(204, 'No photo found');
+
+            return $response->setContent($serializer->serialize($dogPhoto, 'json', array('groups' => array('dog'))));
+        }
+
+        return $response->setContent($serializer->serialize($dogPhoto, 'json', array('groups' => array('dogPhoto'))));
+    }
+
+    public function dogPhotoCreateAction(Request $request)
+    {
+        $response = new Response();
+        $serializer = $this->get('serializer');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $dog = $em->getRepository('AppBundle:Dog')->findOneBy(array('id' => $request->request->get('dog')));
+
+        $dogPhoto = new DogPhoto();
+        $dogPhoto->setFile($request->files->get('file'));
+        $dogPhoto->setDog($dog);
+
+        $validator = $this->get('validator');
+        $errors = $validator->validate($dogPhoto);
+
+        if (count($errors) > 0) {
+
+            $errorsString = (string) $errors;
+            $response->setStatusCode(409, 'Errors');
+
+            return $response->setContent($serializer->serialize($errorsString, 'json'));
+        }
+
+        $em->persist($dogPhoto);
+        $em->flush();
+
+        return $response->setContent($serializer->serialize($dogPhoto, 'json', array('groups' => array('dogPhoto'))));
+    }
+
+    public function dogPhotoDeleteAction(Request $request)
+    {
+        $response = new Response();
+        $serializer = $this->get('serializer');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $dogPhoto = $em->getRepository('AppBundle:DogPhoto')->findOneBy(array('id' => $request->request->get('id')));
+
+        if(!$dogPhoto){
+            $response->setStatusCode(204, 'No photo found');
+            return $response->setContent($serializer->serialize($dogPhoto, 'json'));
+        }
+
+        $file = $dogPhoto->getPath();
+
+        $em->remove($dogPhoto);
         $em->flush();
 
         return $response->setContent($serializer->serialize('DELETE', 'json'));

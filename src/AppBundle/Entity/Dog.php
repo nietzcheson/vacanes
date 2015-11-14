@@ -51,9 +51,9 @@ class Dog
     private $owner;
 
     /**
-     * @ORM\OneToMany(targetEntity="DogPhoto", mappedBy="dogs", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="DogPhoto", mappedBy="dog", cascade={"persist", "remove"})
      */
-    private $photos;
+    private $dogPhoto;
     /**
      * Constructor
      */
@@ -169,36 +169,36 @@ class Dog
     }
 
     /**
-     * Add photo
+     * Add dogPhoto
      *
-     * @param \AppBundle\Entity\DogPhoto $photo
+     * @param \AppBundle\Entity\DogPhoto $dogPhoto
      *
      * @return Dog
      */
-    public function addPhoto(\AppBundle\Entity\DogPhoto $photo)
+    public function addDogPhoto(\AppBundle\Entity\DogPhoto $dogPhoto)
     {
-        $this->photos[] = $photo;
+        $this->dogPhoto[] = $dogPhoto;
 
         return $this;
     }
 
     /**
-     * Remove photo
+     * Remove dogPhoto
      *
-     * @param \AppBundle\Entity\DogPhoto $photo
+     * @param \AppBundle\Entity\DogPhoto $dogPhoto
      */
-    public function removePhoto(\AppBundle\Entity\DogPhoto $photo)
+    public function removeDogPhoto(\AppBundle\Entity\DogPhoto $dogPhoto)
     {
-        $this->photos->removeElement($photo);
+        $this->dogPhoto->removeElement($dogPhoto);
     }
 
     /**
-     * Get photos
+     * Get dogPhoto
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getPhotos()
+    public function getDogPhoto()
     {
-        return $this->photos;
+        return $this->dogPhoto;
     }
 }
