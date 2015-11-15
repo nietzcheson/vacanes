@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * DayRequest
@@ -18,26 +19,51 @@ class DayRequest
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"dayRequest"})
      */
     private $id;
 
     /**
-    * @ORM\OneToOne(targetEntity="Request", inversedBy="dayRequest")
-    * @ORM\JoinColumn(name="request_id", referencedColumnName="id")
+     * @var string
+     *
+     * @ORM\Column(name="address", type="string", length=255)
+     * @Groups({"dayRequest"})
+     */
+    private $address;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="UserOwner", inversedBy="petValetRequest")
+    * @ORM\JoinColumn(name="user_owner_id", referencedColumnName="id")
     */
-    private $request;
+    private $userOwner;
+
+    // /**
+    // * @ORM\OneToOne(targetEntity="Request", inversedBy="dayRequest")
+    // * @ORM\JoinColumn(name="request_id", referencedColumnName="id")
+    // */
+    // private $request;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="service_date", type="datetime")
+     * @ORM\Column(name="start_date", type="datetime")
+     * @Groups({"dayRequest"})
      */
-    private $serviceDate;
+    private $startDate;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="end_date", type="datetime")
+     * @Groups({"dayRequest"})
+     */
+    private $endDate;
 
     /**
      * @var \time
      *
      * @ORM\Column(name="start_time", type="time")
+     * @Groups({"dayRequest"})
      */
     private $startTime;
 
@@ -45,6 +71,7 @@ class DayRequest
      * @var \time
      *
      * @ORM\Column(name="end_time", type="time")
+     * @Groups({"dayRequest"})
      */
     private $endTime;
 
@@ -52,15 +79,23 @@ class DayRequest
      * @var string
      *
      * @ORM\Column(name="comments", type="text")
+     * @Groups({"dayRequest"})
      */
     private $comments;
 
     /**
-    * @ORM\ManyToOne(targetEntity="ServiceType", inversedBy="dayRequest")
-    * @ORM\JoinColumn(name="service_type_id", referencedColumnName="id")
+     * @var integer
+     * @ORM\Column(name="service_type", type="integer")
+     * @Groups({"dayRequest"})
     */
     private $serviceType;
 
+    /**
+     * @var integer
+     * @ORM\Column(name="service_days", type="integer")
+     * @Groups({"dayRequest"})
+    */
+    private $serviceDays;
 
     /**
      * Get id
@@ -73,27 +108,75 @@ class DayRequest
     }
 
     /**
-     * Set serviceDate
+     * Set address
      *
-     * @param \DateTime $serviceDate
+     * @param string $address
      *
      * @return DayRequest
      */
-    public function setServiceDate($serviceDate)
+    public function setAddress($address)
     {
-        $this->serviceDate = $serviceDate;
+        $this->address = $address;
 
         return $this;
     }
 
     /**
-     * Get serviceDate
+     * Get address
+     *
+     * @return string
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set startDate
+     *
+     * @param \DateTime $startDate
+     *
+     * @return DayRequest
+     */
+    public function setStartDate($startDate)
+    {
+        $this->startDate = $startDate;
+
+        return $this;
+    }
+
+    /**
+     * Get startDate
      *
      * @return \DateTime
      */
-    public function getServiceDate()
+    public function getStartDate()
     {
-        return $this->serviceDate;
+        return $this->startDate;
+    }
+
+    /**
+     * Set endDate
+     *
+     * @param \DateTime $endDate
+     *
+     * @return DayRequest
+     */
+    public function setEndDate($endDate)
+    {
+        $this->endDate = $endDate;
+
+        return $this;
+    }
+
+    /**
+     * Get endDate
+     *
+     * @return \DateTime
+     */
+    public function getEndDate()
+    {
+        return $this->endDate;
     }
 
     /**
@@ -169,37 +252,13 @@ class DayRequest
     }
 
     /**
-     * Set request
-     *
-     * @param \AppBundle\Entity\Request $request
-     *
-     * @return DayRequest
-     */
-    public function setRequest(\AppBundle\Entity\Request $request = null)
-    {
-        $this->request = $request;
-
-        return $this;
-    }
-
-    /**
-     * Get request
-     *
-     * @return \AppBundle\Entity\Request
-     */
-    public function getRequest()
-    {
-        return $this->request;
-    }
-
-    /**
      * Set serviceType
      *
-     * @param \AppBundle\Entity\ServiceType $serviceType
+     * @param integer $serviceType
      *
      * @return DayRequest
      */
-    public function setServiceType(\AppBundle\Entity\ServiceType $serviceType = null)
+    public function setServiceType($serviceType)
     {
         $this->serviceType = $serviceType;
 
@@ -209,10 +268,58 @@ class DayRequest
     /**
      * Get serviceType
      *
-     * @return \AppBundle\Entity\ServiceType
+     * @return integer
      */
     public function getServiceType()
     {
         return $this->serviceType;
+    }
+
+    /**
+     * Set serviceDays
+     *
+     * @param integer $serviceDays
+     *
+     * @return DayRequest
+     */
+    public function setServiceDays($serviceDays)
+    {
+        $this->serviceDays = $serviceDays;
+
+        return $this;
+    }
+
+    /**
+     * Get serviceDays
+     *
+     * @return integer
+     */
+    public function getServiceDays()
+    {
+        return $this->serviceDays;
+    }
+
+    /**
+     * Set userOwner
+     *
+     * @param \AppBundle\Entity\UserOwner $userOwner
+     *
+     * @return DayRequest
+     */
+    public function setUserOwner(\AppBundle\Entity\UserOwner $userOwner = null)
+    {
+        $this->userOwner = $userOwner;
+
+        return $this;
+    }
+
+    /**
+     * Get userOwner
+     *
+     * @return \AppBundle\Entity\UserOwner
+     */
+    public function getUserOwner()
+    {
+        return $this->userOwner;
     }
 }

@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * PetValetRequest
@@ -18,33 +19,51 @@ class PetValetRequest
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"petValetRequest"})
      */
     private $id;
 
+    // /**
+    // * @ORM\OneToOne(targetEntity="Request", inversedBy="petValetRequest")
+    // * @ORM\JoinColumn(name="request_id", referencedColumnName="id")
+    // */
+    // private $request;
+
     /**
-    * @ORM\OneToOne(targetEntity="Request", inversedBy="petValetRequest")
-    * @ORM\JoinColumn(name="request_id", referencedColumnName="id")
+     * @var string
+     *
+     * @ORM\Column(name="address", type="string", length=255)
+     * @Groups({"petValetRequest"})
+     */
+    private $address;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="UserOwner", inversedBy="petValetRequest")
+    * @ORM\JoinColumn(name="user_owner_id", referencedColumnName="id")
     */
-    private $request;
+    private $userOwner;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="service_date", type="datetime")
+     * @Groups({"petValetRequest"})
      */
     private $serviceDate;
 
     /**
-     * @var \DateTime
+     * @var \time
      *
-     * @ORM\Column(name="start_time", type="datetime")
+     * @ORM\Column(name="start_time", type="time")
+     * @Groups({"petValetRequest"})
      */
     private $startTime;
 
     /**
-     * @var \DateTime
+     * @var \time
      *
      * @ORM\Column(name="end_time", type="time")
+     * @Groups({"petValetRequest"})
      */
     private $endTime;
 
@@ -52,6 +71,7 @@ class PetValetRequest
      * @var string
      *
      * @ORM\Column(name="comments", type="text")
+     * @Groups({"petValetRequest"})
      */
     private $comments;
 
@@ -63,6 +83,30 @@ class PetValetRequest
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set address
+     *
+     * @param string $address
+     *
+     * @return PetValetRequest
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return string
+     */
+    public function getAddress()
+    {
+        return $this->address;
     }
 
     /**
@@ -162,26 +206,26 @@ class PetValetRequest
     }
 
     /**
-     * Set request
+     * Set userOwner
      *
-     * @param \AppBundle\Entity\Request $request
+     * @param \AppBundle\Entity\UserOwner $userOwner
      *
      * @return PetValetRequest
      */
-    public function setRequest(\AppBundle\Entity\Request $request = null)
+    public function setUserOwner(\AppBundle\Entity\UserOwner $userOwner = null)
     {
-        $this->request = $request;
+        $this->userOwner = $userOwner;
 
         return $this;
     }
 
     /**
-     * Get request
+     * Get userOwner
      *
-     * @return \AppBundle\Entity\Request
+     * @return \AppBundle\Entity\UserOwner
      */
-    public function getRequest()
+    public function getUserOwner()
     {
-        return $this->request;
+        return $this->userOwner;
     }
 }

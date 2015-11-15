@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * NightRequest
@@ -18,39 +19,73 @@ class NightRequest
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"nightRequest"})
      */
     private $id;
 
+    // /**
+    // * @ORM\OneToOne(targetEntity="Request", inversedBy="nightRequest")
+    // * @ORM\JoinColumn(name="request_id", referencedColumnName="id")
+    // */
+    // private $request;
+
     /**
-    * @ORM\OneToOne(targetEntity="Request", inversedBy="nightRequest")
-    * @ORM\JoinColumn(name="request_id", referencedColumnName="id")
+     * @var string
+     *
+     * @ORM\Column(name="address", type="string", length=255)
+     * @Groups({"nightRequest"})
+     */
+    private $address;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="UserOwner", inversedBy="petValetRequest")
+    * @ORM\JoinColumn(name="user_owner_id", referencedColumnName="id")
     */
-    private $request;
+    private $userOwner;
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="start_date", type="datetime")
+     * @Groups({"nightRequest"})
+     */
+    private $startDate;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="start_service_date", type="datetime")
+     * @ORM\Column(name="end_date", type="datetime")
+     * @Groups({"nightRequest"})
      */
-    private $startServiceDate;
+    private $endDate;
 
     /**
-     * @var \DateTime
+     * @var \time
      *
-     * @ORM\Column(name="end_service_date", type="datetime")
+     * @ORM\Column(name="start_time", type="time")
+     * @Groups({"nightRequest"})
      */
-    private $endServiceDate;
+    private $startTime;
+
+    /**
+     * @var \time
+     *
+     * @ORM\Column(name="end_time", type="time")
+     * @Groups({"nightRequest"})
+     */
+    private $endTime;
 
     /**
      * @var string
      *
      * @ORM\Column(name="comments", type="text")
+     * @Groups({"nightRequest"})
      */
     private $comments;
 
     /**
-    * @ORM\ManyToOne(targetEntity="ServiceType", inversedBy="nightRequest")
-    * @ORM\JoinColumn(name="service_type_id", referencedColumnName="id")
+     * @var integer
+     * @ORM\Column(name="service_type", type="integer")
+     * @Groups({"nightRequest"})
     */
     private $serviceType;
 
@@ -65,51 +100,123 @@ class NightRequest
     }
 
     /**
-     * Set startServiceDate
+     * Set address
      *
-     * @param \DateTime $startServiceDate
+     * @param string $address
      *
      * @return NightRequest
      */
-    public function setStartServiceDate($startServiceDate)
+    public function setAddress($address)
     {
-        $this->startServiceDate = $startServiceDate;
+        $this->address = $address;
 
         return $this;
     }
 
     /**
-     * Get startServiceDate
+     * Get address
      *
-     * @return \DateTime
+     * @return string
      */
-    public function getStartServiceDate()
+    public function getAddress()
     {
-        return $this->startServiceDate;
+        return $this->address;
     }
 
     /**
-     * Set endServiceDate
+     * Set startDate
      *
-     * @param \DateTime $endServiceDate
+     * @param \DateTime $startDate
      *
      * @return NightRequest
      */
-    public function setEndServiceDate($endServiceDate)
+    public function setStartDate($startDate)
     {
-        $this->endServiceDate = $endServiceDate;
+        $this->startDate = $startDate;
 
         return $this;
     }
 
     /**
-     * Get endServiceDate
+     * Get startDate
      *
      * @return \DateTime
      */
-    public function getEndServiceDate()
+    public function getStartDate()
     {
-        return $this->endServiceDate;
+        return $this->startDate;
+    }
+
+    /**
+     * Set endDate
+     *
+     * @param \DateTime $endDate
+     *
+     * @return NightRequest
+     */
+    public function setEndDate($endDate)
+    {
+        $this->endDate = $endDate;
+
+        return $this;
+    }
+
+    /**
+     * Get endDate
+     *
+     * @return \DateTime
+     */
+    public function getEndDate()
+    {
+        return $this->endDate;
+    }
+
+    /**
+     * Set startTime
+     *
+     * @param \DateTime $startTime
+     *
+     * @return NightRequest
+     */
+    public function setStartTime($startTime)
+    {
+        $this->startTime = $startTime;
+
+        return $this;
+    }
+
+    /**
+     * Get startTime
+     *
+     * @return \DateTime
+     */
+    public function getStartTime()
+    {
+        return $this->startTime;
+    }
+
+    /**
+     * Set endTime
+     *
+     * @param \DateTime $endTime
+     *
+     * @return NightRequest
+     */
+    public function setEndTime($endTime)
+    {
+        $this->endTime = $endTime;
+
+        return $this;
+    }
+
+    /**
+     * Get endTime
+     *
+     * @return \DateTime
+     */
+    public function getEndTime()
+    {
+        return $this->endTime;
     }
 
     /**
@@ -137,37 +244,13 @@ class NightRequest
     }
 
     /**
-     * Set request
-     *
-     * @param \AppBundle\Entity\Request $request
-     *
-     * @return NightRequest
-     */
-    public function setRequest(\AppBundle\Entity\Request $request = null)
-    {
-        $this->request = $request;
-
-        return $this;
-    }
-
-    /**
-     * Get request
-     *
-     * @return \AppBundle\Entity\Request
-     */
-    public function getRequest()
-    {
-        return $this->request;
-    }
-
-    /**
      * Set serviceType
      *
-     * @param \AppBundle\Entity\ServiceType $serviceType
+     * @param integer $serviceType
      *
      * @return NightRequest
      */
-    public function setServiceType(\AppBundle\Entity\ServiceType $serviceType = null)
+    public function setServiceType($serviceType)
     {
         $this->serviceType = $serviceType;
 
@@ -177,10 +260,34 @@ class NightRequest
     /**
      * Get serviceType
      *
-     * @return \AppBundle\Entity\ServiceType
+     * @return integer
      */
     public function getServiceType()
     {
         return $this->serviceType;
+    }
+
+    /**
+     * Set userOwner
+     *
+     * @param \AppBundle\Entity\UserOwner $userOwner
+     *
+     * @return NightRequest
+     */
+    public function setUserOwner(\AppBundle\Entity\UserOwner $userOwner = null)
+    {
+        $this->userOwner = $userOwner;
+
+        return $this;
+    }
+
+    /**
+     * Get userOwner
+     *
+     * @return \AppBundle\Entity\UserOwner
+     */
+    public function getUserOwner()
+    {
+        return $this->userOwner;
     }
 }

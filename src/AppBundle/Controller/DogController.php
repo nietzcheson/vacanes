@@ -174,11 +174,9 @@ class DogController extends Controller
         $dogPhoto = $em->getRepository('AppBundle:DogPhoto')->findOneBy(array('id' => $request->request->get('id')));
 
         if(!$dogPhoto){
-            $response->setStatusCode(204, 'No photo found');
+            $response->setStatusCode(204, 'No dog photo found');
             return $response->setContent($serializer->serialize($dogPhoto, 'json'));
         }
-
-        $file = $dogPhoto->getPath();
 
         $em->remove($dogPhoto);
         $em->flush();

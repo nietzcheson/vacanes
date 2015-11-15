@@ -29,17 +29,17 @@ class Request
     private $address;
 
     /**
-    * @ORM\ManyToOne(targetEntity="RequestType", inversedBy="requests")
+    * @ORM\ManyToOne(targetEntity="RequestType", inversedBy="request")
     * @ORM\JoinColumn(name="request_type_id", referencedColumnName="id")
     */
-    private $type;
+    private $requestType;
 
     /**
     * @ORM\ManyToOne(targetEntity="UserOwner", inversedBy="requests")
     * @ORM\JoinColumn(name="user_owner_id", referencedColumnName="id")
     */
     private $userOwner;
-    
+
     /**
      * @ORM\OneToOne(targetEntity="DayRequest", mappedBy="request", cascade={"persist", "remove"})
      */
@@ -54,12 +54,12 @@ class Request
      * @ORM\OneToOne(targetEntity="PetValetRequest", mappedBy="request", cascade={"persist", "remove"})
      */
     private $petValetRequest;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="UserWatcherRequest", mappedBy="request", cascade={"persist", "remove"})
      */
     private $userWatcherRequests;
-    
+
     /**
      * Constructor
      */
@@ -103,27 +103,27 @@ class Request
     }
 
     /**
-     * Set type
+     * Set requestType
      *
-     * @param \AppBundle\Entity\RequestType $type
+     * @param \AppBundle\Entity\RequestType $requestType
      *
      * @return Request
      */
-    public function setType(\AppBundle\Entity\RequestType $type = null)
+    public function setRequestType(\AppBundle\Entity\RequestType $requestType = null)
     {
-        $this->type = $type;
+        $this->requestType = $requestType;
 
         return $this;
     }
 
     /**
-     * Get type
+     * Get requestType
      *
      * @return \AppBundle\Entity\RequestType
      */
-    public function getType()
+    public function getRequestType()
     {
-        return $this->type;
+        return $this->requestType;
     }
 
     /**

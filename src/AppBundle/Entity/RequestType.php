@@ -29,9 +29,16 @@ class RequestType
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Request", mappedBy="type")
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text")
      */
-    private $requests;
+    private $description;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Request", mappedBy="requestType")
+     */
+    private $request;
 
     /**
      * Constructor
@@ -76,6 +83,30 @@ class RequestType
     }
 
     /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return RequestType
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
      * Add request
      *
      * @param \AppBundle\Entity\Request $request
@@ -84,7 +115,7 @@ class RequestType
      */
     public function addRequest(\AppBundle\Entity\Request $request)
     {
-        $this->requests[] = $request;
+        $this->request[] = $request;
 
         return $this;
     }
@@ -96,16 +127,16 @@ class RequestType
      */
     public function removeRequest(\AppBundle\Entity\Request $request)
     {
-        $this->requests->removeElement($request);
+        $this->request->removeElement($request);
     }
 
     /**
-     * Get requests
+     * Get request
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getRequests()
+    public function getRequest()
     {
-        return $this->requests;
+        return $this->request;
     }
 }
