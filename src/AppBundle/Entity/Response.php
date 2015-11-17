@@ -32,7 +32,7 @@ class Response
     * @ORM\OneToOne(targetEntity="UserWatcherRequest", inversedBy="response")
     * @ORM\JoinColumn(name="user_watcher_request_id", referencedColumnName="id")
     */
-    private $usersWatcherRequest;
+    private $userWatcherRequest;
 
     /**
      * @var string
@@ -52,7 +52,6 @@ class Response
      * @ORM\OneToOne(targetEntity="Calification", inversedBy="response")
      */
     private $calification;
-
 
     /**
      * Get id
@@ -137,27 +136,27 @@ class Response
     }
 
     /**
-     * Set usersWatcherRequest
+     * Set userWatcherRequest
      *
-     * @param \AppBundle\Entity\UserWatcherRequest $usersWatcherRequest
+     * @param \AppBundle\Entity\UserWatcherRequest $userWatcherRequest
      *
      * @return Response
      */
-    public function setUsersWatcherRequest(\AppBundle\Entity\UserWatcherRequest $usersWatcherRequest = null)
+    public function setUserWatcherRequest(\AppBundle\Entity\UserWatcherRequest $userWatcherRequest = null)
     {
-        $this->usersWatcherRequest = $usersWatcherRequest;
+        $this->userWatcherRequest = $userWatcherRequest;
 
         return $this;
     }
 
     /**
-     * Get usersWatcherRequest
+     * Get userWatcherRequest
      *
      * @return \AppBundle\Entity\UserWatcherRequest
      */
-    public function getUsersWatcherRequest()
+    public function getUserWatcherRequest()
     {
-        return $this->usersWatcherRequest;
+        return $this->userWatcherRequest;
     }
 
     /**

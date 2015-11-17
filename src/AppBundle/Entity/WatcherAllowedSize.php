@@ -33,8 +33,6 @@ class WatcherAllowedSize
     */
     private $userWatcher;
 
-
-
     /**
      * Get id
      *

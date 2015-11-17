@@ -20,7 +20,7 @@ class FavoriteWatcher
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    
+
     /**
     * @ORM\ManyToOne(targetEntity="UserOwner", inversedBy="favoriteWatchers")
     * @ORM\JoinColumn(name="user_owner_id", referencedColumnName="id")
@@ -28,10 +28,10 @@ class FavoriteWatcher
     private $userOwner;
 
     /**
-    * @ORM\ManyToOne(targetEntity="UserWatcher", inversedBy="favoriteWatchers")
+    * @ORM\ManyToOne(targetEntity="UserWatcher", inversedBy="favoriteWatcher")
     * @ORM\JoinColumn(name="user_watcher_id", referencedColumnName="id")
     */
-    private $userWatcher;   
+    private $userWatcher;
 
     /**
      * Get id

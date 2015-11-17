@@ -89,9 +89,9 @@ class User
     private $userOwner;
 
     /**
-     * @ORM\OneToOne(targetEntity="UserWatcher", mappedBy="users", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="UserWatcher", mappedBy="user", cascade={"persist", "remove"})
      */
-    private $usersWatchers;
+    private $userWatcher;
 
     public function __construct()
     {
@@ -303,26 +303,26 @@ class User
     }
 
     /**
-     * Set usersWatchers
+     * Set userWatcher
      *
-     * @param \AppBundle\Entity\UserWatcher $usersWatchers
+     * @param \AppBundle\Entity\UserWatcher $userWatcher
      *
      * @return User
      */
-    public function setUsersWatchers(\AppBundle\Entity\UserWatcher $usersWatchers = null)
+    public function setUserWatcher(\AppBundle\Entity\UserWatcher $userWatcher = null)
     {
-        $this->usersWatchers = $usersWatchers;
+        $this->userWatcher = $userWatcher;
 
         return $this;
     }
 
     /**
-     * Get usersWatchers
+     * Get userWatcher
      *
      * @return \AppBundle\Entity\UserWatcher
      */
-    public function getUsersWatchers()
+    public function getUserWatcher()
     {
-        return $this->usersWatchers;
+        return $this->userWatcher;
     }
 }

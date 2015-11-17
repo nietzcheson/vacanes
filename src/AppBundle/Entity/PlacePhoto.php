@@ -3,12 +3,16 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * PlacePhoto
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="AppBundle\Entity\PlacePhotosRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class PlacePhoto
 {
@@ -18,21 +22,28 @@ class PlacePhoto
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"placePhoto"})
      */
     private $id;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="filename", type="integer")
+     * @Assert\File(maxSize="6000000")
      */
-    private $filename;
+    private $file;
 
     /**
-    * @ORM\ManyToOne(targetEntity="UserWatcher", inversedBy="placePhotos")
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"placePhoto"})
+     */
+    public $path;
+
+    private $temp;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="UserWatcher", inversedBy="placePhoto")
     * @ORM\JoinColumn(name="user_watcher_id", referencedColumnName="id")
     */
-    private $usersWatcher;
+    private $userWatcher;
 
     /**
      * Get id
@@ -45,50 +56,155 @@ class PlacePhoto
     }
 
     /**
-     * Set filename
+     * Set userWatcher
      *
-     * @param integer $filename
+     * @param \AppBundle\Entity\UserWatcher $userWatcher
      *
      * @return PlacePhoto
      */
-    public function setFilename($filename)
+    public function setUserWatcher(\AppBundle\Entity\UserWatcher $userWatcher = null)
     {
-        $this->filename = $filename;
+        $this->userWatcher = $userWatcher;
 
         return $this;
     }
 
     /**
-     * Get filename
-     *
-     * @return integer
-     */
-    public function getFilename()
-    {
-        return $this->filename;
-    }
-
-    /**
-     * Set usersWatcher
-     *
-     * @param \AppBundle\Entity\UserWatcher $usersWatcher
-     *
-     * @return PlacePhoto
-     */
-    public function setUsersWatcher(\AppBundle\Entity\UserWatcher $usersWatcher = null)
-    {
-        $this->usersWatcher = $usersWatcher;
-
-        return $this;
-    }
-
-    /**
-     * Get usersWatcher
+     * Get userWatcher
      *
      * @return \AppBundle\Entity\UserWatcher
      */
-    public function getUsersWatcher()
+    public function getUserWatcher()
     {
-        return $this->usersWatcher;
+        return $this->userWatcher;
+    }
+
+    /**
+     * Sets file.
+     *
+     * @param UploadedFile $file
+     */
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+        // check if we have an old image path
+        if (isset($this->path)) {
+            // store the old name to delete after the update
+            $this->temp = $this->path;
+            $this->path = null;
+        } else {
+            $this->path = 'initial';
+        }
+    }
+
+    /**
+     * Get file.
+     *
+     * @return UploadedFile
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload()
+    {
+        if (null !== $this->getFile()) {
+
+            // do whatever you want to generate a unique name
+            $filename = sha1(uniqid(mt_rand(), true));
+            $this->path = $filename.'.'.$this->getFile()->guessExtension();
+        }
+    }
+
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload()
+    {
+        if (null === $this->getFile()) {
+            return;
+        }
+
+        // if there is an error when moving the file, an exception will
+        // be automatically thrown by move(). This will properly prevent
+        // the entity from being persisted to the database on error
+
+        $this->getFile()->move($this->getUploadRootDir(), $this->path);
+
+        // check if we have an old image
+        if (isset($this->temp)) {
+            // delete the old image
+            unlink($this->getUploadRootDir().'/'.$this->temp);
+            // clear the temp image path
+            $this->temp = null;
+        }
+        $this->file = null;
+    }
+
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeUpload()
+    {
+        $file = $this->getAbsolutePath();
+        if ($file) {
+            unlink($file);
+        }
+    }
+
+    /**
+     * Get path
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    public function getAbsolutePath()
+    {
+        return null === $this->path
+            ? null
+            : $this->getUploadRootDir().'/'.$this->path;
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->path
+            ? null
+            : $this->getUploadDir().'/'.$this->path;
+    }
+
+    protected function getUploadRootDir()
+    {
+        // the absolute directory path where uploaded
+        // documents should be saved
+        return dirname(dirname(dirname(__DIR__))).'/web/'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        return 'img/places';
+    }
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     *
+     * @return PlacePhoto
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
     }
 }

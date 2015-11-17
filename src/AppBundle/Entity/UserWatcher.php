@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * UserWatcher
@@ -18,6 +19,7 @@ class UserWatcher
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"watcher"})
      */
     private $id;
 
@@ -25,13 +27,15 @@ class UserWatcher
      * @var string
      *
      * @ORM\Column(name="bios", type="text")
+     * @Groups({"watcher"})
      */
     private $bios;
 
     /**
-     * @var integer
+     * @var float
      *
-     * @ORM\Column(name="telephone", type="integer")
+     * @ORM\Column(name="telephone", type="float")
+     * @Groups({"watcher"})
      */
     private $telephone;
 
@@ -39,28 +43,29 @@ class UserWatcher
     * @ORM\OneToOne(targetEntity="User", inversedBy="userWatcher")
     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
     */
-    private $users;
+    private $user;
 
     /**
      * @ORM\OneToMany(targetEntity="PlacePhoto", mappedBy="userWatcher", cascade={"persist", "remove"})
+     * @Groups({"watcher"})
      */
     private $placePhotos;
 
     /**
      * @ORM\OneToMany(targetEntity="WatcherAllowedSize", mappedBy="userWatcher", cascade={"persist", "remove"})
      */
-    private $allowedSizes;
+    private $watcherAllowedSize;
 
     /**
-     * @ORM\OneToMany(targetEntity="FavoriteWatcher", mappedBy="userWatchers", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="FavoriteWatcher", mappedBy="userWatcher", cascade={"persist", "remove"})
      */
-    private $favoriteWatchers;
+    private $favoriteWatcher;
 
     /**
      * @ORM\OneToMany(targetEntity="UserWatcherRequest", mappedBy="userWatcher", cascade={"persist", "remove"})
      */
     private $userWatcherRequests;
-    
+
     /**
      * Constructor
      */
@@ -71,7 +76,6 @@ class UserWatcher
         $this->favoriteWatchers = new \Doctrine\Common\Collections\ArrayCollection();
         $this->userWatcherRequests = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
 
     /**
      * Get id
@@ -110,7 +114,7 @@ class UserWatcher
     /**
      * Set telephone
      *
-     * @param integer $telephone
+     * @param float $telephone
      *
      * @return UserWatcher
      */
@@ -124,7 +128,7 @@ class UserWatcher
     /**
      * Get telephone
      *
-     * @return integer
+     * @return float
      */
     public function getTelephone()
     {
@@ -132,27 +136,27 @@ class UserWatcher
     }
 
     /**
-     * Set users
+     * Set user
      *
-     * @param \AppBundle\Entity\User $users
+     * @param \AppBundle\Entity\User $user
      *
      * @return UserWatcher
      */
-    public function setUsers(\AppBundle\Entity\User $users = null)
+    public function setUser(\AppBundle\Entity\User $user = null)
     {
-        $this->users = $users;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * Get users
+     * Get user
      *
      * @return \AppBundle\Entity\User
      */
-    public function getUsers()
+    public function getUser()
     {
-        return $this->users;
+        return $this->user;
     }
 
     /**
@@ -289,5 +293,49 @@ class UserWatcher
     public function getUserWatcherRequests()
     {
         return $this->userWatcherRequests;
+    }
+
+    /**
+     * Add watcherAllowedSize
+     *
+     * @param \AppBundle\Entity\WatcherAllowedSize $watcherAllowedSize
+     *
+     * @return UserWatcher
+     */
+    public function addWatcherAllowedSize(\AppBundle\Entity\WatcherAllowedSize $watcherAllowedSize)
+    {
+        $this->watcherAllowedSize[] = $watcherAllowedSize;
+
+        return $this;
+    }
+
+    /**
+     * Remove watcherAllowedSize
+     *
+     * @param \AppBundle\Entity\WatcherAllowedSize $watcherAllowedSize
+     */
+    public function removeWatcherAllowedSize(\AppBundle\Entity\WatcherAllowedSize $watcherAllowedSize)
+    {
+        $this->watcherAllowedSize->removeElement($watcherAllowedSize);
+    }
+
+    /**
+     * Get watcherAllowedSize
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getWatcherAllowedSize()
+    {
+        return $this->watcherAllowedSize;
+    }
+
+    /**
+     * Get favoriteWatcher
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFavoriteWatcher()
+    {
+        return $this->favoriteWatcher;
     }
 }

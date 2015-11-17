@@ -1,0 +1,27 @@
+watcher:
+    path:     /watcher/{id}
+    defaults: { _controller: "AppBundle:Watcher:watcher" }
+    options:
+        expose: true
+    methods:  [GET]
+
+watcher_create:
+    path:     /watcher
+    defaults: { _controller: "AppBundle:Watcher:watcherCreate" }
+    options:
+        expose: true
+    methods:  [POST]
+
+watcher_update:
+    path:     /watcher
+    defaults: { _controller: "AppBundle:Watcher:watcherUpdate" }
+    options:
+        expose: true
+    methods:  [PUT]
+
+watcher_delete:
+    path:     /watcher
+    defaults: { _controller: "AppBundle:Watcher:watcherDelete" }
+    options:
+        expose: true
+    methods:  [DELETE]
