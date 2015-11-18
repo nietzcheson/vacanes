@@ -2,38 +2,30 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Controller\APIRestBaseController;
 use AppBundle\Controller\TokenAuthenticatedController;
 use AppBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class AuthController extends Controller //implements TokenAuthenticatedController
+class AuthController extends APIRestBaseController //implements TokenAuthenticatedController
 {
 
     public function userAction($id, Request $request)
     {
-        $response = new Response();
-        $serializer = $this->get('serializer');
-
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('AppBundle:User')->findOneBy(array('facebookId' => $id));
 
         if(!$user){
-            $response->setStatusCode(204, 'No user found');
-
-            return $response->setContent($serializer->serialize($user, 'json', array('groups' => array('user'))));
-
+            return $this->apiResponse($user)->statusCode(204)->statusText('No user found')->response();
         }
 
-        return $response->setContent($serializer->serialize($user, 'json', array('groups' => array('user'))));
+        return $this->apiResponse($user)->groups(array('user'))->response();
     }
 
     public function userCreateAction(Request $request)
     {
-        $response = new Response();
-        $serializer = $this->get('serializer');
         $em = $this->getDoctrine()->getManager();
 
         $user = new User();
@@ -50,15 +42,14 @@ class AuthController extends Controller //implements TokenAuthenticatedControlle
         if (count($errors) > 0) {
 
             $errorsString = (string) $errors;
-            $response->setStatusCode(409, 'Errors');
 
-            return $response->setContent($serializer->serialize($errorsString, 'json'));
+            return $this->apiResponse($errorsString)->statusCode(409)->statusText('Validations Errors')->response();
         }
 
         $em->persist($user);
         $em->flush();
 
-        return $response->setContent($serializer->serialize($user, 'json', array('groups' => array('user'))));
+        return $this->apiResponse($user)->groups(array('user'))->response();
     }
 
     public function userUpdateAction(Request $request)
