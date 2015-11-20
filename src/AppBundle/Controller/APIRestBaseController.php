@@ -72,6 +72,16 @@ abstract class APIRestBaseController extends Controller
         return $response;
 
     }
+
+    /**
+    * @return EntityManager
+    */
+
+    protected function em()
+    {
+        $em = $this->getDoctrine()->getManager();
+        return $em;
+    }
 }
 
 

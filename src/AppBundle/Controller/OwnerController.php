@@ -15,14 +15,14 @@ class OwnerController extends APIRestBaseController implements TokenAuthenticate
     public function userOwnerCreateAction(Request $request)
     {
 
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->em();
 
         $userOwner = new UserOwner();
 
         $user = $request->attributes->get('user');
 
         $userOwner->setUser($user);
-        
+
         $userOwnerForm = $this->createForm(new UserOwnerType(), $userOwner)->handleRequest($request);
 
         if($userOwnerForm->isValid()){

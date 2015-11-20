@@ -3,7 +3,7 @@ user_update:
     defaults: { _controller: "AppBundle:User:userUpdate" }
     options:
         expose: true
-    methods:  [PUT, GET]
+    methods:  [PUT]
 
 user_delete:
     path:     /user

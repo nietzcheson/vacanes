@@ -14,7 +14,7 @@ class AuthController extends APIRestBaseController
 {
     public function loginAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->em();
 
         $user = new User();
 

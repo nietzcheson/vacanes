@@ -14,12 +14,11 @@ class UserController extends APIRestBaseController implements TokenAuthenticated
 
     public function userUpdateAction(Request $request)
     {
-
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->em();
 
         $user = $request->attributes->get('user');
 
-        $userForm = $this->createForm(new UserType(), $user)->handleRequest($request);
+        $userForm = $this->createForm(new UserType(), $user, array('method' => 'PUT'))->handleRequest($request);
 
         if($userForm->isValid()){
 
@@ -34,7 +33,7 @@ class UserController extends APIRestBaseController implements TokenAuthenticated
 
     public function userDeleteAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->em();
 
         $user = $request->attributes->get('user');
 
