@@ -9,9 +9,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * UserOwner
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AppBundle\Entity\UserOwnersRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\OwnerRepository")
  */
-class UserOwner
+class Owner
 {
     /**
      * @var integer
@@ -48,7 +48,7 @@ class UserOwner
     private $longitude;
 
     /**
-    * @ORM\OneToOne(targetEntity="User", inversedBy="userOwner")
+    * @ORM\OneToOne(targetEntity="User", inversedBy="owner")
     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
     */
     private $user;
