@@ -2,11 +2,10 @@ services:
     vacanes.auth:
         class: AppBundle\EventListener\TokenListener
         arguments:
-            - "%tokens%"
             - @users.manager
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
-            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+            #- { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
     users.manager:
         class: AppBundle\Model\UserManager

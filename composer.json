@@ -19,7 +19,9 @@
         "incenteev/composer-parameter-handler": "~2.0",
 		"knplabs/doctrine-behaviors": "1.0.2",
 		"doctrine/doctrine-fixtures-bundle": "2.2.*",
-		"facebook/php-sdk-v4" : "~5.0"
+		"facebook/php-sdk-v4" : "~5.0",
+        "hautelook/alice-bundle": "^1.1",
+        "raulfraile/ladybug-bundle": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

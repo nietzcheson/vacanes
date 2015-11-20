@@ -1,33 +1,6 @@
-login:
+user_create:
     path:     /login
     defaults: { _controller: "AppBundle:Auth:login" }
     options:
         expose: true
-
-user:
-    path:     /user/{id}
-    defaults: { _controller: "AppBundle:Auth:user" }
-    options:
-        expose: true
-    methods:  [GET]
-
-user_create:
-    path:     /user
-    defaults: { _controller: "AppBundle:Auth:userCreate" }
-    options:
-        expose: true
     methods:  [POST]
-
-user_update:
-    path:     /user
-    defaults: { _controller: "AppBundle:Auth:userUpdate" }
-    options:
-        expose: true
-    methods:  [PUT]
-
-user_delete:
-    path:     /user
-    defaults: { _controller: "AppBundle:Auth:userDelete" }
-    options:
-        expose: true
-    methods:  [DELETE]

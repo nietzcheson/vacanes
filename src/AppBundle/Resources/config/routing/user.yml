@@ -1,0 +1,13 @@
+user_update:
+    path:     /user
+    defaults: { _controller: "AppBundle:User:userUpdate" }
+    options:
+        expose: true
+    methods:  [PUT, GET]
+
+user_delete:
+    path:     /user
+    defaults: { _controller: "AppBundle:User:userDelete" }
+    options:
+        expose: true
+    methods:  [DELETE]

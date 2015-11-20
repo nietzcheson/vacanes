@@ -12,5 +12,5 @@ interface ModelManagerInterface
 
     public function getClass();
 
-    public function find($array = array());
+    public function findOneBy($array = array());
 }

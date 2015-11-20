@@ -97,7 +97,7 @@ class UserManager implements ModelManagerInterface
      * @param $id
      * @return BaseModel
      */
-    public function find($array = array()) {
+    public function findOneBy($array = array()) {
         return $this->repository->findOneBy($array);
     }
 

@@ -4,26 +4,24 @@ namespace AppBundle\Controller;
 
 use AppBundle\Controller\APIRestBaseController;
 use AppBundle\Controller\TokenAuthenticatedController;
-use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class AuthController extends APIRestBaseController
+class UserController extends APIRestBaseController implements TokenAuthenticatedController
 {
-    public function loginAction(Request $request)
+
+    public function userUpdateAction(Request $request)
     {
+
         $em = $this->getDoctrine()->getManager();
 
-        $user = new User();
+        $user = $request->attributes->get('user');
 
         $userForm = $this->createForm(new UserType(), $user)->handleRequest($request);
 
         if($userForm->isValid()){
-
-            $token = base_convert(sha1('-token-'.uniqid()), 16, 36);
-            $user->setToken($token);
 
             $em->persist($user);
             $em->flush();
@@ -32,6 +30,19 @@ class AuthController extends APIRestBaseController
         }
 
         return $this->apiResponse($userForm->getErrorsAsString())->groups(array('user'))->response();
+    }
+
+    public function userDeleteAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $request->attributes->get('user');
+
+        $em->remove($user);
+        $em->flush();
+
+        return $this->apiResponse(array('User removed'))->response();
 
     }
+
 }

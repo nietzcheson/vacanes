@@ -2,68 +2,40 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Controller\TokenAuthenticatedController;
+use AppBundle\Entity\UserOwner;
+use AppBundle\Form\UserOwnerType;
+use AppBundle\Controller\APIRestBaseController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\User;
-use AppBundle\Entity\UserOwner;
 
-class OwnerController extends Controller
+class OwnerController extends APIRestBaseController implements TokenAuthenticatedController
 {
-    public function userOwnerAction($id, Request $request)
-    {
-        $response = new Response();
-        $serializer = $this->get('serializer');
-
-        $em = $this->getDoctrine()->getManager();
-        $userOwner = $em->getRepository('AppBundle:userOwner')->findOneBy(array('user' => $id));
-
-        if(!$userOwner){
-            $response->setStatusCode(204, 'No user found');
-
-            return $response->setContent($serializer->serialize($userOwner, 'json', array('groups' => array('userOwner'))));
-        }
-
-        return $response->setContent($serializer->serialize($userOwner, 'json', array('groups' => array('userOwner'))));
-    }
 
     public function userOwnerCreateAction(Request $request)
     {
-        $response = new Response();
-        $serializer = $this->get('serializer');
+
         $em = $this->getDoctrine()->getManager();
 
         $userOwner = new UserOwner();
 
-        $userOwner->setAddress($request->request->get('address'));
-        $userOwner->setLatitude($request->request->get('latitude'));
-        $userOwner->setLongitude($request->request->get('longitude'));
-
-        $user = $em->getRepository('AppBundle:User')->findOneBy(array('id' => $request->request->get('user')));
-
-        if(!$user){
-            $response->setStatusCode(204, 'No user found');
-
-            return $response->setContent($serializer->serialize($user, 'json'));
-        }
+        $user = $request->attributes->get('user');
 
         $userOwner->setUser($user);
+        
+        $userOwnerForm = $this->createForm(new UserOwnerType(), $userOwner)->handleRequest($request);
 
-        $validator = $this->get('validator');
-        $errors = $validator->validate($userOwner);
+        if($userOwnerForm->isValid()){
 
-        if (count($errors) > 0) {
+            $em->persist($userOwner);
 
-            $errorsString = (string) $errors;
-            $response->setStatusCode(409, 'Errors');
+            $em->flush();
 
-            return $response->setContent($serializer->serialize($errorsString, 'json'));
+            return $this->apiResponse($userOwner)->groups(array('userOwner'))->response();
         }
 
-        $em->persist($userOwner);
-        $em->flush();
+        return $this->apiResponse($userOwner)->groups(array('userOwner'))->response();
 
-        return $response->setContent($serializer->serialize($userOwner, 'json', array('groups' => array('userOwner'))));
     }
 
     public function userOwnerUpdateAction(Request $request)

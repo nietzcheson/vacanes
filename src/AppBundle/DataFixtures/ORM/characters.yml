@@ -1,0 +1,7 @@
+AppBundle\Entity\User:
+    user:
+        facebookId: 24421421251252521
+        firstName: Cristian
+        lastName: Angulo
+        email: cristianangulonova@gmail.com
+        token: 53215213523DSGDSAGDAG

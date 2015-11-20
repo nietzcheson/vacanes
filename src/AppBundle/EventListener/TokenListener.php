@@ -10,13 +10,11 @@ use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 class TokenListener
 {
-    private $tokens;
-    private $user;
+    private $userManager;
 
-    public function __construct($tokens, UserManager $user)
+    public function __construct(UserManager $userManager)
     {
-        $this->tokens = $tokens;
-        $this->user = $user;
+        $this->userManager = $userManager;
     }
 
     public function onKernelController(FilterControllerEvent $event)
@@ -27,38 +25,22 @@ class TokenListener
             return;
         }
 
-        $event->getRequest()->request->set('token','pass1');
-
-        $token = '';
-
         if ($controller[0] instanceof TokenAuthenticatedController) {
 
-            $tokenAccess = $event->getRequest()->request->get('tokenAccess');
-            $facebookID  = $event->getRequest()->request->get('facebookID');
+            $token = $event->getRequest()->headers->get('X-AUTH-TOKEN');
 
-            if(null === $tokenAccess){
-
-                $user = $this->user->find(array('facebookId' => $facebookID, "token" => $tokenAccess));
-                $event->getRequest()->attributes->set('user', $user);
+            if(!$token){
+                throw new AccessDeniedHttpException('This action needs a valid token!');
             }
 
-            $user = $this->user->find(array("token" => $tokenAccess));
+            $user = $this->userManager->findOneBy(array('token' => $token));
+
+            if(!$user){
+                throw new AccessDeniedHttpException('User not found!');
+            }
+
             $event->getRequest()->attributes->set('user', $user);
         }
-    }
-
-    public function onKernelResponse(FilterResponseEvent $event)
-    {
-        if (!$token = $event->getRequest()->attributes->get('auth_token')) {
-            return;
-        }
-
-        $response = $event->getResponse();
-
-        // create a hash and set it as a response header
-        $hash = sha1($response->getContent().$token);
-        $response->headers->set('X-Content-Hash', $hash);
-
     }
 }
 

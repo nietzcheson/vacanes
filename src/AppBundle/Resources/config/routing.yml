@@ -2,6 +2,10 @@ auth:
     resource: "@AppBundle/Resources/config/routing/auth.yml"
     prefix:   /auth
 
+user:
+    resource: "@AppBundle/Resources/config/routing/user.yml"
+    prefix:   /user
+
 owner:
     resource: "@AppBundle/Resources/config/routing/owner.yml"
     prefix:   /owner

@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class UserType extends AbstractType
+class UserOwnerType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,10 +15,9 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('facebookId')
-            ->add('firstName')
-            ->add('lastName')
-            ->add('email')
+            ->add('address')
+            ->add('latitude')
+            ->add('longitude')
         ;
     }
 
@@ -28,7 +27,7 @@ class UserType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\User'
+            'data_class' => 'AppBundle\Entity\UserOwner'
         ));
     }
 
@@ -37,6 +36,6 @@ class UserType extends AbstractType
      */
     public function getName()
     {
-        return 'user_type';
+        return 'user_owner_type';
     }
 }
