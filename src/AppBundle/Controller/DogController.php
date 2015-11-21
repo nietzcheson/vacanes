@@ -40,7 +40,6 @@ class DogController extends APIRestBaseController implements TokenAuthenticatedC
 
         if($dogForm->isValid()){
 
-
             $user = $request->attributes->get('user');
 
             $dog->setOwner($user->getOwner());
@@ -58,7 +57,7 @@ class DogController extends APIRestBaseController implements TokenAuthenticatedC
 
                     $dogPhoto->setFile($photo);
                     $dogPhoto->setDog($dog);
-                    
+
                     $em->persist($dogPhoto);
                     $em->flush();
                 }
@@ -74,122 +73,65 @@ class DogController extends APIRestBaseController implements TokenAuthenticatedC
 
     public function dogUpdateAction(Request $request)
     {
-        $response = new Response();
-        $serializer = $this->get('serializer');
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->em();
 
-        $dog = $em->getRepository('AppBundle:Dog')->findOneBy(array('id' => $request->request->get('id')));
+        $user = $request->attributes->get('user');
 
-        $size = $em->getRepository('AppBundle:DogSize')->findOneBy(array('id' => $request->request->get('size')));
-        $breed = $em->getRepository('AppBundle:DogBreed')->findOneBy(array('id' => $request->request->get('breed')));
-        $userOwner = $em->getRepository('AppBundle:UserOwner')->findOneBy(array('user' => $request->request->get('owner')));
+        $dog = $em->getRepository('AppBundle:Dog')->findOneBy(array('owner' => $user->getOwner()->getId(), 'id' => $request->request->get('dog')));
 
-        $dog->setName($request->request->get('name'));
-        $dog->setDogSize($size);
-        $dog->setDogBreed($breed);
-        $dog->setOwner($userOwner);
-
-        $validator = $this->get('validator');
-        $errors = $validator->validate($dog);
-
-        if (count($errors) > 0) {
-
-            $errorsString = (string) $errors;
-            $response->setStatusCode(409, 'Errors');
-
-            return $response->setContent($serializer->serialize($errorsString, 'json'));
+        if(!$dog){
+            return $this->apiResponse($dog)->statusCode(204)->statusText('Not dog found')->response();
         }
 
-        $em->flush();
+        $dogForm = $this->createForm(new DogType(), $dog, array('method' => 'PUT'))->handleRequest($request);
 
-        return $response->setContent($serializer->serialize($dog, 'json', array('groups' => array('dog'))));
+        if($dogForm->isValid()){
+
+            $user = $request->attributes->get('user');
+
+            $dog->setOwner($user->getOwner());
+
+            $em->flush();
+
+            $dogPhoto = $request->files->get('dog_photo_type')['file'];
+
+            if($dogPhoto){
+
+                foreach ($dogPhoto as $photo) {
+
+                    $dogPhoto = new DogPhoto();
+
+                    $dogPhoto->setFile($photo);
+                    $dogPhoto->setDog($dog);
+
+                    $em->persist($dogPhoto);
+                    $em->flush();
+                }
+            }
+
+
+            return $this->apiResponse($dog)->groups(array('dog'))->response();
+        }
+
+        return $this->apiResponse($this->getErrorMessages($dogForm))->groups(array('dog'))->response();
     }
 
     public function dogDeleteAction(Request $request)
     {
-        $response = new Response();
-        $serializer = $this->get('serializer');
+        $em = $this->em();
 
-        $em = $this->getDoctrine()->getManager();
+        $user = $request->attributes->get('user');
 
-        $dog = $em->getRepository('AppBundle:Dog')->findOneBy(array('id' => $request->request->get('id')));
+        $dog = $em->getRepository('AppBundle:Dog')->findOneBy(array('owner' => $user->getOwner()->getId(), 'id' => $request->request->get('dog')));
 
         if(!$dog){
-            $response->setStatusCode(204, 'No dog found');
-            return $response->setContent($serializer->serialize($dog, 'json'));
+            return $this->apiResponse($dog)->statusCode(204)->statusText('Not dog found')->response();
         }
 
         $em->remove($dog);
         $em->flush();
 
-        return $response->setContent($serializer->serialize('DELETE', 'json'));
-    }
-
-    public function dogPhotoAction($id, Request $request)
-    {
-        $response = new Response();
-        $serializer = $this->get('serializer');
-
-        $em = $this->getDoctrine()->getManager();
-        $dogPhoto = $em->getRepository('AppBundle:DogPhoto')->findDogPhotos($id);
-
-        if(!$dogPhoto){
-            $response->setStatusCode(204, 'No photo found');
-
-            return $response->setContent($serializer->serialize($dogPhoto, 'json', array('groups' => array('dog'))));
-        }
-
-        return $response->setContent($serializer->serialize($dogPhoto, 'json', array('groups' => array('dogPhoto'))));
-    }
-
-    public function dogPhotoCreateAction(Request $request)
-    {
-        $response = new Response();
-        $serializer = $this->get('serializer');
-
-        $em = $this->getDoctrine()->getManager();
-
-        $dog = $em->getRepository('AppBundle:Dog')->findOneBy(array('id' => $request->request->get('dog')));
-
-        $dogPhoto = new DogPhoto();
-        $dogPhoto->setFile($request->files->get('file'));
-        $dogPhoto->setDog($dog);
-
-        $validator = $this->get('validator');
-        $errors = $validator->validate($dogPhoto);
-
-        if (count($errors) > 0) {
-
-            $errorsString = (string) $errors;
-            $response->setStatusCode(409, 'Errors');
-
-            return $response->setContent($serializer->serialize($errorsString, 'json'));
-        }
-
-        $em->persist($dogPhoto);
-        $em->flush();
-
-        return $response->setContent($serializer->serialize($dogPhoto, 'json', array('groups' => array('dogPhoto'))));
-    }
-
-    public function dogPhotoDeleteAction(Request $request)
-    {
-        $response = new Response();
-        $serializer = $this->get('serializer');
-
-        $em = $this->getDoctrine()->getManager();
-
-        $dogPhoto = $em->getRepository('AppBundle:DogPhoto')->findOneBy(array('id' => $request->request->get('id')));
-
-        if(!$dogPhoto){
-            $response->setStatusCode(204, 'No dog photo found');
-            return $response->setContent($serializer->serialize($dogPhoto, 'json'));
-        }
-
-        $em->remove($dogPhoto);
-        $em->flush();
-
-        return $response->setContent($serializer->serialize('DELETE', 'json'));
+        return $this->apiResponse(array('Dog remove'))->response();
     }
 
     public function dogSizesAction()
