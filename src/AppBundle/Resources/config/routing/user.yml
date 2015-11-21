@@ -32,3 +32,47 @@ owner_delete:
     options:
         expose: true
     methods:  [DELETE]
+
+dog:
+    path:     /owner/dog
+    defaults: { _controller: "AppBundle:Dog:dog" }
+    options:
+        expose: true
+    methods:  [GET]
+    requirements:
+        id:  \d+
+
+dog_create:
+    path:     /owner/dog
+    defaults: { _controller: "AppBundle:Dog:dogCreate" }
+    options:
+        expose: true
+    methods:  [POST]
+
+dog_update:
+    path:     /owner/dog
+    defaults: { _controller: "AppBundle:Dog:dogUpdate" }
+    options:
+        expose: true
+    methods:  [PUT]
+
+dog_delete:
+    path:     /owner/dog
+    defaults: { _controller: "AppBundle:Dog:dogDelete" }
+    options:
+        expose: true
+    methods:  [DELETE]
+
+dog_sizes:
+    path:     /owner/dog-sizes
+    defaults: { _controller: "AppBundle:Dog:dogSizes" }
+    options:
+        expose: true
+    methods:  [GET]
+
+dog_breeds:
+    path:     /owner/dog-breeds
+    defaults: { _controller: "AppBundle:Dog:dogBreeds" }
+    options:
+        expose: true
+    methods:  [GET]

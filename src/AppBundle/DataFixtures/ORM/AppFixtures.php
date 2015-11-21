@@ -12,7 +12,7 @@ class AppFixtures extends AbstractLoader
     public function getFixtures()
     {
         return [
-            __DIR__.'/characters.yml'
+            __DIR__.'/app.yml'
         ];
     }
 

@@ -2,16 +2,16 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Controller\APIRestBaseController;
+use AppBundle\Controller\TokenAuthenticatedController;
 use AppBundle\Entity\Dog;
-use AppBundle\Entity\UserOwner;
-
 use AppBundle\Entity\DogPhoto;
+use AppBundle\Form\DogType;
 use AppBundle\Form\DogPhotoType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
-class DogController extends Controller
+class DogController extends APIRestBaseController implements TokenAuthenticatedController
 {
     public function dogAction($id, Request $request)
     {
@@ -32,36 +32,29 @@ class DogController extends Controller
 
     public function dogCreateAction(Request $request)
     {
-        $response = new Response();
-        $serializer = $this->get('serializer');
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->em();
+
+        $dogTypeRequest = $request->request->get('dog_type');
 
         $dog = new Dog();
 
-        $size = $em->getRepository('AppBundle:DogSize')->findOneBy(array('id' => $request->request->get('size')));
-        $breed = $em->getRepository('AppBundle:DogBreed')->findOneBy(array('id' => $request->request->get('breed')));
-        $userOwner = $em->getRepository('AppBundle:UserOwner')->findOneBy(array('user' => $request->request->get('owner')));
+        $dogForm = $this->createForm(new DogType(), $dog)->handleRequest($request);
 
-        $dog->setName($request->request->get('name'));
-        $dog->setDogSize($size);
-        $dog->setDogBreed($breed);
-        $dog->setOwner($userOwner);
+        if($dogForm->isValid()){
 
-        $validator = $this->get('validator');
-        $errors = $validator->validate($dog);
+            $user = $request->attributes->get('user');
 
-        if (count($errors) > 0) {
+            $dog->setOwner($user->getOwner());
 
-            $errorsString = (string) $errors;
-            $response->setStatusCode(409, 'Errors');
+            $em->persist($dog);
+            $em->flush();
 
-            return $response->setContent($serializer->serialize($errorsString, 'json'));
+            return $this->apiResponse($dog)->groups(array('dog'))->response();
         }
 
-        $em->persist($dog);
-        $em->flush();
+        return $this->apiResponse($this->getErrorMessages($dogForm))->groups(array('dog'))->response();
 
-        return $response->setContent($serializer->serialize($dog, 'json', array('groups' => array('dog'))));
+
     }
 
     public function dogUpdateAction(Request $request)
@@ -182,5 +175,23 @@ class DogController extends Controller
         $em->flush();
 
         return $response->setContent($serializer->serialize('DELETE', 'json'));
+    }
+
+    public function dogSizesAction()
+    {
+        $em = $this->em();
+
+        $dogSizes = $em->getRepository('AppBundle:DogSize')->findAll();
+
+        return $this->apiResponse($dogSizes)->groups(array('dogSize'))->response();
+    }
+
+    public function dogBreedsAction()
+    {
+        $em = $this->em();
+
+        $dogBreed = $em->getRepository('AppBundle:DogBreed')->findAll();
+
+        return $this->apiResponse($dogBreed)->groups(array('dogBreed'))->response();
     }
 }

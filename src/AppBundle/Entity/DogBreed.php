@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * DogBreed
@@ -17,6 +18,7 @@ class DogBreed
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"dogBreed"})
      */
     private $id;
 
@@ -24,6 +26,7 @@ class DogBreed
      * @var string
      *
      * @ORM\Column(name="breed", type="string", length=255)
+     * @Groups({"dogBreed"})
      */
     private $name;
 

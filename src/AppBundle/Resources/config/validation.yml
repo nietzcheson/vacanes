@@ -10,7 +10,7 @@ AppBundle\Entity\User:
             - NotBlank: ~
             - Email: ~
 
-AppBundle\Entity\UserOwner:
+AppBundle\Entity\Owner:
     properties:
         address:
             - NotBlank: ~
@@ -19,4 +19,13 @@ AppBundle\Entity\UserOwner:
         longitude:
             - NotBlank: ~
         user:
+            - NotBlank: ~
+
+AppBundle\Entity\Dog:
+    properties:
+        name:
+            - NotBlank: ~
+        dogSize:
+            - NotBlank: ~
+        dogBreed:
             - NotBlank: ~

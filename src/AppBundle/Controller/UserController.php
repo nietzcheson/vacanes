@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 use AppBundle\Controller\APIRestBaseController;
 use AppBundle\Controller\TokenAuthenticatedController;
 use AppBundle\Form\UserType;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 

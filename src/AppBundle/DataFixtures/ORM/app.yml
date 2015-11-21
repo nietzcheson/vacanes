@@ -1,0 +1,25 @@
+# AppBundle\Entity\User:
+#     user:
+#         facebookId: 24421421251252521
+#         firstName: Cristian
+#         lastName: Angulo
+#         email: cristianangulonova@gmail.com
+#         token: 333
+
+AppBundle\Entity\DogSize:
+    small:
+        name: Small
+    medium:
+        name: Medium
+    large:
+        name: Large
+
+AppBundle\Entity\DogBreed:
+    breed1:
+        name: Breed1
+    breed2:
+        name: Breed2
+    breed3:
+        name: Breed3
+    breed4:
+        name: Breed4
