@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Request
@@ -18,6 +19,7 @@ class Request
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"request"})
      */
     private $id;
 
@@ -25,12 +27,14 @@ class Request
      * @var string
      *
      * @ORM\Column(name="address", type="string", length=255)
+     * @Groups({"request"})
      */
     private $address;
 
     /**
     * @ORM\ManyToOne(targetEntity="RequestType", inversedBy="request")
     * @ORM\JoinColumn(name="request_type_id", referencedColumnName="id")
+    * @Groups({"request"})
     */
     private $requestType;
 

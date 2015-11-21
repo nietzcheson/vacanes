@@ -23,25 +23,11 @@ class PetValetRequest
      */
     private $id;
 
-    // /**
-    // * @ORM\OneToOne(targetEntity="Request", inversedBy="petValetRequest")
-    // * @ORM\JoinColumn(name="request_id", referencedColumnName="id")
-    // */
-    // private $request;
-
     /**
-     * @var string
-     *
-     * @ORM\Column(name="address", type="string", length=255)
-     * @Groups({"petValetRequest"})
-     */
-    private $address;
-
-    /**
-    * @ORM\ManyToOne(targetEntity="Owner", inversedBy="petValetRequest")
-    * @ORM\JoinColumn(name="user_owner_id", referencedColumnName="id")
+    * @ORM\OneToOne(targetEntity="Request", inversedBy="petValetRequest")
+    * @ORM\JoinColumn(name="request_id", referencedColumnName="id")
     */
-    private $owner;
+    private $request;
 
     /**
      * @var \DateTime
@@ -83,30 +69,6 @@ class PetValetRequest
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set address
-     *
-     * @param string $address
-     *
-     * @return PetValetRequest
-     */
-    public function setAddress($address)
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
-    /**
-     * Get address
-     *
-     * @return string
-     */
-    public function getAddress()
-    {
-        return $this->address;
     }
 
     /**
@@ -206,26 +168,26 @@ class PetValetRequest
     }
 
     /**
-     * Set owner
+     * Set request
      *
-     * @param \AppBundle\Entity\Owner $owner
+     * @param \AppBundle\Entity\Request $request
      *
      * @return PetValetRequest
      */
-    public function setOwner(\AppBundle\Entity\Owner $owner = null)
+    public function setRequest(\AppBundle\Entity\Request $request = null)
     {
-        $this->owner = $owner;
+        $this->request = $request;
 
         return $this;
     }
 
     /**
-     * Get owner
+     * Get request
      *
-     * @return \AppBundle\Entity\Owner
+     * @return \AppBundle\Entity\Request
      */
-    public function getOwner()
+    public function getRequest()
     {
-        return $this->owner;
+        return $this->request;
     }
 }

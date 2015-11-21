@@ -27,7 +27,8 @@ class UserController extends APIRestBaseController implements TokenAuthenticated
             return $this->apiResponse($user)->groups(array('user'))->response();
         }
 
-        return $this->apiResponse($userForm->getErrorsAsString())->groups(array('user'))->response();
+        return $this->apiResponse($this->getErrorMessages($userForm))->groups(array('user'))->response();
+
     }
 
     public function userDeleteAction(Request $request)

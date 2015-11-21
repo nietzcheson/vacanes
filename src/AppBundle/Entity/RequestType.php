@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * RequestType
@@ -18,6 +19,7 @@ class RequestType
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"requestType"})
      */
     private $id;
 
@@ -25,6 +27,7 @@ class RequestType
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Groups({"requestType"})
      */
     private $name;
 
@@ -32,6 +35,7 @@ class RequestType
      * @var string
      *
      * @ORM\Column(name="description", type="text")
+     * @Groups({"requestType"})
      */
     private $description;
 
@@ -39,6 +43,14 @@ class RequestType
      * @ORM\OneToMany(targetEntity="Request", mappedBy="requestType")
      */
     private $request;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=20)
+     * @Groups({"requestType"})
+     */
+    private $type;
 
     /**
      * Constructor
@@ -138,5 +150,29 @@ class RequestType
     public function getRequest()
     {
         return $this->request;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return RequestType
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

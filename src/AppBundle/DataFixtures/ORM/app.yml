@@ -23,3 +23,17 @@ AppBundle\Entity\DogBreed:
         name: Breed3
     breed4:
         name: Breed4
+
+AppBundle\Entity\RequestType:
+    rt1:
+        name: Day Request
+        description: --
+        type: day
+    rt2:
+        name: Night Request
+        description: --
+        type: night
+    rt3:
+        name: Pet Valet
+        description: --
+        type: pet_valet
