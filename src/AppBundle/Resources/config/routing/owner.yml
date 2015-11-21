@@ -1,31 +1,3 @@
-owner:
-    path:     /userOwner/{id}
-    defaults: { _controller: "AppBundle:Owner:userOwner" }
-    options:
-        expose: true
-    methods:  [GET]
-
-owner_create:
-    path:     /userOwner
-    defaults: { _controller: "AppBundle:Owner:userOwnerCreate" }
-    options:
-        expose: true
-    methods:  [POST]
-
-owner_update:
-    path:     /userOwner
-    defaults: { _controller: "AppBundle:Owner:userOwnerUpdate" }
-    options:
-        expose: true
-    methods:  [PUT]
-
-owner_delete:
-    path:     /userOwner
-    defaults: { _controller: "AppBundle:Owner:userOwnerDelete" }
-    options:
-        expose: true
-    methods:  [DELETE]
-
 dog:
     path:     /dog/{id}
     defaults: { _controller: "AppBundle:Dog:dog" }

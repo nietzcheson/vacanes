@@ -11,3 +11,24 @@ user_delete:
     options:
         expose: true
     methods:  [DELETE]
+
+owner_create:
+    path:     /owner
+    defaults: { _controller: "AppBundle:Owner:ownerCreate" }
+    options:
+        expose: true
+    methods:  [POST]
+
+owner_update:
+    path:     /owner
+    defaults: { _controller: "AppBundle:Owner:ownerUpdate" }
+    options:
+        expose: true
+    methods:  [PUT]
+
+owner_delete:
+    path:     /owner
+    defaults: { _controller: "AppBundle:Owner:ownerDelete" }
+    options:
+        expose: true
+    methods:  [DELETE]

@@ -42,4 +42,52 @@ class FavoriteWatcher
     {
         return $this->id;
     }
+
+    /**
+     * Set owner
+     *
+     * @param \AppBundle\Entity\Owner $owner
+     *
+     * @return FavoriteWatcher
+     */
+    public function setOwner(\AppBundle\Entity\Owner $owner = null)
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return \AppBundle\Entity\Owner
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    /**
+     * Set userWatcher
+     *
+     * @param \AppBundle\Entity\UserWatcher $userWatcher
+     *
+     * @return FavoriteWatcher
+     */
+    public function setUserWatcher(\AppBundle\Entity\UserWatcher $userWatcher = null)
+    {
+        $this->userWatcher = $userWatcher;
+
+        return $this;
+    }
+
+    /**
+     * Get userWatcher
+     *
+     * @return \AppBundle\Entity\UserWatcher
+     */
+    public function getUserWatcher()
+    {
+        return $this->userWatcher;
+    }
 }

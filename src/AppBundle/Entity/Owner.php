@@ -19,7 +19,7 @@ class Owner
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"userOwner"})
+     * @Groups({"owner"})
      */
     private $id;
 
@@ -27,7 +27,7 @@ class Owner
      * @var string
      *
      * @ORM\Column(name="address", type="string", length=255)
-     * @Groups({"userOwner"})
+     * @Groups({"owner"})
      */
     private $address;
 
@@ -35,7 +35,7 @@ class Owner
      * @var string
      *
      * @ORM\Column(name="latitude", type="string", length=255)
-     * @Groups({"userOwner"})
+     * @Groups({"owner"})
      */
     private $latitude;
 
@@ -43,7 +43,7 @@ class Owner
      * @var string
      *
      * @ORM\Column(name="longitude", type="string", length=255)
-     * @Groups({"userOwner"})
+     * @Groups({"owner"})
      */
     private $longitude;
 
@@ -55,7 +55,7 @@ class Owner
 
     //TODO: ManyToMany Relation
     /**
-     * @ORM\OneToMany(targetEntity="FavoriteWatcher", mappedBy="userOwner", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="FavoriteWatcher", mappedBy="owner", cascade={"persist", "remove"})
      */
     private $favoriteWatchers;
 

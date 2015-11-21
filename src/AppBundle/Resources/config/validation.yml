@@ -8,6 +8,7 @@ AppBundle\Entity\User:
             - NotBlank: ~
         email:
             - NotBlank: ~
+            - Email: ~
 
 AppBundle\Entity\UserOwner:
     properties:

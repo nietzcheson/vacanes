@@ -38,7 +38,7 @@ class TokenListener
             if(!$user){
                 throw new AccessDeniedHttpException('User not found!');
             }
-
+            
             $event->getRequest()->attributes->set('user', $user);
         }
     }
