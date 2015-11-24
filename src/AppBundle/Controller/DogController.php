@@ -10,6 +10,7 @@ use AppBundle\Form\DogType;
 use AppBundle\Form\DogPhotoType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class DogController extends APIRestBaseController implements TokenAuthenticatedController
 {
@@ -44,10 +45,6 @@ class DogController extends APIRestBaseController implements TokenAuthenticatedC
 
             $dog->setOwner($user->getOwner());
 
-            // foreach($dog->getDogPhoto() as $photo){
-            //     $photo->setDog($dog);
-            // }
-
             $em->persist($dog);
             $em->flush();
 
@@ -63,38 +60,16 @@ class DogController extends APIRestBaseController implements TokenAuthenticatedC
 
         $user = $request->attributes->get('user');
 
-        $dog = $em->getRepository('AppBundle:Dog')->findOneBy(array('owner' => $user->getOwner()->getId(), 'id' => $request->request->get('dog')));
+        $dogPhotoOriginals =
 
-        if(!$dog){
-            return $this->apiResponse($dog)->statusCode(204)->statusText('Not dog found')->response();
-        }
+        $dog = $em->getRepository('AppBundle:Dog')->findOneBy(array('owner' => $user->getOwner(), 'id' => $request->request->get('dog_id')));
 
-        $dogForm = $this->createForm(new DogType(), $dog, array('method' => 'PUT'))->handleRequest($request);
+        $dogForm = $this->createForm(new DogType(), $dog)->handleRequest($request);
 
         if($dogForm->isValid()){
 
-            $user = $request->attributes->get('user');
-
-            $dog->setOwner($user->getOwner());
-
+            $em->persist($dog);
             $em->flush();
-
-            $dogPhoto = $request->files->get('dog_photo_type')['file'];
-
-            if($dogPhoto){
-
-                foreach ($dogPhoto as $photo) {
-
-                    $dogPhoto = new DogPhoto();
-
-                    $dogPhoto->setFile($photo);
-                    $dogPhoto->setDog($dog);
-
-                    $em->persist($dogPhoto);
-                    $em->flush();
-                }
-            }
-
 
             return $this->apiResponse($dog)->groups(array('dog'))->response();
         }
@@ -108,7 +83,7 @@ class DogController extends APIRestBaseController implements TokenAuthenticatedC
 
         $user = $request->attributes->get('user');
 
-        $dog = $em->getRepository('AppBundle:Dog')->findOneBy(array('owner' => $user->getOwner()->getId(), 'id' => $request->request->get('dog')));
+        $dog = $em->getRepository('AppBundle:Dog')->findOneBy(array('owner' => $user->getOwner()->getId(), 'id' => $request->request->get('dog_id')));
 
         if(!$dog){
             return $this->apiResponse($dog)->statusCode(204)->statusText('Not dog found')->response();

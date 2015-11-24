@@ -59,7 +59,7 @@ class Dog
      */
     public function __construct()
     {
-        $this->photos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->dogPhoto = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -177,9 +177,8 @@ class Dog
      */
     public function addDogPhoto(\AppBundle\Entity\DogPhoto $dogPhoto)
     {
-        $this->dogPhoto[] = $dogPhoto;
-
-        return $this;
+        $dogPhoto->setDog($this);
+        $this->dogPhoto->add($dogPhoto);
     }
 
     /**
