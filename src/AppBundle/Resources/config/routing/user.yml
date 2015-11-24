@@ -62,11 +62,11 @@ dog_create:
     methods:  [POST]
 
 dog_update:
-    path:     /owner/dog
-    defaults: { _controller: "AppBundle:Dog:dogUpdate", type: updated }
+    path:     /owner/dog/edit
+    defaults: { _controller: "AppBundle:Dog:dogUpdate" }
     options:
         expose: true
-    methods:  [PUT, POST]
+    methods:  [POST]
 
 dog_delete:
     path:     /owner/dog

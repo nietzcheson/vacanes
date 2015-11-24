@@ -18,8 +18,13 @@ class DogType extends AbstractType
             ->add('name')
             ->add('dogSize')
             ->add('dogBreed')
+            ->add('dogPhoto')
             ->add('dogPhoto', 'collection', array(
                 'type' => new DogPhotoType(),
+                'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+
             ))
         ;
     }
@@ -30,7 +35,7 @@ class DogType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Dog'
+            'data_class' => 'AppBundle\Entity\Dog',
         ));
     }
 

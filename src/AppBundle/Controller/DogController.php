@@ -44,31 +44,17 @@ class DogController extends APIRestBaseController implements TokenAuthenticatedC
 
             $dog->setOwner($user->getOwner());
 
+            // foreach($dog->getDogPhoto() as $photo){
+            //     $photo->setDog($dog);
+            // }
+
             $em->persist($dog);
             $em->flush();
-
-            $dogPhoto = $request->files->get('dog_photo_type')['file'];
-
-            if($dogPhoto){
-
-                foreach ($dogPhoto as $photo) {
-
-                    $dogPhoto = new DogPhoto();
-
-                    $dogPhoto->setFile($photo);
-                    $dogPhoto->setDog($dog);
-
-                    $em->persist($dogPhoto);
-                    $em->flush();
-                }
-            }
 
             return $this->apiResponse($dog)->groups(array('dog'))->response();
         }
 
         return $this->apiResponse($this->getErrorMessages($dogForm))->groups(array('dog'))->response();
-
-
     }
 
     public function dogUpdateAction(Request $request)
