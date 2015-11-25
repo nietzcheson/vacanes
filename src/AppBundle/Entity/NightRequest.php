@@ -23,25 +23,12 @@ class NightRequest
      */
     private $id;
 
-    // /**
-    // * @ORM\OneToOne(targetEntity="Request", inversedBy="nightRequest")
-    // * @ORM\JoinColumn(name="request_id", referencedColumnName="id")
-    // */
-    // private $request;
-
     /**
-     * @var string
-     *
-     * @ORM\Column(name="address", type="string", length=255)
-     * @Groups({"nightRequest"})
-     */
-    private $address;
-
-    /**
-    * @ORM\ManyToOne(targetEntity="Owner", inversedBy="petValetRequest")
-    * @ORM\JoinColumn(name="user_owner_id", referencedColumnName="id")
+    * @ORM\OneToOne(targetEntity="Request", inversedBy="nightRequest")
+    * @ORM\JoinColumn(name="request_id", referencedColumnName="id")
     */
-    private $owner;
+    private $request;
+
     /**
      * @var \DateTime
      *
@@ -289,5 +276,29 @@ class NightRequest
     public function getOwner()
     {
         return $this->owner;
+    }
+
+    /**
+     * Set request
+     *
+     * @param \AppBundle\Entity\Request $request
+     *
+     * @return NightRequest
+     */
+    public function setRequest(\AppBundle\Entity\Request $request = null)
+    {
+        $this->request = $request;
+
+        return $this;
+    }
+
+    /**
+     * Get request
+     *
+     * @return \AppBundle\Entity\Request
+     */
+    public function getRequest()
+    {
+        return $this->request;
     }
 }
