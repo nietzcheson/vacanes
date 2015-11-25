@@ -29,3 +29,57 @@ AppBundle\Entity\Dog:
             - NotBlank: ~
         dogBreed:
             - NotBlank: ~
+
+AppBundle\Entity\Request:
+    properties:
+        address:
+            - NotBlank: ~
+        requestType:
+            - NotBlank: ~
+
+AppBundle\Entity\PetValetRequest:
+    properties:
+        request:
+            - NotBlank: ~
+        serviceDate:
+            - NotBlank: ~
+        startTime:
+            - NotBlank: ~
+        endTime:
+            - NotBlank: ~
+
+AppBundle\Entity\DayRequest:
+    properties:
+        request:
+            - NotBlank: ~
+        startDate:
+            - NotBlank: ~
+        endDate:
+            - NotBlank: ~
+        serviceDate:
+            - NotBlank: ~
+        startTime:
+            - NotBlank: ~
+        endTime:
+            - NotBlank: ~
+        serviceType:
+            - NotBlank: ~
+        serviceDays:
+            - NotBlank: ~
+
+AppBundle\Entity\NightRequest:
+    properties:
+        request:
+            - NotBlank: ~
+        startDate:
+            - NotBlank: ~
+        endDate:
+            - NotBlank: ~
+        serviceDate:
+            - NotBlank: ~
+        startTime:
+            - NotBlank: ~
+        endTime:
+            - NotBlank: ~
+        serviceType:
+            - NotBlank: ~
