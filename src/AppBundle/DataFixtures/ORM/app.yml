@@ -28,11 +28,11 @@ AppBundle\Entity\RequestType:
     rt1:
         name: Day Request
         description: --
-        type: day
+        type: day_request
     rt2:
         name: Night Request
         description: --
-        type: night
+        type: night_request
     rt3:
         name: Pet Valet
         description: --

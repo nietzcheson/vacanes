@@ -27,7 +27,6 @@ class RequestController extends APIRestBaseController implements TokenAuthentica
 
     public function requestAction(Request $request)
     {
-
         $em = $this->em();
 
         $requestService = new RequestService();
@@ -56,26 +55,36 @@ class RequestController extends APIRestBaseController implements TokenAuthentica
 
                     if($petValetRequestForm->isValid()){
 
-                        $petValetRequestType = $request->request->get('pet_valet_request_type');
-
-                        $petValetRequest->setServiceDate(new \Datetime($petValetRequestType['serviceDate']));
-                        $petValetRequest->setStartTime(new \Datetime($petValetRequestType['startTime']));
-                        $petValetRequest->setEndTime(new \Datetime($petValetRequestType['endTime']));
-
                         $petValetRequest->setRequest($requestService);
                         $em->persist($petValetRequest);
+                        $em->flush();
 
                     }
 
-                    return $this->apiResponse($this->getErrorMessages($petValetRequestForm))->groups(array('petValetRequest'))->response();
+                    $this->apiResponse($this->getErrorMessages($petValetRequestForm))->groups(array('petValetRequest'))->response();
 
                     break;
+                case 'day_request':
 
+                    $petValetRequest = new DayRequest();
+                    $petValetRequestForm = $this->createForm(new PetValetRequestType(), $petValetRequest)->handleRequest($request);
+
+                    if($petValetRequestForm->isValid()){
+
+                        $petValetRequest->setRequest($requestService);
+                        $em->persist($petValetRequest);
+                        $em->flush();
+
+                    }
+
+                    $this->apiResponse($this->getErrorMessages($petValetRequestForm))->groups(array('petValetRequest'))->response();
+
+
+                    break;
                 default:
                     # code...
                     break;
             }
-
 
             return $this->apiResponse($requestService)->groups(array('request'))->response();
         }

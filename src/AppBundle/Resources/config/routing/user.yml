@@ -105,7 +105,7 @@ request_pet_valet:
     defaults: { _controller: "AppBundle:Request:request" }
     options:
         expose: true
-    methods:  [POST]
+    methods:  [GET, POST]
 
 request_day:
     path:     /request/day

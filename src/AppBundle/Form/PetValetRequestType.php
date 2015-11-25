@@ -15,9 +15,15 @@ class PetValetRequestType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('serviceDate')
-            ->add('startTime')
-            ->add('endTime')
+            ->add('serviceDate', 'date', array(
+                'widget' => 'single_text',
+            ))
+            ->add('startTime', 'time', array(
+                'widget' => 'single_text',
+            ))
+            ->add('endTime', 'time', array(
+                'widget' => 'single_text',
+            ))
             ->add('comments')
         ;
     }
