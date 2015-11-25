@@ -46,8 +46,8 @@ class RequestController extends APIRestBaseController implements TokenAuthentica
             * [PetValet, DayRequest, NightRequest]
             */
 
-            $this->requestType($requestService, $request);
-
+            echo $this->requestType($requestService, $request);
+            exit();
             $em->persist($requestService);
 
             $em->flush();
@@ -61,20 +61,24 @@ class RequestController extends APIRestBaseController implements TokenAuthentica
 
     private function requestType($model, Request $request)
     {
+        $returnRequest = '';
+
         switch ($model->getRequestType()->getType()) {
             case 'pet_valet':
-                $this->petValetRequest($model, $request);
+                $returnRequest = $this->petValetRequest($model, $request);
                 break;
             case 'day_request':
-                $this->dayRequest($model, $request);
+                $returnRequest = $this->dayRequest($model, $request);
                 break;
             case 'night_request':
-                $this->nightRequest($model, $request);
+                $returnRequest = $this->nightRequest($model, $request);
                 break;
             default:
                 die('No Request Found');
                 break;
         }
+
+        return $returnRequest;
     }
 
     private function petValetRequest($model, Request $request)
@@ -85,12 +89,12 @@ class RequestController extends APIRestBaseController implements TokenAuthentica
         $petValetRequestForm = $this->createForm(new PetValetRequestType(), $petValetRequest)->handleRequest($request);
 
         if($petValetRequestForm->isValid()){
-
+            exit('Entra');
             $petValetRequest->setRequest($model);
             $em->persist($petValetRequest);
         }
 
-        return $this->apiResponse($this->getErrorMessages($petValetRequestForm))->response();
+        return $this->apiResponse($this->getErrorMessages($petValetRequestForm))->statusCode(500)->statusText('Errors')->response();
     }
 
     private function dayRequest($model, Request $request)

@@ -39,8 +39,8 @@ AppBundle\Entity\Request:
 
 AppBundle\Entity\PetValetRequest:
     properties:
-        request:
-            - NotBlank: ~
+        # request:
+        #     - NotBlank: ~
         serviceDate:
             - NotBlank: ~
         startTime:
