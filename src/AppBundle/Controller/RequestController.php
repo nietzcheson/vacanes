@@ -46,8 +46,12 @@ class RequestController extends APIRestBaseController implements TokenAuthentica
             * [PetValet, DayRequest, NightRequest]
             */
 
-            echo $this->requestType($requestService, $request);
-            exit();
+            $requestType = $this->requestType($requestService, $request);
+
+            if($requestType != 1){
+                return $this->apiResponse($requestType)->statusCode(500)->statusText('Errores')->response();
+            }
+
             $em->persist($requestService);
 
             $em->flush();
@@ -73,9 +77,6 @@ class RequestController extends APIRestBaseController implements TokenAuthentica
             case 'night_request':
                 $returnRequest = $this->nightRequest($model, $request);
                 break;
-            default:
-                die('No Request Found');
-                break;
         }
 
         return $returnRequest;
@@ -89,12 +90,13 @@ class RequestController extends APIRestBaseController implements TokenAuthentica
         $petValetRequestForm = $this->createForm(new PetValetRequestType(), $petValetRequest)->handleRequest($request);
 
         if($petValetRequestForm->isValid()){
-            exit('Entra');
             $petValetRequest->setRequest($model);
             $em->persist($petValetRequest);
+
+            return true;
         }
 
-        return $this->apiResponse($this->getErrorMessages($petValetRequestForm))->statusCode(500)->statusText('Errors')->response();
+        return $this->getErrorMessages($petValetRequestForm);
     }
 
     private function dayRequest($model, Request $request)
@@ -108,9 +110,11 @@ class RequestController extends APIRestBaseController implements TokenAuthentica
 
             $dayRequest->setRequest($model);
             $em->persist($dayRequest);
+
+            return true;
         }
 
-        return $this->apiResponse($this->getErrorMessages($dayRequestForm))->response();
+        return $this->getErrorMessages($dayRequestForm);
     }
 
     private function nightRequest($model, Request $request)
@@ -125,9 +129,10 @@ class RequestController extends APIRestBaseController implements TokenAuthentica
             $nightRequest->setRequest($model);
             $em->persist($nightRequest);
 
+            return true;
         }
 
-        return $this->apiResponse($this->getErrorMessages($nightRequestForm))->response();
+        return $this->getErrorMessages($nightRequestForm);
     }
 
 }
