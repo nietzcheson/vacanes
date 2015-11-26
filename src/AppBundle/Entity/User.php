@@ -89,9 +89,9 @@ class User
     private $owner;
 
     /**
-     * @ORM\OneToOne(targetEntity="UserWatcher", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Watcher", mappedBy="user", cascade={"persist", "remove"})
      */
-    private $userWatcher;
+    private $watcher;
 
     public function __construct()
     {
@@ -324,5 +324,53 @@ class User
     public function getUserWatcher()
     {
         return $this->userWatcher;
+    }
+
+    /**
+     * Set watcher
+     *
+     * @param \AppBundle\Entity\Watcher $watcher
+     *
+     * @return User
+     */
+    public function setWatcher(\AppBundle\Entity\Watcher $watcher = null)
+    {
+        $this->watcher = $watcher;
+
+        return $this;
+    }
+
+    /**
+     * Get watcher
+     *
+     * @return \AppBundle\Entity\Watcher
+     */
+    public function getWatcher()
+    {
+        return $this->watcher;
+    }
+
+    /**
+     * Add watcher
+     *
+     * @param \AppBundle\Entity\Watcher $watcher
+     *
+     * @return User
+     */
+    public function addWatcher(\AppBundle\Entity\Watcher $watcher)
+    {
+        $this->watcher[] = $watcher;
+
+        return $this;
+    }
+
+    /**
+     * Remove watcher
+     *
+     * @param \AppBundle\Entity\Watcher $watcher
+     */
+    public function removeWatcher(\AppBundle\Entity\Watcher $watcher)
+    {
+        $this->watcher->removeElement($watcher);
     }
 }

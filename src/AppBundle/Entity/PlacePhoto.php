@@ -40,10 +40,10 @@ class PlacePhoto
     private $temp;
 
     /**
-    * @ORM\ManyToOne(targetEntity="UserWatcher", inversedBy="placePhoto")
-    * @ORM\JoinColumn(name="user_watcher_id", referencedColumnName="id")
+    * @ORM\ManyToOne(targetEntity="Watcher", inversedBy="placePhoto")
+    * @ORM\JoinColumn(name="watcher_id", referencedColumnName="id")
     */
-    private $userWatcher;
+    private $watcher;
 
     /**
      * Get id
@@ -53,30 +53,6 @@ class PlacePhoto
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set userWatcher
-     *
-     * @param \AppBundle\Entity\UserWatcher $userWatcher
-     *
-     * @return PlacePhoto
-     */
-    public function setUserWatcher(\AppBundle\Entity\UserWatcher $userWatcher = null)
-    {
-        $this->userWatcher = $userWatcher;
-
-        return $this;
-    }
-
-    /**
-     * Get userWatcher
-     *
-     * @return \AppBundle\Entity\UserWatcher
-     */
-    public function getUserWatcher()
-    {
-        return $this->userWatcher;
     }
 
     /**
@@ -206,5 +182,29 @@ class PlacePhoto
         $this->path = $path;
 
         return $this;
+    }
+
+    /**
+     * Set watcher
+     *
+     * @param \AppBundle\Entity\Watcher $watcher
+     *
+     * @return PlacePhoto
+     */
+    public function setWatcher(\AppBundle\Entity\Watcher $watcher = null)
+    {
+        $this->watcher = $watcher;
+
+        return $this;
+    }
+
+    /**
+     * Get watcher
+     *
+     * @return \AppBundle\Entity\Watcher
+     */
+    public function getWatcher()
+    {
+        return $this->watcher;
     }
 }

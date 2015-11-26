@@ -28,10 +28,10 @@ class FavoriteWatcher
     private $owner;
 
     /**
-    * @ORM\ManyToOne(targetEntity="UserWatcher", inversedBy="favoriteWatcher")
-    * @ORM\JoinColumn(name="user_watcher_id", referencedColumnName="id")
+    * @ORM\ManyToOne(targetEntity="Watcher", inversedBy="favoriteWatcher")
+    * @ORM\JoinColumn(name="watcher_id", referencedColumnName="id")
     */
-    private $userWatcher;
+    private $watcher;
 
     /**
      * Get id
@@ -68,26 +68,26 @@ class FavoriteWatcher
     }
 
     /**
-     * Set userWatcher
+     * Set watcher
      *
-     * @param \AppBundle\Entity\UserWatcher $userWatcher
+     * @param \AppBundle\Entity\Watcher $watcher
      *
      * @return FavoriteWatcher
      */
-    public function setUserWatcher(\AppBundle\Entity\UserWatcher $userWatcher = null)
+    public function setWatcher(\AppBundle\Entity\Watcher $watcher = null)
     {
-        $this->userWatcher = $userWatcher;
+        $this->watcher = $watcher;
 
         return $this;
     }
 
     /**
-     * Get userWatcher
+     * Get watcher
      *
-     * @return \AppBundle\Entity\UserWatcher
+     * @return \AppBundle\Entity\Watcher
      */
-    public function getUserWatcher()
+    public function getWatcher()
     {
-        return $this->userWatcher;
+        return $this->watcher;
     }
 }

@@ -2,97 +2,42 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Controller\APIRestBaseController;
+use AppBundle\Controller\TokenAuthenticatedController;
+use AppBundle\Entity\User;
+use AppBundle\Entity\Watcher;
+use AppBundle\Entity\PlacePhoto;
+use AppBundle\Entity\WatcherAllowedSize;
+use AppBundle\Form\WatcherType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\User;
-use AppBundle\Entity\UserWatcher;
-use AppBundle\Entity\PlacePhoto;
-use AppBundle\Entity\WatcherAllowedSize;
-use Doctrine\Common\Collections\ArrayCollection;
 
-class WatcherController extends Controller
+class WatcherController extends APIRestBaseController implements TokenAuthenticatedController
 {
-    public function watcherAction($id, Request $request)
-    {
-        $response = new Response();
-        $serializer = $this->get('serializer');
-
-        $em = $this->getDoctrine()->getManager();
-        $userOwner = $em->getRepository('AppBundle:UserWatcher')->findOneBy(array('user' => $id));
-
-        if(!$userOwner){
-            $response->setStatusCode(204, 'No user found');
-
-            return $response->setContent($serializer->serialize($userOwner, 'json', array('groups' => array('watcher'))));
-        }
-
-        return $response->setContent($serializer->serialize($userOwner, 'json', array('groups' => array('watcher','placePhoto'))));
-    }
-
     public function watcherCreateAction(Request $request)
     {
-        $response = new Response();
-        $serializer = $this->get('serializer');
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->em();
 
-        $watcher = new UserWatcher();
+        $watcher = new Watcher();
 
-        $watcher->setBios($request->request->get('bios'));
-        $watcher->setTelephone($request->request->get('telephone'));
+        $watcherForm = $this->createForm(new WatcherType(), $watcher)->handleRequest($request);
 
-        $user = $em->getRepository('AppBundle:User')->findOneBy(array('id' => $request->request->get('user')));
+        if($watcherForm->isValid()){
 
-        if(!$user){
-            $response->setStatusCode(204, 'No user found');
+            $user = $request->attributes->get('user');
 
-            return $response->setContent($serializer->serialize($user, 'json'));
+            $watcher->setUser($user);
+
+            $em->persist($watcher);
+
+            $em->flush();
+
+            return $this->apiResponse($watcher)->groups(array('watcher'))->response();
         }
 
-        $watcher->setUser($user);
-
-        if($request->request->get('watcherAllowedSize')){
-
-            foreach ($request->request->get('watcherAllowedSize') as $size) {
-
-                $dogSize = $em->getRepository('AppBundle:DogSize')->findOneBy(array('id' => $size));
-
-                $watcherAllowedSize = new WatcherAllowedSize();
-
-                $watcherAllowedSize->setDogSize($dogSize);
-                $watcherAllowedSize->setUserWatcher($watcher);
-
-                $em->persist($watcherAllowedSize);
-            }
-        }
-
-        if($request->files->get('placePhoto')){
-            foreach($request->files->get('placePhoto') as $photo){
-
-                $placePhotos = new PlacePhoto();
-
-                $placePhotos->setUserWatcher($watcher);
-                $placePhotos->setFile($photo);
-
-                $em->persist($placePhotos);
-            }
-        }
-
-        $validator = $this->get('validator');
-        $errors = $validator->validate($watcher);
-
-        if (count($errors) > 0) {
-
-            $errorsString = (string) $errors;
-            $response->setStatusCode(409, 'Errors');
-
-            return $response->setContent($serializer->serialize($errorsString, 'json'));
-        }
-
-        $em->persist($watcher);
-        $em->flush();
-
-        return $response->setContent($serializer->serialize($watcher, 'json', array('groups' => array('watcher','placePhoto'))));
+        return $this->apiResponse($this->getErrorMessages($watcherForm))->groups(array('watcher'))->response();
     }
 
     public function watcherUpdateAction(Request $request)

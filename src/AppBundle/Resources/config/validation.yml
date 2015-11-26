@@ -84,3 +84,16 @@ AppBundle\Entity\NightRequest:
             - NotBlank: ~
         serviceType:
             - NotBlank: ~
+
+AppBundle\Entity\Watcher:
+    properties:
+        bios:
+            - NotBlank: ~
+        telephone:
+            - NotBlank: ~
+            - Type: { type: integer }
+
+# AppBundle\Entity\PlacePhoto:
+#     properties:
+#         file:
+#             - Image: ~

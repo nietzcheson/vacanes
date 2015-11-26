@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class DogType extends AbstractType
+class PlacePhotoType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,16 +15,7 @@ class DogType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('dogSize')
-            ->add('dogBreed')
-            ->add('dogPhoto', 'collection', array(
-                'type' => new DogPhotoType(),
-                'by_reference' => false,
-                'allow_add' => true,
-                'allow_delete' => true,
-
-            ))
+            ->add('file')
         ;
     }
 
@@ -34,7 +25,7 @@ class DogType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Dog',
+            'data_class' => 'AppBundle\Entity\PlacePhoto'
         ));
     }
 
@@ -43,6 +34,6 @@ class DogType extends AbstractType
      */
     public function getName()
     {
-        return 'dog_type';
+        return 'place_photo_type';
     }
 }

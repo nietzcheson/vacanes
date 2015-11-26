@@ -5,11 +5,3 @@ auth:
 user:
     resource: "@AppBundle/Resources/config/routing/user.yml"
     prefix:   /user
-
-owner:
-    resource: "@AppBundle/Resources/config/routing/owner.yml"
-    prefix:   /owner
-
-watcher:
-    resource: "@AppBundle/Resources/config/routing/watcher.yml"
-    prefix:   /watcher
