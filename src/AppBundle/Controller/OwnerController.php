@@ -33,7 +33,7 @@ class OwnerController extends APIRestBaseController implements TokenAuthenticate
             return $this->apiResponse($owner)->groups(array('owner'))->response();
         }
 
-        return $this->apiResponse($this->getErrorMessages($owner))->groups(array('owner'))->response();
+        return $this->apiResponse($this->getErrorMessages($ownerForm))->groups(array('owner'))->response();
 
     }
 

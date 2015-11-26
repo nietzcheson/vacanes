@@ -16,10 +16,13 @@ AppBundle\Entity\Owner:
             - NotBlank: ~
         latitude:
             - NotBlank: ~
+            - Type: { type: integer, message: Pailas }
         longitude:
             - NotBlank: ~
+            - Type: { type: integer }
         user:
             - NotBlank: ~
+            - Type: { type: object }
 
 AppBundle\Entity\Dog:
     properties:
@@ -39,43 +42,41 @@ AppBundle\Entity\Request:
 
 AppBundle\Entity\PetValetRequest:
     properties:
-        # request:
-        #     - NotBlank: ~
         serviceDate:
             - NotBlank: ~
+            - Date: ~
         startTime:
             - NotBlank: ~
+            - Time: ~
         endTime:
             - NotBlank: ~
+            - Time: ~
 
 AppBundle\Entity\DayRequest:
     properties:
-        request:
-            - NotBlank: ~
         startDate:
             - NotBlank: ~
+            - Date: ~
         endDate:
             - NotBlank: ~
-        serviceDate:
-            - NotBlank: ~
+            - Date: ~
         startTime:
             - NotBlank: ~
+            - Time: ~
         endTime:
             - NotBlank: ~
+            - Time: ~
         serviceType:
             - NotBlank: ~
         serviceDays:
             - NotBlank: ~
+            - Type: { type: integer }
 
 AppBundle\Entity\NightRequest:
     properties:
-        request:
-            - NotBlank: ~
         startDate:
             - NotBlank: ~
         endDate:
-            - NotBlank: ~
-        serviceDate:
             - NotBlank: ~
         startTime:
             - NotBlank: ~
