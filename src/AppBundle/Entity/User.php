@@ -89,7 +89,7 @@ class User
     private $owner;
 
     /**
-     * @ORM\OneToMany(targetEntity="Watcher", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="Watcher", mappedBy="user", cascade={"persist", "remove"})
      */
     private $watcher;
 

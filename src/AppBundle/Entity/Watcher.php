@@ -40,7 +40,7 @@ class Watcher
     private $telephone;
 
     /**
-    * @ORM\ManyToOne(targetEntity="User", inversedBy="watcher")
+    * @ORM\OneToOne(targetEntity="User", inversedBy="watcher")
     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
     */
     private $user;

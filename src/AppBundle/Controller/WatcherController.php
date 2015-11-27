@@ -42,95 +42,41 @@ class WatcherController extends APIRestBaseController implements TokenAuthentica
 
     public function watcherUpdateAction(Request $request)
     {
-        $response = new Response();
-        $em = $this->getDoctrine()->getManager();
-        $serializer = $this->get('serializer');
+        $em = $this->em();
 
-        $watcher = $em->getRepository('AppBundle:userWatcher')->findOneBy(array('id' => $request->request->get('id')));
+        $user = $request->attributes->get('user');
 
+        $watcher = $user->getWatcher();
 
-        $dogSizeOriginals = $this->dogSizeOriginals($watcher);
+        $watcherForm = $this->createForm(new WatcherType(), $watcher)->handleRequest($request);
 
-        if(!$watcher){
-            $response->setStatusCode(204, 'No user found');
+        if($watcherForm->isValid()){
 
-            return $response->setContent($serializer->serialize($watcher, 'json', array('groups' => array('watcher'))));
+            $user = $request->attributes->get('user');
+
+            $watcher->setUser($user);
+
+            $em->persist($watcher);
+
+            $em->flush();
+
+            return $this->apiResponse($watcher)->groups(array('watcher'))->response();
         }
 
-        $watcher->setBios($request->request->get('bios'));
-        $watcher->setTelephone($request->request->get('telephone'));
-
-        $watcherAllowedSize = $request->request->get('watcherAllowedSize');
-
-        if($watcherAllowedSize){
-
-            $allowedSize = [];
-
-            foreach ($watcherAllowedSize as $key => $size) {
-
-                $dogSize = $em->getRepository('AppBundle:DogSize')->findOneBy(array('id' => $size));
-
-                $watcherAllowedSize = new WatcherAllowedSize();
-
-                $watcherAllowedSize->setDogSize($dogSize);
-                $watcherAllowedSize->setUserWatcher($watcher);
-
-                $allowedSize[$key] = $watcherAllowedSize;
-
-            }
-
-            foreach($watcher->getWatcherAllowedSize() as $i){
-
-                foreach($allowedSize as $allowed){
-
-                    if($allowed->getId() != $i->getId()){
-                        $em->remove($i);
-                    }
-
-                }
-            }
-
-            foreach($allowedSize as $allowed){
-
-                $em->persist($allowed);
-
-            }
-        }
-
-        $validator = $this->get('validator');
-        $errors = $validator->validate($watcher);
-
-        if (count($errors) > 0) {
-
-            $errorsString = (string) $errors;
-
-            $response->setStatusCode(409, 'Errors');
-
-            return $response->setContent($serializer->serialize($errorsString, 'json'));
-        }
-
-        $em->flush();
-
-        return $response->setContent($serializer->serialize($watcher, 'json', array('groups' => array('watcher'))));
+        return $this->apiResponse($this->getErrorMessages($watcherForm))->groups(array('watcher'))->response();
     }
 
     public function watcherDeleteAction(Request $request)
     {
-        $response = new Response();
-        $serializer = $this->get('serializer');
+        $em = $this->em();
+        $user = $request->attributes->get('user');
 
-        $em = $this->getDoctrine()->getManager();
-
-        $watcher = $em->getRepository('AppBundle:UserWatcher')->findOneBy(array('id' => $request->request->get('id')));
-
-        if(!$watcher){
-            $response->setStatusCode(204, 'No user found');
-            return $response->setContent($serializer->serialize($watcher, 'json'));
-        }
+        $watcher = $user->getWatcher();
 
         $em->remove($watcher);
         $em->flush();
 
-        return $response->setContent($serializer->serialize('DELETE', 'json'));
+        return $this->apiResponse('Watcher removed')->response();
+
     }
 }

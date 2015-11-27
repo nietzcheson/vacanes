@@ -130,14 +130,14 @@ watcher_create:
     defaults: { _controller: "AppBundle:Watcher:watcherCreate" }
     options:
         expose: true
-    methods:  [GET, POST]
+    methods:  [POST]
 
 watcher_update:
-    path:     /watcher
+    path:     /watcher/edit
     defaults: { _controller: "AppBundle:Watcher:watcherUpdate" }
     options:
         expose: true
-    methods:  [PUT]
+    methods:  [POST]
 
 watcher_delete:
     path:     /watcher

@@ -22,6 +22,7 @@ class WatcherType extends AbstractType
                 'by_reference' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
+                'cascade_validation' => true,
             ))
         ;
     }
@@ -32,7 +33,8 @@ class WatcherType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Watcher'
+            'data_class' => 'AppBundle\Entity\Watcher',
+            'cascade_validation' => true,
         ));
     }
 

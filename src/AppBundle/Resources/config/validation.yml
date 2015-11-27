@@ -96,4 +96,4 @@ AppBundle\Entity\Watcher:
 # AppBundle\Entity\PlacePhoto:
 #     properties:
 #         file:
-#             - Image: ~
+#             - NotBlank: ~
