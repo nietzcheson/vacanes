@@ -24,21 +24,7 @@ class AppFixtures extends AbstractLoader
             __DIR__.'/app.yml'
         ];
     }
-
-    public function characterName()
-    {
-        $names = [
-            'Cristian',
-            'Dulce',
-            'Emmanuel',
-            'David',
-            'Ivanna',
-            'Regina'
-        ];
-
-        return $names[array_rand($names)];
-    }
-
+    
     public function lat()
     {
         if($this->sings() == '+'){
