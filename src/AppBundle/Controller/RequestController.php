@@ -15,6 +15,8 @@ use AppBundle\Form\PetValetRequestType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
+use AppBundle\AppEvents;
+
 class RequestController extends APIRestBaseController implements TokenAuthenticatedController
 {
 
@@ -55,6 +57,15 @@ class RequestController extends APIRestBaseController implements TokenAuthentica
             $em->persist($requestService);
 
             $em->flush();
+
+            /**
+            * Event for find all watchers
+            */
+
+            $this->get('event_dispatcher')->dispatch(
+                AppEvents::REQUEST_SERVICE,
+                new RequestEvent($requestService)
+            );
 
             return $this->apiResponse($requestService)->groups(array('request'))->response();
         }
