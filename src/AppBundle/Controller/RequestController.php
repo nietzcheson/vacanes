@@ -7,6 +7,7 @@ use AppBundle\Controller\TokenAuthenticatedController;
 use AppBundle\Entity\DayRequest;
 use AppBundle\Entity\NightRequest;
 use AppBundle\Entity\PetValetRequest;
+use AppBundle\Event\RequestServiceEvent as RequestEvent;
 use AppBundle\Entity\Request as RequestService;
 use AppBundle\Form\DayRequestType;
 use AppBundle\Form\NightRequestType;

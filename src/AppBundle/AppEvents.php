@@ -2,7 +2,7 @@
 
 namespace AppBundle;
 
-final class AppBundle
+final class AppEvents
 {
 
     const REQUEST_SERVICE = 'request.service';

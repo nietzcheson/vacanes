@@ -25,6 +25,8 @@ class PetValetRequestType extends AbstractType
                 'widget' => 'single_text',
             ))
             ->add('comments')
+            ->add('latitude')
+            ->add('longitude')
         ;
     }
 

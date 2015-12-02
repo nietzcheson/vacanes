@@ -5,7 +5,6 @@ services:
             - @users.manager
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
-            #- { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
     users.manager:
         class: AppBundle\Model\UserManager
@@ -20,3 +19,10 @@ services:
 
     response_bag.utils:
         class: AppBundle\Utils\ResponseBag
+
+    request.service:
+        class: AppBundle\EventListener\RequestServiceListener
+        arguments:
+            - @doctrine.orm.entity_manager
+        tags:
+            - { name: kernel.event_listener, event: request.service, method: onRequestService }

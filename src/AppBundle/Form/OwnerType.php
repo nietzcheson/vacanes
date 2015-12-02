@@ -16,8 +16,6 @@ class OwnerType extends AbstractType
     {
         $builder
             ->add('address')
-            ->add('latitude')
-            ->add('longitude')
         ;
     }
 

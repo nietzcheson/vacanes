@@ -9,17 +9,17 @@ AppBundle\Entity\User:
         email:
             - NotBlank: ~
             - Email: ~
-
-AppBundle\Entity\Owner:
-    properties:
-        address:
-            - NotBlank: ~
         latitude:
             - NotBlank: ~
             - Type: { type: integer, message: Pailas }
         longitude:
             - NotBlank: ~
             - Type: { type: integer }
+
+AppBundle\Entity\Owner:
+    properties:
+        address:
+            - NotBlank: ~
         user:
             - NotBlank: ~
             - Type: { type: object }
