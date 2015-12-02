@@ -24,7 +24,7 @@ class AppFixtures extends AbstractLoader
             __DIR__.'/app.yml'
         ];
     }
-    
+
     public function lat()
     {
         if($this->sings() == '+'){
@@ -60,6 +60,6 @@ class AppFixtures extends AbstractLoader
 
     private function sings()
     {
-        return ['+','-'];
+        return array_rand(['+','-']);
     }
 }
