@@ -93,6 +93,22 @@ class User
      */
     private $watcher;
 
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="latitude", type="float", scale=2, precision=11)
+     * @Groups({"owner"})
+     */
+    private $latitude;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="longitude", type="float", scale=2, precision=11)
+     * @Groups({"owner"})
+     */
+    private $longitude;
+
     public function __construct()
     {
         $this->isActive = true;
@@ -372,5 +388,53 @@ class User
     public function removeWatcher(\AppBundle\Entity\Watcher $watcher)
     {
         $this->watcher->removeElement($watcher);
+    }
+
+    /**
+     * Set latitude
+     *
+     * @param float $latitude
+     *
+     * @return User
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    /**
+     * Get latitude
+     *
+     * @return float
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * Set longitude
+     *
+     * @param float $longitude
+     *
+     * @return User
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    /**
+     * Get longitude
+     *
+     * @return float
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
     }
 }

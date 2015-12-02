@@ -1,10 +1,18 @@
-# AppBundle\Entity\User:
-#     user:
-#         facebookId: 24421421251252521
-#         firstName: Cristian
-#         lastName: Angulo
-#         email: cristianangulonova@gmail.com
-#         token: 333
+AppBundle\Entity\User:
+    user{1..100}:
+        facebookId: <lat()>
+        firstName: <firstName()>
+        lastName: <lastName()>
+        email: <email()>
+        token: <randomFloat()>
+        latitude: <lat()>
+        longitude: <lng()>
+
+AppBundle\Entity\Watcher:
+    watcher_{1..100}:
+        bios: <paragraph()>
+        telephone: <randomFloat()>
+        user: @user<current()>
 
 AppBundle\Entity\DogSize:
     small:

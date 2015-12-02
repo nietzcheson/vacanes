@@ -32,22 +32,6 @@ class Owner
     private $address;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="latitude", type="string", length=255)
-     * @Groups({"owner"})
-     */
-    private $latitude;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="longitude", type="string", length=255)
-     * @Groups({"owner"})
-     */
-    private $longitude;
-
-    /**
     * @ORM\OneToOne(targetEntity="User", inversedBy="owner")
     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
     */

@@ -24,6 +24,22 @@ class PetValetRequest
     private $id;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="latitude", type="float", scale=2, precision=11)
+     * @Groups({"owner"})
+     */
+    private $latitude;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="longitude", type="float", scale=2, precision=11)
+     * @Groups({"owner"})
+     */
+    private $longitude;
+
+    /**
     * @ORM\OneToOne(targetEntity="Request", inversedBy="petValetRequest")
     * @ORM\JoinColumn(name="request_id", referencedColumnName="id")
     */
@@ -189,5 +205,53 @@ class PetValetRequest
     public function getRequest()
     {
         return $this->request;
+    }
+
+    /**
+     * Set latitude
+     *
+     * @param float $latitude
+     *
+     * @return PetValetRequest
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    /**
+     * Get latitude
+     *
+     * @return float
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * Set longitude
+     *
+     * @param float $longitude
+     *
+     * @return PetValetRequest
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    /**
+     * Get longitude
+     *
+     * @return float
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
     }
 }
