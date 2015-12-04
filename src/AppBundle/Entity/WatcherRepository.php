@@ -10,4 +10,24 @@ namespace AppBundle\Entity;
  */
 class WatcherRepository extends \Doctrine\ORM\EntityRepository
 {
+
+
+    public function findWatchers($user, $perimeter)
+    {
+        try {
+            return $this->getEntityManager()->createQuery(
+                'SELECT w FROM AppBundle:Watcher w
+                 LEFT JOIN w.user u
+                 WHERE (pow(u.latitude - :latitude, 2) + pow(u.longitude - :longitude, 2)) <= :perimeter
+                '
+            )
+            ->setParameter('latitude', $user->getLatitude())
+            ->setParameter('longitude', $user->getLongitude())
+            ->setParameter('perimeter', $perimeter)
+            ->getResult();
+
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
 }

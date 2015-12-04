@@ -295,102 +295,6 @@ class User
     }
 
     /**
-     * Set owner
-     *
-     * @param \AppBundle\Entity\Owner $owner
-     *
-     * @return User
-     */
-    public function setOwner(\AppBundle\Entity\Owner $owner = null)
-    {
-        $this->owner = $owner;
-
-        return $this;
-    }
-
-    /**
-     * Get owner
-     *
-     * @return \AppBundle\Entity\Owner
-     */
-    public function getOwner()
-    {
-        return $this->owner;
-    }
-
-    /**
-     * Set userWatcher
-     *
-     * @param \AppBundle\Entity\UserWatcher $userWatcher
-     *
-     * @return User
-     */
-    public function setUserWatcher(\AppBundle\Entity\UserWatcher $userWatcher = null)
-    {
-        $this->userWatcher = $userWatcher;
-
-        return $this;
-    }
-
-    /**
-     * Get userWatcher
-     *
-     * @return \AppBundle\Entity\UserWatcher
-     */
-    public function getUserWatcher()
-    {
-        return $this->userWatcher;
-    }
-
-    /**
-     * Set watcher
-     *
-     * @param \AppBundle\Entity\Watcher $watcher
-     *
-     * @return User
-     */
-    public function setWatcher(\AppBundle\Entity\Watcher $watcher = null)
-    {
-        $this->watcher = $watcher;
-
-        return $this;
-    }
-
-    /**
-     * Get watcher
-     *
-     * @return \AppBundle\Entity\Watcher
-     */
-    public function getWatcher()
-    {
-        return $this->watcher;
-    }
-
-    /**
-     * Add watcher
-     *
-     * @param \AppBundle\Entity\Watcher $watcher
-     *
-     * @return User
-     */
-    public function addWatcher(\AppBundle\Entity\Watcher $watcher)
-    {
-        $this->watcher[] = $watcher;
-
-        return $this;
-    }
-
-    /**
-     * Remove watcher
-     *
-     * @param \AppBundle\Entity\Watcher $watcher
-     */
-    public function removeWatcher(\AppBundle\Entity\Watcher $watcher)
-    {
-        $this->watcher->removeElement($watcher);
-    }
-
-    /**
      * Set latitude
      *
      * @param float $latitude
@@ -436,5 +340,53 @@ class User
     public function getLongitude()
     {
         return $this->longitude;
+    }
+
+    /**
+     * Set owner
+     *
+     * @param \AppBundle\Entity\Owner $owner
+     *
+     * @return User
+     */
+    public function setOwner(\AppBundle\Entity\Owner $owner = null)
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return \AppBundle\Entity\Owner
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    /**
+     * Set watcher
+     *
+     * @param \AppBundle\Entity\Watcher $watcher
+     *
+     * @return User
+     */
+    public function setWatcher(\AppBundle\Entity\Watcher $watcher = null)
+    {
+        $this->watcher = $watcher;
+
+        return $this;
+    }
+
+    /**
+     * Get watcher
+     *
+     * @return \AppBundle\Entity\Watcher
+     */
+    public function getWatcher()
+    {
+        return $this->watcher;
     }
 }

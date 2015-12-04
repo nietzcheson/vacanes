@@ -21,7 +21,8 @@
 		"doctrine/doctrine-fixtures-bundle": "2.2.*",
 		"facebook/php-sdk-v4" : "~5.0",
         "hautelook/alice-bundle": "^1.1",
-        "raulfraile/ladybug-bundle": "^1.0"
+        "raulfraile/ladybug-bundle": "^1.0",
+        "oro/doctrine-extensions": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

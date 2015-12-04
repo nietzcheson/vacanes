@@ -45,6 +45,11 @@ class UserWatcherRequest
      */
     private $response;
 
+    public function __construct()
+    {
+        $this->viewed = 0;
+    }
+
     /**
      * Get id
      *
