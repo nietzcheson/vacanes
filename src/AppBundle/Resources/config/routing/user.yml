@@ -145,3 +145,10 @@ watcher_delete:
     options:
         expose: true
     methods:  [DELETE]
+
+watcher_services:
+    path:     /watcher/services
+    defaults: { _controller: "AppBundle:Watcher:watcherServices" }
+    options:
+        expose: true
+    methods:  [POST]

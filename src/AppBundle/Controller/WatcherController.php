@@ -79,4 +79,15 @@ class WatcherController extends APIRestBaseController implements TokenAuthentica
         return $this->apiResponse('Watcher removed')->response();
 
     }
+
+    public function watcherServicesAction(Request $request)
+    {
+        $user = $request->attributes->get('user');
+
+        $watcherRequests = $user->getWatcher()->getUserWatcherRequests();
+
+        echo count($watcherRequests);
+
+        exit('Services');
+    }
 }

@@ -2,16 +2,10 @@ services:
     vacanes.auth:
         class: AppBundle\EventListener\TokenListener
         arguments:
-            - @users.manager
+            - @doctrine.orm.entity_manager
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
-
-    users.manager:
-        class: AppBundle\Model\UserManager
-        arguments:
-            - @doctrine.orm.entity_manager
-            - AppBundle\Entity\User
-
+            
     users.type:
         class: AppBundle\Form\UserType
         tags:

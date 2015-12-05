@@ -3,18 +3,18 @@
 namespace AppBundle\EventListener;
 
 use AppBundle\Controller\TokenAuthenticatedController;
-use AppBundle\Model\UserManager;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 class TokenListener
 {
-    private $userManager;
+    private $em;
 
-    public function __construct(UserManager $userManager)
+    public function __construct(EntityManager $em)
     {
-        $this->userManager = $userManager;
+        $this->em = $em;
     }
 
     public function onKernelController(FilterControllerEvent $event)
@@ -33,7 +33,7 @@ class TokenListener
                 throw new AccessDeniedHttpException('This action needs a valid token!');
             }
 
-            $user = $this->userManager->findOneBy(array('token' => $token));
+            $user = $this->em->getRepository('AppBundle:User')->findOneBy(array('token' => $token));
 
             if(!$user){
                 throw new AccessDeniedHttpException('User not found!');
