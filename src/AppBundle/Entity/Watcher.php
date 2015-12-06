@@ -62,9 +62,9 @@ class Watcher
     private $favoriteWatcher;
 
     /**
-     * @ORM\OneToMany(targetEntity="UserWatcherRequest", mappedBy="watcher", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="WatcherRequest", mappedBy="watcher", cascade={"persist", "remove"})
      */
-    private $userWatcherRequests;
+    private $watcherRequest;
 
     /**
      * Constructor
@@ -74,7 +74,7 @@ class Watcher
         $this->placePhoto = new \Doctrine\Common\Collections\ArrayCollection();
         $this->allowedSizes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->favoriteWatchers = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->userWatcherRequests = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->watcherRequests = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -168,8 +168,9 @@ class Watcher
      */
     public function addPlacePhoto(\AppBundle\Entity\PlacePhoto $placePhoto)
     {
-        $placePhoto->setWatcher($this);
-        $this->placePhoto->add($placePhoto);
+        $this->placePhoto[] = $placePhoto;
+
+        return $this;
     }
 
     /**
@@ -261,36 +262,36 @@ class Watcher
     }
 
     /**
-     * Add userWatcherRequest
+     * Add watcherRequest
      *
-     * @param \AppBundle\Entity\UserWatcherRequest $userWatcherRequest
+     * @param \AppBundle\Entity\WatcherRequest $watcherRequest
      *
      * @return Watcher
      */
-    public function addUserWatcherRequest(\AppBundle\Entity\UserWatcherRequest $userWatcherRequest)
+    public function addWatcherRequest(\AppBundle\Entity\WatcherRequest $watcherRequest)
     {
-        $this->userWatcherRequests[] = $userWatcherRequest;
+        $this->watcherRequest[] = $watcherRequest;
 
         return $this;
     }
 
     /**
-     * Remove userWatcherRequest
+     * Remove watcherRequest
      *
-     * @param \AppBundle\Entity\UserWatcherRequest $userWatcherRequest
+     * @param \AppBundle\Entity\WatcherRequest $watcherRequest
      */
-    public function removeUserWatcherRequest(\AppBundle\Entity\UserWatcherRequest $userWatcherRequest)
+    public function removeWatcherRequest(\AppBundle\Entity\WatcherRequest $watcherRequest)
     {
-        $this->userWatcherRequests->removeElement($userWatcherRequest);
+        $this->watcherRequest->removeElement($watcherRequest);
     }
 
     /**
-     * Get userWatcherRequests
+     * Get watcherRequest
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getUserWatcherRequests()
+    public function getWatcherRequest()
     {
-        return $this->userWatcherRequests;
+        return $this->watcherRequest;
     }
 }

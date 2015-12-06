@@ -34,6 +34,7 @@ class Owner
     /**
     * @ORM\OneToOne(targetEntity="User", inversedBy="owner")
     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+    * @Groups({"owner"})
     */
     private $user;
 

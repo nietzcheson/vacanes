@@ -84,10 +84,8 @@ class WatcherController extends APIRestBaseController implements TokenAuthentica
     {
         $user = $request->attributes->get('user');
 
-        $watcherRequests = $user->getWatcher()->getUserWatcherRequests();
+        $watcherRequests = $user->getWatcher()->getWatcherRequest();
 
-        echo count($watcherRequests);
-
-        exit('Services');
+        return $this->apiResponse($watcherRequests)->groups(array('watcherRequest','request','requestType','owner','user'))->response();
     }
 }

@@ -41,6 +41,7 @@ class Request
     /**
     * @ORM\ManyToOne(targetEntity="Owner", inversedBy="requests")
     * @ORM\JoinColumn(name="user_owner_id", referencedColumnName="id")
+    * @Groups({"request"})
     */
     private $owner;
 
@@ -60,16 +61,16 @@ class Request
     private $petValetRequest;
 
     /**
-     * @ORM\OneToMany(targetEntity="UserWatcherRequest", mappedBy="request", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="WatcherRequest", mappedBy="request", cascade={"persist", "remove"})
      */
-    private $userWatcherRequests;
+    private $watcherRequest;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->userWatcherRequests = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->watcherRequests = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -227,36 +228,36 @@ class Request
     }
 
     /**
-     * Add userWatcherRequest
+     * Add watcherRequest
      *
-     * @param \AppBundle\Entity\UserWatcherRequest $userWatcherRequest
+     * @param \AppBundle\Entity\WatcherRequest $watcherRequest
      *
      * @return Request
      */
-    public function addUserWatcherRequest(\AppBundle\Entity\UserWatcherRequest $userWatcherRequest)
+    public function addWatcherRequest(\AppBundle\Entity\WatcherRequest $watcherRequest)
     {
-        $this->userWatcherRequests[] = $userWatcherRequest;
+        $this->watcherRequest[] = $watcherRequest;
 
         return $this;
     }
 
     /**
-     * Remove userWatcherRequest
+     * Remove watcherRequest
      *
-     * @param \AppBundle\Entity\UserWatcherRequest $userWatcherRequest
+     * @param \AppBundle\Entity\WatcherRequest $watcherRequest
      */
-    public function removeUserWatcherRequest(\AppBundle\Entity\UserWatcherRequest $userWatcherRequest)
+    public function removeWatcherRequest(\AppBundle\Entity\WatcherRequest $watcherRequest)
     {
-        $this->userWatcherRequests->removeElement($userWatcherRequest);
+        $this->watcherRequest->removeElement($watcherRequest);
     }
 
     /**
-     * Get userWatcherRequests
+     * Get watcherRequest
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getUserWatcherRequests()
+    public function getWatcherRequest()
     {
-        return $this->userWatcherRequests;
+        return $this->watcherRequest;
     }
 }

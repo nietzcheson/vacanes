@@ -3,14 +3,15 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * UserWatcherRequest
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AppBundle\Entity\UserWatcherRequestsRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\WatcherRequestRepository")
  */
-class UserWatcherRequest
+class WatcherRequest
 {
     /**
      * @var integer
@@ -18,12 +19,14 @@ class UserWatcherRequest
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"watcherRequest"})
      */
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Request", inversedBy="UserWatcherRequests")
+     * @ORM\ManyToOne(targetEntity="Request", inversedBy="watcherRequest")
      * @ORM\JoinColumn(name="request_id", referencedColumnName="id")
+      * @Groups({"watcherRequest"})
      */
     private $request;
 
@@ -37,11 +40,12 @@ class UserWatcherRequest
      * @var boolean
      *
      * @ORM\Column(name="viewed", type="boolean")
+     * @Groups({"watcherRequest"})
      */
     private $viewed;
 
     /**
-     * @ORM\OneToOne(targetEntity="Response", mappedBy="userWatcherRequest", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="Response", mappedBy="watcherRequest", cascade={"persist", "remove"})
      */
     private $response;
 
@@ -65,7 +69,7 @@ class UserWatcherRequest
      *
      * @param boolean $viewed
      *
-     * @return UserWatcherRequest
+     * @return WatcherRequest
      */
     public function setViewed($viewed)
     {
@@ -89,7 +93,7 @@ class UserWatcherRequest
      *
      * @param \AppBundle\Entity\Request $request
      *
-     * @return UserWatcherRequest
+     * @return WatcherRequest
      */
     public function setRequest(\AppBundle\Entity\Request $request = null)
     {
@@ -113,7 +117,7 @@ class UserWatcherRequest
      *
      * @param \AppBundle\Entity\Watcher $watcher
      *
-     * @return UserWatcherRequest
+     * @return WatcherRequest
      */
     public function setWatcher(\AppBundle\Entity\Watcher $watcher = null)
     {
@@ -137,7 +141,7 @@ class UserWatcherRequest
      *
      * @param \AppBundle\Entity\Response $response
      *
-     * @return UserWatcherRequest
+     * @return WatcherRequest
      */
     public function setResponse(\AppBundle\Entity\Response $response = null)
     {

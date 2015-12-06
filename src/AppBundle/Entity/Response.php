@@ -29,10 +29,10 @@ class Response
     private $price;
 
     /**
-    * @ORM\OneToOne(targetEntity="UserWatcherRequest", inversedBy="response")
+    * @ORM\OneToOne(targetEntity="WatcherRequest", inversedBy="response")
     * @ORM\JoinColumn(name="user_watcher_request_id", referencedColumnName="id")
     */
-    private $userWatcherRequest;
+    private $watcherRequest;
 
     /**
      * @var string
@@ -136,27 +136,27 @@ class Response
     }
 
     /**
-     * Set userWatcherRequest
+     * Set watcherRequest
      *
-     * @param \AppBundle\Entity\UserWatcherRequest $userWatcherRequest
+     * @param \AppBundle\Entity\WatcherRequest $watcherRequest
      *
      * @return Response
      */
-    public function setUserWatcherRequest(\AppBundle\Entity\UserWatcherRequest $userWatcherRequest = null)
+    public function setWatcherRequest(\AppBundle\Entity\WatcherRequest $watcherRequest = null)
     {
-        $this->userWatcherRequest = $userWatcherRequest;
+        $this->watcherRequest = $watcherRequest;
 
         return $this;
     }
 
     /**
-     * Get userWatcherRequest
+     * Get watcherRequest
      *
-     * @return \AppBundle\Entity\UserWatcherRequest
+     * @return \AppBundle\Entity\WatcherRequest
      */
-    public function getUserWatcherRequest()
+    public function getWatcherRequest()
     {
-        return $this->userWatcherRequest;
+        return $this->watcherRequest;
     }
 
     /**
