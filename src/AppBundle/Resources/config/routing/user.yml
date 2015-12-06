@@ -152,3 +152,10 @@ watcher_services:
     options:
         expose: true
     methods:  [POST]
+
+watcher_response:
+    path:     /watcher/response
+    defaults: { _controller: "AppBundle:Watcher:watcherResponse" }
+    options:
+        expose: true
+    methods:  [POST]

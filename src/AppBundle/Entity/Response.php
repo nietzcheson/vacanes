@@ -30,21 +30,21 @@ class Response
 
     /**
     * @ORM\OneToOne(targetEntity="WatcherRequest", inversedBy="response")
-    * @ORM\JoinColumn(name="user_watcher_request_id", referencedColumnName="id")
+    * @ORM\JoinColumn(name="watcher_request_id", referencedColumnName="id")
     */
     private $watcherRequest;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="comments", type="text")
+     * @ORM\Column(name="comments", type="text", nullable=true)
      */
     private $comments;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="accepted", type="boolean")
+     * @ORM\Column(name="accepted", type="boolean", nullable=true)
      */
     private $accepted;
 
