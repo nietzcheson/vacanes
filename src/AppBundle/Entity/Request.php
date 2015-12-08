@@ -39,7 +39,7 @@ class Request
     private $requestType;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Owner", inversedBy="requests")
+    * @ORM\ManyToOne(targetEntity="Owner", inversedBy="request")
     * @ORM\JoinColumn(name="user_owner_id", referencedColumnName="id")
     * @Groups({"request"})
     */

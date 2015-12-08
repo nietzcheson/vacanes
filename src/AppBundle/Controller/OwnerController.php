@@ -70,6 +70,47 @@ class OwnerController extends APIRestBaseController implements TokenAuthenticate
         $em->flush();
 
         return $this->apiResponse('Owner removed')->response();
+    }
 
+    public function ownerResponsesAction(Request $request)
+    {
+        $em = $this->em();
+        $user = $request->attributes->get('user');
+
+        $owner = $user->getOwner();
+
+        $ownerResponses = $this->em()->getRepository('AppBundle:Response')->findOwnerResponses($owner->getId());
+
+        return $this->apiResponse($ownerResponses)->groups(array('user','owner','request','watcherRequest','response'))->response();
+    }
+
+    public function ownerResponseAction($id, Request $request)
+    {
+        $em = $this->em();
+        $user = $request->attributes->get('user');
+
+        $owner = $user->getOwner();
+
+        $ownerResponse = $this->em()->getRepository('AppBundle:Response')->findOwnerResponse($owner->getId(), $id);
+
+        return $this->apiResponse($ownerResponse)->groups(array('user','owner','request','watcherRequest','response'))->response();
+    }
+
+    public function ownerHireResponseAction($id, Request $request)
+    {
+        $em = $this->em();
+        $user = $request->attributes->get('user');
+
+        $owner = $user->getOwner();
+
+        $ownerResponse = $this->em()->getRepository('AppBundle:Response')->findOwnerResponse($owner->getId(), $id);
+
+        $ownerResponse->setAccepted(1);
+
+        $em->persist($ownerResponse);
+
+        $em->flush();
+
+        return $this->apiResponse($ownerResponse)->groups(array('user','owner','request','watcherRequest','response'))->response();
     }
 }

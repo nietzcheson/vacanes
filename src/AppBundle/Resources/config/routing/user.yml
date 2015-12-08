@@ -121,6 +121,27 @@ request_night:
         expose: true
     methods:  [POST]
 
+owner_responses:
+    path:   /owner/responses
+    defaults: { _controller: "AppBundle:Owner:ownerResponses" }
+    options:
+        expose: true
+    methods:  [POST]
+
+owner_response:
+    path:   /owner/response/{id}
+    defaults: { _controller: "AppBundle:Owner:ownerResponse" }
+    options:
+        expose: true
+    methods:  [POST]
+
+owner_hire_response:
+    path:   /owner/hire-response/{id}
+    defaults: { _controller: "AppBundle:Owner:ownerHireResponse" }
+    options:
+        expose: true
+    methods:  [POST]
+
 #
 ## Watcher
 #

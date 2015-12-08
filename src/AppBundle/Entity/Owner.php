@@ -45,6 +45,12 @@ class Owner
     private $favoriteWatchers;
 
     /**
+     * @ORM\OneToMany(targetEntity="Request", mappedBy="owner")
+     */
+
+    private $request;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -190,5 +196,39 @@ class Owner
     public function getFavoriteWatchers()
     {
         return $this->favoriteWatchers;
+    }
+
+    /**
+     * Add request
+     *
+     * @param \AppBundle\Entity\Request $request
+     *
+     * @return Owner
+     */
+    public function addRequest(\AppBundle\Entity\Request $request)
+    {
+        $this->request[] = $request;
+
+        return $this;
+    }
+
+    /**
+     * Remove request
+     *
+     * @param \AppBundle\Entity\Request $request
+     */
+    public function removeRequest(\AppBundle\Entity\Request $request)
+    {
+        $this->request->removeElement($request);
+    }
+
+    /**
+     * Get request
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRequest()
+    {
+        return $this->request;
     }
 }

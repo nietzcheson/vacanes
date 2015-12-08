@@ -3,12 +3,13 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Response
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AppBundle\Entity\ResponsesRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\ResponseRepository")
  */
 class Response
 {
@@ -18,6 +19,7 @@ class Response
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"request"})
      */
     private $id;
 
@@ -25,12 +27,14 @@ class Response
      * @var float
      *
      * @ORM\Column(name="price", type="float")
+     * @Groups({"request"})
      */
     private $price;
 
     /**
     * @ORM\OneToOne(targetEntity="WatcherRequest", inversedBy="response")
     * @ORM\JoinColumn(name="watcher_request_id", referencedColumnName="id")
+    * @Groups({"request"})
     */
     private $watcherRequest;
 
@@ -38,6 +42,7 @@ class Response
      * @var string
      *
      * @ORM\Column(name="comments", type="text", nullable=true)
+     * @Groups({"request"})
      */
     private $comments;
 
@@ -45,11 +50,13 @@ class Response
      * @var boolean
      *
      * @ORM\Column(name="accepted", type="boolean", nullable=true)
+     * @Groups({"request"})
      */
     private $accepted;
 
     /**
      * @ORM\OneToOne(targetEntity="Calification", inversedBy="response")
+     * @Groups({"request"})
      */
     private $calification;
 
