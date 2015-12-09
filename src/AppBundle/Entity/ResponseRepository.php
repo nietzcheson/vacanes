@@ -14,7 +14,7 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
     {
         try {
             return $this->getEntityManager()->createQuery(
-                'SELECT re FROM AppBundle:Response re
+                'SELECT re, wr, r, o FROM AppBundle:Response re
                 LEFT JOIN re.watcherRequest wr
                 LEFT JOIN wr.request r
                 LEFT JOIN r.owner o
@@ -33,7 +33,7 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
     {
         try {
             return $this->getEntityManager()->createQuery(
-                'SELECT re FROM AppBundle:Response re
+                'SELECT re,wr,r,re,o FROM AppBundle:Response re
                 LEFT JOIN re.watcherRequest wr
                 LEFT JOIN wr.request r
                 LEFT JOIN r.owner o
@@ -42,6 +42,26 @@ class ResponseRepository extends \Doctrine\ORM\EntityRepository
                 '
             )
             ->setParameter('response', $response)
+            ->setParameter('owner', $owner)
+            ->getSingleResult();
+
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
+
+    public function findOwnerHiredResponse($owner)
+    {
+        try {
+            return $this->getEntityManager()->createQuery(
+                'SELECT re FROM AppBundle:Response re
+                LEFT JOIN re.watcherRequest wr
+                LEFT JOIN wr.request r
+                LEFT JOIN r.owner o
+                WHERE o.id = :owner
+                AND re.accepted = 1
+                '
+            )
             ->setParameter('owner', $owner)
             ->getSingleResult();
 

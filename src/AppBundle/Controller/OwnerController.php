@@ -113,4 +113,16 @@ class OwnerController extends APIRestBaseController implements TokenAuthenticate
 
         return $this->apiResponse($ownerResponse)->groups(array('user','owner','request','watcherRequest','response'))->response();
     }
+
+    public function ownerHiredResponseAction(Request $request)
+    {
+        $em = $this->em();
+        $user = $request->attributes->get('user');
+
+        $owner = $user->getOwner();
+
+        $ownerResponse = $this->em()->getRepository('AppBundle:Response')->findOwnerHiredResponse($owner->getId());
+
+        return $this->apiResponse($ownerResponse)->groups(array('user','owner','request','watcherRequest','response'))->response();
+    }
 }

@@ -140,6 +140,13 @@ owner_hire_response:
     defaults: { _controller: "AppBundle:Owner:ownerHireResponse" }
     options:
         expose: true
+    methods:  [GET, POST]
+
+owner_hired_response:
+    path:   /owner/hired-response
+    defaults: { _controller: "AppBundle:Owner:ownerHiredResponse" }
+    options:
+        expose: true
     methods:  [POST]
 
 #
