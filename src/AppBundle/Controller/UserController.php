@@ -5,11 +5,28 @@ namespace AppBundle\Controller;
 use AppBundle\Controller\APIRestBaseController;
 use AppBundle\Controller\TokenAuthenticatedController;
 use AppBundle\Form\UserType;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends APIRestBaseController implements TokenAuthenticatedController
 {
+
+    /**
+     * User Update
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="User Updated",
+     *  filters={
+     *      {"name"="user_type[firstName]", "dataType"="string"},
+     *      {"name"="user_type[lastName]", "dataType"="string"},
+     *      {"name"="user_type[email]", "dataType"="string"},
+     *      {"name"="user_type[latitude]", "dataType"="float"},
+     *      {"name"="user_type[longitude]", "dataType"="float"}
+     *  },
+     * )
+     */
 
     public function userUpdateAction(Request $request)
     {
@@ -30,6 +47,16 @@ class UserController extends APIRestBaseController implements TokenAuthenticated
         return $this->apiResponse($this->getErrorMessages($userForm))->groups(array('user'))->response();
 
     }
+
+    /**
+     * User Delete <br />
+     * No parameters are passed. The system internally captures the user object and deletes
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="User Delete",
+     * )
+     */
 
     public function userDeleteAction(Request $request)
     {

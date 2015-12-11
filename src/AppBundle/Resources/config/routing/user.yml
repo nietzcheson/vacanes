@@ -105,7 +105,7 @@ request_pet_valet:
     defaults: { _controller: "AppBundle:Request:request" }
     options:
         expose: true
-    methods:  [GET, POST]
+    methods:  [POST]
 
 request_day:
     path:     /request/day
@@ -133,14 +133,14 @@ owner_response:
     defaults: { _controller: "AppBundle:Owner:ownerResponse" }
     options:
         expose: true
-    methods:  [POST]
+    methods:  [GET]
 
 owner_hire_response:
     path:   /owner/hire-response/{id}
     defaults: { _controller: "AppBundle:Owner:ownerHireResponse" }
     options:
         expose: true
-    methods:  [GET, POST]
+    methods:  [GET]
 
 owner_hired_response:
     path:   /owner/hired-response
@@ -174,12 +174,19 @@ watcher_delete:
         expose: true
     methods:  [DELETE]
 
-watcher_services:
-    path:     /watcher/services
-    defaults: { _controller: "AppBundle:Watcher:watcherServices" }
+watcher_requests:
+    path:     /watcher/requests
+    defaults: { _controller: "AppBundle:Watcher:watcherRequests" }
     options:
         expose: true
     methods:  [POST]
+
+watcher_request:
+    path:     /watcher/request/{id}
+    defaults: { _controller: "AppBundle:Watcher:watcherRequest" }
+    options:
+        expose: true
+    methods:  [GET]
 
 watcher_response:
     path:     /watcher/response

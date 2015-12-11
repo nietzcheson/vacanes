@@ -5,12 +5,25 @@ namespace AppBundle\Controller;
 use AppBundle\Controller\TokenAuthenticatedController;
 use AppBundle\Entity\Owner;
 use AppBundle\Form\OwnerType;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use AppBundle\Controller\APIRestBaseController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 class OwnerController extends APIRestBaseController implements TokenAuthenticatedController
 {
+
+    /**
+     * Owner create profile
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Owner create profile",
+     *  filters={
+     *      {"name"="owner_type[address]", "dataType"="string"},
+     *  },
+     * )
+     */
 
     public function ownerCreateAction(Request $request)
     {
@@ -37,6 +50,18 @@ class OwnerController extends APIRestBaseController implements TokenAuthenticate
 
     }
 
+    /**
+     * Owner update profile
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Owner update profile",
+     *  filters={
+     *      {"name"="owner_type[address]", "dataType"="string"},
+     *  },
+     * )
+     */
+
     public function ownerUpdateAction(Request $request)
     {
         $em = $this->em();
@@ -59,6 +84,18 @@ class OwnerController extends APIRestBaseController implements TokenAuthenticate
         return $this->apiResponse($this->getErrorMessages($owner))->groups(array('owner'))->response();
     }
 
+    /**
+     * Owner delete profile
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Owner delete profile",
+     *  filters={
+     *      {"name"="owner_type[address]", "dataType"="string"},
+     *  },
+     * )
+     */
+
     public function ownerDeleteAction(Request $request)
     {
         $em = $this->em();
@@ -72,6 +109,18 @@ class OwnerController extends APIRestBaseController implements TokenAuthenticate
         return $this->apiResponse('Owner removed')->response();
     }
 
+    /**
+     * All Owner Responses
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Owner Responses",
+     *  filters={
+     *      {"name"="owner_type[address]", "dataType"="string"},
+     *  },
+     * )
+     */
+
     public function ownerResponsesAction(Request $request)
     {
         $em = $this->em();
@@ -84,6 +133,18 @@ class OwnerController extends APIRestBaseController implements TokenAuthenticate
         return $this->apiResponse($ownerResponses)->groups(array('user','owner','request','watcherRequest','response'))->response();
     }
 
+    /**
+     * Owner Response
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Owner Response",
+     *  filters={
+     *      {"name"="owner_type[address]", "dataType"="string"},
+     *  },
+     * )
+     */
+
     public function ownerResponseAction($id, Request $request)
     {
         $em = $this->em();
@@ -95,6 +156,18 @@ class OwnerController extends APIRestBaseController implements TokenAuthenticate
 
         return $this->apiResponse($ownerResponse)->groups(array('user','owner','request','watcherRequest','response'))->response();
     }
+
+    /**
+     * Owner Hire Response
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Owner Hire Response",
+     *  filters={
+     *      {"name"="owner_type[address]", "dataType"="string"},
+     *  },
+     * )
+     */
 
     public function ownerHireResponseAction($id, Request $request)
     {
@@ -113,6 +186,18 @@ class OwnerController extends APIRestBaseController implements TokenAuthenticate
 
         return $this->apiResponse($ownerResponse)->groups(array('user','owner','request','watcherRequest','response'))->response();
     }
+
+    /**
+     * Owner Hired Response
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Owner Hired Response",
+     *  filters={
+     *      {"name"="owner_type[address]", "dataType"="string"},
+     *  },
+     * )
+     */
 
     public function ownerHiredResponseAction(Request $request)
     {

@@ -13,6 +13,7 @@ use AppBundle\Form\DayRequestType;
 use AppBundle\Form\NightRequestType;
 use AppBundle\Form\RequestType;
 use AppBundle\Form\PetValetRequestType;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -20,6 +21,16 @@ use AppBundle\AppEvents;
 
 class RequestController extends APIRestBaseController implements TokenAuthenticatedController
 {
+
+    /**
+     * Request Types
+     * Return array to request types
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Request Types",
+     * )
+     */
 
     public function requestTypeAction()
     {
@@ -29,6 +40,38 @@ class RequestController extends APIRestBaseController implements TokenAuthentica
 
         return $this->apiResponse($requestType)->groups(array('requestType'))->response();
     }
+
+    /**
+     * Dog create
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Dog create",
+     *  filters={
+     *      {"name"="request_type[address]", "dataType"="string"},
+     *      {"name"="request_type[requestType]", "dataType"="integer"},
+     *      {"name"="pet_valet_request_type[serviceDate]", "dataType"="datetime"},
+     *      {"name"="pet_valet_request_type[startTime]", "dataType"="time"},
+     *      {"name"="pet_valet_request_type[endTime]", "dataType"="time"},
+     *      {"name"="pet_valet_request_type[comments]", "dataType"="text"},
+     *      {"name"="pet_valet_request_type[latitude]", "dataType"="float"},
+     *      {"name"="pet_valet_request_type[longitude]", "dataType"="float"},
+     *      {"name"="day_request_type[startDate]", "dataType"="datetime"},
+     *      {"name"="day_request_type[endDate]", "dataType"="datetime"},
+     *      {"name"="day_request_type[startTime]", "dataType"="time"},
+     *      {"name"="day_request_type[endTime]", "dataType"="time"},
+     *      {"name"="day_request_type[serviceType]", "dataType"="integer"},
+     *      {"name"="day_request_type[serviceDays]", "dataType"="integer"},
+     *      {"name"="day_request_type[comments]", "dataType"="text"},
+     *      {"name"="night_request_type[startDate]", "dataType"="datetime"},
+     *      {"name"="night_request_type[endDate]", "dataType"="datetime"},
+     *      {"name"="night_request_type[startTime]", "dataType"="time"},
+     *      {"name"="night_request_type[endTime]", "dataType"="time"},
+     *      {"name"="night_request_type[comments]", "dataType"="text"},
+     *      {"name"="night_request_type[serviceType]", "dataType"="integer"},
+     *  },
+     * )
+     */
 
     public function requestAction(Request $request)
     {

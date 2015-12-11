@@ -7,10 +7,11 @@ use AppBundle\Controller\TokenAuthenticatedController;
 use AppBundle\Entity\Dog;
 use AppBundle\Entity\DogPhoto;
 use AppBundle\Form\DogType;
+use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Form\DogPhotoType;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Collections\ArrayCollection;
 
 class DogController extends APIRestBaseController implements TokenAuthenticatedController
 {
@@ -30,6 +31,21 @@ class DogController extends APIRestBaseController implements TokenAuthenticatedC
 
         return $response->setContent($serializer->serialize($dog, 'json', array('groups' => array('dog'))));
     }
+
+    /**
+     * Dog create
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Dog create",
+     *  filters={
+     *      {"name"="dog_type[name]", "dataType"="string"},
+     *      {"name"="dog_type[dogSize]", "dataType"="integer"},
+     *      {"name"="dog_type[dogPhoto][0][file]", "dataType"="file"},
+     *      {"name"="dog_type[dogPhoto][1][file]", "dataType"="file"},
+     *  },
+     * )
+     */
 
     public function dogCreateAction(Request $request)
     {
@@ -54,6 +70,22 @@ class DogController extends APIRestBaseController implements TokenAuthenticatedC
         return $this->apiResponse($this->getErrorMessages($dogForm))->groups(array('dog'))->response();
     }
 
+    /**
+     * Dog edit
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Dog edit",
+     *  filters={
+     *      {"name"="dog_type[id]", "dataType"="integer"},
+     *      {"name"="dog_type[name]", "dataType"="string"},
+     *      {"name"="dog_type[dogSize]", "dataType"="integer"},
+     *      {"name"="dog_type[dogPhoto][0][file]", "dataType"="file"},
+     *      {"name"="dog_type[dogPhoto][1][file]", "dataType"="file"},
+     *  },
+     * )
+     */
+
     public function dogUpdateAction(Request $request)
     {
         $em = $this->em();
@@ -77,6 +109,15 @@ class DogController extends APIRestBaseController implements TokenAuthenticatedC
         return $this->apiResponse($this->getErrorMessages($dogForm))->groups(array('dog'))->response();
     }
 
+    /**
+     * Dog delete <br />
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Dog delete",
+     * )
+     */
+
     public function dogDeleteAction(Request $request)
     {
         $em = $this->em();
@@ -95,6 +136,16 @@ class DogController extends APIRestBaseController implements TokenAuthenticatedC
         return $this->apiResponse(array('Dog remove'))->response();
     }
 
+    /**
+     * Dog Sizes <br />
+     *  Return array to dog sizes
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Dog Sizes",
+     * )
+     */
+
     public function dogSizesAction()
     {
         $em = $this->em();
@@ -103,6 +154,16 @@ class DogController extends APIRestBaseController implements TokenAuthenticatedC
 
         return $this->apiResponse($dogSizes)->groups(array('dogSize'))->response();
     }
+
+    /**
+     * Dog Breeds <br />
+     *  Return array to dog breeds
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Dog Breeds",
+     * )
+     */
 
     public function dogBreedsAction()
     {

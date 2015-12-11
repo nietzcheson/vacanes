@@ -12,12 +12,27 @@ use AppBundle\Entity\WatcherAllowedSize;
 use AppBundle\Form\WatcherType;
 use AppBundle\Form\ResponseType;
 use Doctrine\Common\Collections\ArrayCollection;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 class WatcherController extends APIRestBaseController implements TokenAuthenticatedController
 {
+    /**
+     * Watcher create
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Watcher create",
+     *  filters={
+     *      {"name"="watcher_type[bios]", "dataType"="string"},
+     *      {"name"="watcher_type[telephone]", "dataType"="integer"},
+     *      {"name"="watcher_type[placePhoto][0][file]", "dataType"="file"},
+     *  },
+     * )
+     */
+
     public function watcherCreateAction(Request $request)
     {
         $em = $this->em();
@@ -41,6 +56,20 @@ class WatcherController extends APIRestBaseController implements TokenAuthentica
 
         return $this->apiResponse($this->getErrorMessages($watcherForm))->groups(array('watcher'))->response();
     }
+
+    /**
+     * Watcher edit
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Watcher edit",
+     *  filters={
+     *      {"name"="watcher_type[bios]", "dataType"="string"},
+     *      {"name"="watcher_type[telephone]", "dataType"="integer"},
+     *      {"name"="watcher_type[placePhoto][0][file]", "dataType"="file"},
+     *  },
+     * )
+     */
 
     public function watcherUpdateAction(Request $request)
     {
@@ -68,6 +97,15 @@ class WatcherController extends APIRestBaseController implements TokenAuthentica
         return $this->apiResponse($this->getErrorMessages($watcherForm))->groups(array('watcher'))->response();
     }
 
+    /**
+     * Watcher delete
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Watcher delete",
+     * )
+     */
+
     public function watcherDeleteAction(Request $request)
     {
         $em = $this->em();
@@ -82,7 +120,16 @@ class WatcherController extends APIRestBaseController implements TokenAuthentica
 
     }
 
-    public function watcherServicesAction(Request $request)
+    /**
+     * Watcher Requests
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Watcher Requests",
+     * )
+     */
+
+    public function watcherRequestsAction(Request $request)
     {
         $user = $request->attributes->get('user');
 
@@ -91,7 +138,16 @@ class WatcherController extends APIRestBaseController implements TokenAuthentica
         return $this->apiResponse($watcherRequests)->groups(array('watcherRequest','request','requestType','owner','user'))->response();
     }
 
-    public function watcherServiceAction($id, Request $request)
+    /**
+     * Watcher Request
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Watcher Request",
+     * )
+     */
+
+    public function watcherRequestAction($id, Request $request)
     {
         $user = $request->attributes->get('user');
 
@@ -101,6 +157,19 @@ class WatcherController extends APIRestBaseController implements TokenAuthentica
 
         return $this->apiResponse($watcherService)->groups(array('watcherRequest','request','requestType','owner','user'))->response();
     }
+
+    /**
+     * Watcher edit
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Watcher edit",
+     *  filters={
+     *      {"name"="response_type[price]", "dataType"="float"},
+     *      {"name"="response_type[watcherRequest]", "dataType"="integer"},
+     *  },
+     * )
+     */
 
     public function watcherResponseAction(Request $request)
     {

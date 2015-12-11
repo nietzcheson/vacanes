@@ -3,4 +3,4 @@ user_create:
     defaults: { _controller: "AppBundle:Auth:login" }
     options:
         expose: true
-    methods:  [POST, GET]
+    methods:  [POST]

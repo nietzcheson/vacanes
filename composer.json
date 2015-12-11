@@ -22,7 +22,8 @@
 		"facebook/php-sdk-v4" : "~5.0",
         "hautelook/alice-bundle": "^1.1",
         "raulfraile/ladybug-bundle": "^1.0",
-        "oro/doctrine-extensions": "^1.0"
+        "oro/doctrine-extensions": "^1.0",
+        "nelmio/api-doc-bundle": "^2.11"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
