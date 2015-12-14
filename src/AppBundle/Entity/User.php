@@ -97,7 +97,7 @@ class User
      * @var float
      *
      * @ORM\Column(name="latitude", type="float", scale=2, precision=11)
-     * @Groups({"owner"})
+     * @Groups({"user"})
      */
     private $latitude;
 
@@ -105,9 +105,15 @@ class User
      * @var float
      *
      * @ORM\Column(name="longitude", type="float", scale=2, precision=11)
-     * @Groups({"owner"})
+     * @Groups({"user"})
      */
     private $longitude;
+
+    /**
+     * @ORM\OneToOne(targetEntity="IOSDevice", mappedBy="user", cascade={"persist", "remove"})
+     * @Groups({"user"})
+     */
+    private $iosDevice;
 
     public function __construct()
     {
@@ -388,5 +394,30 @@ class User
     public function getWatcher()
     {
         return $this->watcher;
+    }
+
+    /**
+     * Set iosDevice
+     *
+     * @param \AppBundle\Entity\IOSDevice $iosDevice
+     *
+     * @return User
+     */
+    public function setIOSDevice(\AppBundle\Entity\IOSDevice $iosDevice = null)
+    {
+        $iosDevice->setUser($this);
+        $this->iosDevice = $iosDevice;
+
+        return $this;
+    }
+
+    /**
+     * Get iosDevice
+     *
+     * @return \AppBundle\Entity\IOSDevice
+     */
+    public function getIOSDevice()
+    {
+        return $this->iosDevice;
     }
 }

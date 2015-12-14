@@ -41,14 +41,18 @@ class AuthController extends APIRestBaseController
 
         if($userForm->isValid()){
 
+            //echo "<pre>";print_r($request);exit();
+
             $token = base_convert(sha1('-token-'.uniqid()), 16, 36);
             $user->setToken($token);
 
             $em->persist($user);
             $em->flush();
 
-            return $this->apiResponse($user)->groups(array('user'))->response();
+            return $this->apiResponse($user)->groups(array('user','iosDevice'))->response();
         }
+
+        //return $this->render('Auth/register.html.twig', array('form' => $userForm->createView()));
 
         return $this->apiResponse($this->getErrorMessages($userForm))->groups(array('user'))->response();
 

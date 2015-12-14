@@ -5,6 +5,7 @@ namespace AppBundle\EventListener;
 use AppBundle\Event\RequestServiceEvent as RequestEvent;
 use AppBundle\Entity\WatcherRequest;
 use Doctrine\ORM\EntityManager;
+use RMS\PushNotificationsBundle\Message\iOSMessage;
 
 class RequestServiceListener
 {
@@ -32,6 +33,12 @@ class RequestServiceListener
             $watcherRequest->setWatcher($watcher);
 
             $this->em->persist($watcherRequest);
+
+            $message = new iOSMessage();
+            $message->setMessage('Oh my! A push notification!');
+            $message->setDeviceIdentifier($watcher->getUser()->getIOSDevice()->getIdentifier());
+
+            $this->container->get('rms_push_notifications')->send($message);
         }
 
         $this->em->flush();
