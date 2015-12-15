@@ -9,9 +9,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * UserDevice
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AppBundle\Entity\IOSDeviceRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\UserDeviceRepository")
  */
-class IOSDevice
+class UserDevice
 {
     /**
      * @var integer
@@ -28,6 +28,14 @@ class IOSDevice
     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
     */
     private $user;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="os", type="string")
+     * @Groups({"iosDevice"})
+     */
+    private $os;
 
     /**
      * @var string
@@ -93,5 +101,29 @@ class IOSDevice
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set os
+     *
+     * @param string $os
+     *
+     * @return UserDevice
+     */
+    public function setOs($os)
+    {
+        $this->os = $os;
+
+        return $this;
+    }
+
+    /**
+     * Get os
+     *
+     * @return string
+     */
+    public function getOs()
+    {
+        return $this->os;
     }
 }

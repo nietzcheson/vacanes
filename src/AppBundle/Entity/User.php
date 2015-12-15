@@ -110,10 +110,10 @@ class User
     private $longitude;
 
     /**
-     * @ORM\OneToOne(targetEntity="IOSDevice", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="UserDevice", mappedBy="user", cascade={"persist", "remove"})
      * @Groups({"user"})
      */
-    private $iosDevice;
+    private $userDevice;
 
     public function __construct()
     {
@@ -397,27 +397,27 @@ class User
     }
 
     /**
-     * Set iosDevice
+     * Set UserDevice
      *
-     * @param \AppBundle\Entity\IOSDevice $iosDevice
+     * @param \AppBundle\Entity\UserDevice $userDevice
      *
      * @return User
      */
-    public function setIOSDevice(\AppBundle\Entity\IOSDevice $iosDevice = null)
+    public function setUserDevice(\AppBundle\Entity\UserDevice $userDevice = null)
     {
-        $iosDevice->setUser($this);
-        $this->iosDevice = $iosDevice;
+        $userDevice->setUser($this);
+        $this->userDevice = $userDevice;
 
         return $this;
     }
 
     /**
-     * Get iosDevice
+     * Get UserDevice
      *
-     * @return \AppBundle\Entity\IOSDevice
+     * @return \AppBundle\Entity\UserDevice
      */
-    public function getIOSDevice()
+    public function getUserDevice()
     {
-        return $this->iosDevice;
+        return $this->userDevice;
     }
 }

@@ -21,7 +21,7 @@ class UserType extends AbstractType
             ->add('email')
             ->add('latitude')
             ->add('longitude')
-            ->add('iosDevice', new IOSDeviceType())
+            ->add('userDevice', new UserDeviceType())
         ;
     }
 
