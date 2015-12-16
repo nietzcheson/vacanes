@@ -5,7 +5,7 @@ services:
             - @doctrine.orm.entity_manager
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
-            
+
     users.type:
         class: AppBundle\Form\UserType
         tags:
@@ -20,3 +20,17 @@ services:
             - @doctrine.orm.entity_manager
         tags:
             - { name: kernel.event_listener, event: request.service, method: onRequestService }
+        calls:
+            - [setContainer, ['@service_container']]
+
+    response.service:
+        class: AppBundle\EventListener\ResponseServiceListener
+        tags:
+            - { name: kernel.event_listener, event: response.service, method: onResponseService }
+        calls:
+            - [setContainer, ['@service_container']]
+
+    response_hide.service:
+        class: AppBundle\EventListener\ResponseHireListener
+        tags:
+            - { name: kernel.event_listener, event: response.service, method: onResponseHire }

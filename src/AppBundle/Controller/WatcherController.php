@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\AppEvents;
 use AppBundle\Controller\APIRestBaseController;
 use AppBundle\Controller\TokenAuthenticatedController;
 use AppBundle\Entity\User;
@@ -9,13 +10,18 @@ use AppBundle\Entity\Watcher;
 use AppBundle\Entity\Response as ResponseService;
 use AppBundle\Entity\PlacePhoto;
 use AppBundle\Entity\WatcherAllowedSize;
+use AppBundle\Event\ResponseServiceEvent as ResponseEvent;
 use AppBundle\Form\WatcherType;
 use AppBundle\Form\ResponseType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use RMS\PushNotificationsBundle\Message\AndroidMessage;
+use RMS\PushNotificationsBundle\Message\iOSMessage;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+
+
 
 class WatcherController extends APIRestBaseController implements TokenAuthenticatedController
 {
@@ -175,7 +181,13 @@ class WatcherController extends APIRestBaseController implements TokenAuthentica
     {
         $em = $this->em();
 
+        $watcherRequestId = $request->request->get('response_type')['watcherRequest'];
+
+        $watcherRequest = $em->getRepository('AppBundle:WatcherRequest')->findOneBy(array('id' => $watcherRequestId));
+
         $response  = new ResponseService();
+
+        $response->setWatcherRequest($watcherRequest);
 
         $responseForm = $this->createForm(new ResponseType(), $response)->handleRequest($request);
 
@@ -184,6 +196,8 @@ class WatcherController extends APIRestBaseController implements TokenAuthentica
             $em->persist($response);
 
             $em->flush();
+
+            $this->get('event_dispatcher')->dispatch(AppEvents::RESPONSE_SERVICE, new ResponseEvent($response));
 
             return $this->apiResponse($response)->groups(array('response'))->response();
         }

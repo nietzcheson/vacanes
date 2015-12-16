@@ -2,8 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\AppEvents;
 use AppBundle\Controller\TokenAuthenticatedController;
 use AppBundle\Entity\Owner;
+use AppBundle\Event\ResponseServiceEvent as ResponseEvent;
 use AppBundle\Form\OwnerType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use AppBundle\Controller\APIRestBaseController;
@@ -182,8 +184,10 @@ class OwnerController extends APIRestBaseController implements TokenAuthenticate
 
         $em->persist($ownerResponse);
 
-        $em->flush();
+        //$em->flush();
 
+        $this->get('event_dispatcher')->dispatch(AppEvents::RESPONSE_SERVICE, new ResponseEvent($ownerResponse));
+        exit('Controller');
         return $this->apiResponse($ownerResponse)->groups(array('user','owner','request','watcherRequest','response'))->response();
     }
 

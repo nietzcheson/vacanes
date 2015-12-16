@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\AppEvents;
 use AppBundle\Controller\APIRestBaseController;
 use AppBundle\Controller\TokenAuthenticatedController;
 use AppBundle\Entity\DayRequest;
@@ -16,8 +17,6 @@ use AppBundle\Form\PetValetRequestType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-
-use AppBundle\AppEvents;
 
 class RequestController extends APIRestBaseController implements TokenAuthenticatedController
 {

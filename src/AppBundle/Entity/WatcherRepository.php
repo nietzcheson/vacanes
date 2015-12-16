@@ -10,8 +10,6 @@ namespace AppBundle\Entity;
  */
 class WatcherRepository extends \Doctrine\ORM\EntityRepository
 {
-
-
     public function findWatchers($user, $perimeter)
     {
         try {

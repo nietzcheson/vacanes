@@ -5,15 +5,27 @@ namespace AppBundle\EventListener;
 use AppBundle\Event\RequestServiceEvent as RequestEvent;
 use AppBundle\Entity\WatcherRequest;
 use Doctrine\ORM\EntityManager;
+use RMS\PushNotificationsBundle\Message\AndroidMessage;
 use RMS\PushNotificationsBundle\Message\iOSMessage;
 
 class RequestServiceListener
 {
     private $em;
+    private $container;
 
     public function __construct(EntityManager $em)
     {
         $this->em = $em;
+    }
+
+    public function setContainer($container)
+    {
+        $this->container = $container;
+    }
+
+    public function getContainer()
+    {
+        return $this->container;
     }
 
     public function onRequestService(RequestEvent $event)
@@ -34,16 +46,21 @@ class RequestServiceListener
 
             $this->em->persist($watcherRequest);
 
-            $message = new iOSMessage();
-            $message->setMessage('Oh my! A push notification!');
-            $message->setDeviceIdentifier($watcher->getUser()->getIOSDevice()->getIdentifier());
-
-            $this->container->get('rms_push_notifications')->send($message);
+            // $userDevice = $user->getUserDevice();
+            //
+            // $message = new iOSMessage();
+            //
+            // if($userDevice->getOs() != 'ios'){
+            //     $message = new AndroidMessage();
+            // }
+            //
+            // $message->setMessage('Oh my! A push notification!');
+            // $message->setDeviceIdentifier($userDevice->getIdentifier());
+            //
+            // $this->getContainer()->get('rms_push_notifications')->send($message);
         }
 
         $this->em->flush();
-
-        return $watchers;
     }
 
 }
