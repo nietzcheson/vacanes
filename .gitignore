@@ -15,3 +15,4 @@
 /.project
 /Project-Errors.log
 /src/AppBundle/Entity/*.php~
+/web/img/*
