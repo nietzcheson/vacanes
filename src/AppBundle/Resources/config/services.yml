@@ -34,3 +34,8 @@ services:
         class: AppBundle\EventListener\ResponseHireListener
         tags:
             - { name: kernel.event_listener, event: response.service, method: onResponseHire }
+
+    watcher_next_service:
+        class: AppBundle\Utils\WatcherNextService
+        arguments:
+            - @doctrine.orm.entity_manager

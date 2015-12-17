@@ -10,6 +10,31 @@ namespace AppBundle\Entity;
  */
 class ResponseRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function findWatchersNextService($date)
+    {
+        try {
+            return $this->getEntityManager()->createQuery(
+                'SELECT re, wr, r, dr, nr, pvr FROM AppBundle:Response re
+                LEFT JOIN re.watcherRequest wr
+                LEFT JOIN wr.request r
+                LEFT JOIN r.dayRequest dr
+                LEFT JOIN r.nightRequest nr
+                LEFT JOIN r.petValetRequest pvr
+                WHERE re.accepted = 1
+                AND dr.startDate = :serviceDate
+                OR nr.startDate = :serviceDate
+                OR pvr.serviceDate = :serviceDate
+                '
+            )
+            ->setParameter('serviceDate', $date)
+            ->getResult();
+
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
+
     public function findOwnerResponses($id)
     {
         try {
